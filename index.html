@@ -1,4 +1,3 @@
-
 <!doctype html>
 <html lang="he" dir="rtl">
 <head>
@@ -9,61 +8,88 @@
   <link rel="icon" href="icon.svg" type="image/svg+xml">
   <title>לוח בית הכנסת</title>
   <link rel="stylesheet" href="styles.css">
+  <style type="text/css">
+  .style1 {
+	  font-size: large;
+  }
+  </style>
 </head>
 <body>
-  <a class="adminLink" href="admin.html" title="ניהול" aria-label="ניהול">⚙</a>
-  <button id="musicButton" class="musicButton" type="button" title="הפעל או עצור מוזיקה" aria-label="הפעל מוזיקה">▶</button>
+  <a class="adminLink" href="admin.html" title="ניהול" aria-label="ניהול">
+  <strong><span class="style1">⚙</span></strong></a><strong>
+  <button id="musicButton" class="style1" type="button" title="הפעל או עצור מוזיקה" aria-label="הפעל מוזיקה">▶</button>
+  </strong>
   <audio id="music" loop preload="none"></audio>
 
   <main class="board">
     <div class="top">
       <section class="left">
-        <div id="gregDate" class="greg led cyan">--.--.----</div>
-        <div id="dayName" class="day led white">---</div>
+        <div id="gregDate" class="style1"><strong>--.--.----</strong></div>
+        <div id="dayName" class="style1"><strong>---</strong></div>
         <div class="fastSmall">
-          <div class="fastLabel led yellow">תחילת הצום</div>
-          <div id="fastStart" class="fastStart led white">--:--</div>
+          <div class="style1"><strong>תחילת הצום</strong></div>
+          <div id="fastStart" class="style1"><strong>--:--</strong></div>
         </div>
       </section>
       <section>
-        <div id="hebrewTop" class="centerTitle led yellow">---</div>
-        <div id="clock" class="clock led white">--:--:--</div>
+        <div id="hebrewTop" class="style1"><strong>---</strong></div>
+        <div id="clock" class="style1"><strong>--:--:--</strong></div>
       </section>
       <section class="right">
-        <div id="synagogueName" class="synagogue led cyan">בית הכנסת</div>
-        <div class="parashaLabel led white">פרשת השבוע</div>
-        <div id="parasha" class="parasha led white">---</div>
+        <div id="synagogueName" class="style1"><strong>בית הכנסת</strong></div>
+        <div class="style1"><strong>פרשת השבוע</strong></div>
+        <div id="parasha" class="style1"><strong>---</strong></div>
         <div class="fastBox">
-          <div id="fastName" class="fastName led yellow">---</div>
+          <div id="fastName" class="style1"><strong>---</strong></div>
           <div id="fastDate" class="fastDate led white"></div>
         </div>
       </section>
     </div>
 
     <section class="zmanim">
-      <div class="zman"><div class="zlabel led yellow">עלות השחר</div><div class="zicon led yellow">◒</div><div id="alot" class="ztime led white">--:--</div></div>
-      <div class="zman"><div class="zlabel led yellow">זריחה</div><div class="zicon led yellow">☀</div><div id="sunrise" class="ztime led white">--:--</div></div>
-      <div class="zman"><div class="zlabel led yellow">סוף זמן<br>קריאת שמע</div><div class="zicon led white">▣</div><div id="shema" class="ztime led white">--:--</div></div>
-      <div class="zman"><div class="zlabel led yellow">חצות</div><div class="zicon led yellow">◐</div><div id="chatzot" class="ztime led white">--:--</div></div>
-      <div class="zman"><div class="zlabel led yellow">מנחה גדולה</div><div class="zicon led yellow">☀</div><div id="minchaGedola" class="ztime led white">--:--</div></div>
-      <div class="zman"><div class="zlabel led yellow">שקיעה</div><div class="zicon led yellow">◓</div><div id="sunset" class="ztime led white">--:--</div></div>
-      <div class="zman"><div class="zlabel led yellow">צאת הכוכבים</div><div class="zicon led white">✦⋆✦</div><div id="tzeit" class="ztime led white">--:--</div></div>
+      <div class="zman"><div class="style1"><strong>עלות השחר</strong></div>
+		  <div class="style1"><strong>◒</strong></div>
+		  <div id="alot" class="style1"><strong>--:--</strong></div></div>
+      <div class="zman"><div class="style1"><strong>זריחה</strong></div>
+		  <div class="style1"><strong>☀</strong></div>
+		  <div id="sunrise" class="style1"><strong>--:--</strong></div></div>
+      <div class="zman"><div class="zlabel led yellow"><strong>
+		  <span class="style1">סוף זמן</span><br class="style1">
+		  <span class="style1">קריאת שמע</span></strong></div>
+		  <div class="style1"><strong>▣</strong></div>
+		  <div id="shema" class="style1"><strong>--:--</strong></div></div>
+      <div class="zman"><div class="style1"><strong>חצות</strong></div>
+		  <div class="style1"><strong>◐</strong></div>
+		  <div id="chatzot" class="style1"><strong>--:--</strong></div></div>
+      <div class="zman"><div class="style1"><strong>מנחה גדולה</strong></div>
+		  <div class="style1"><strong>☀</strong></div>
+		  <div id="minchaGedola" class="style1"><strong>--:--</strong></div></div>
+      <div class="zman"><div class="style1"><strong>שקיעה</strong></div>
+		  <div class="style1"><strong>◓</strong></div>
+		  <div id="sunset" class="style1"><strong>--:--</strong></div></div>
+      <div class="zman"><div class="style1"><strong>צאת הכוכבים</strong></div>
+		  <div class="style1"><strong>✦⋆✦</strong></div>
+		  <div id="tzeit" class="style1"><strong>--:--</strong></div></div>
     </section>
 
     <section class="bottomInfo">
-      <div class="info"><div><div class="infoLabel led yellow">הדלקת נרות</div><div id="candles" class="infoValue led white">--:--</div></div></div>
-      <div class="info"><span class="symbols led yellow">✡</span><div id="hebrewDate" class="hebrewDate led white">---</div><span class="symbols led yellow">✡</span></div>
-      <div class="info"><div><div class="infoLabel led yellow">מוצ״ש</div><div id="havdalah" class="infoValue led white">--:--</div></div></div>
+      <div class="info"><div><div class="style1"><strong>הדלקת נרות</strong></div>
+		  <div id="candles" class="style1"><strong>--:--</strong></div></div></div>
+      <div class="info"><span class="style1"><strong>✡</strong></span><div id="hebrewDate" class="style1">
+		  <strong>---</strong></div><span class="style1"><strong>✡</strong></span></div>
+      <div class="info"><div><div class="style1"><strong>מוצ״ש</strong></div>
+		  <div id="havdalah" class="style1"><strong>--:--</strong></div></div></div>
     </section>
 
     <section class="schedule">
-      <div><span class="yellow led">שחרית</span><span id="shacharit" class="white led"></span></div>
-      <div><span class="yellow led">מנחה</span><span id="mincha" class="white led"></span></div>
-      <div><span class="yellow led">ערבית</span><span id="maariv" class="white led"></span></div>
+      <div><span class="style1"><strong>שחרית</strong></span><span id="shacharit" class="white led"></span></div>
+      <div><span class="style1"><strong>מנחה</strong></span><span id="mincha" class="white led"></span></div>
+      <div><span class="style1"><strong>ערבית</strong></span><span id="maariv" class="white led"></span></div>
     </section>
 
     <section id="dedication" class="dedication led yellow"></section>
-    <section class="tickerRow"><div class="speaker led cyan">🔊</div><div class="tickerViewport"><div id="ticker" class="ticker led green">ברוכים הבאים</div></div></section>
+    <section class="tickerRow"><div class="style1"><strong>🔊</strong></div><div class="tickerViewport">
+  <div id="ticker" class="style1"><strong>ברוכים הבאים</strong></div></div></section>
   </main>
 
   <script src="config.js"></script>
