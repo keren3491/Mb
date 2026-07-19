@@ -1,0 +1,35 @@
+<!doctype html><html lang="he" dir="rtl"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="theme-color" content="#000"><link rel="manifest" href="manifest.json"><title>לוח בית הכנסת</title>
+<link rel="stylesheet" href="styles.css"></head><body>
+<a class="adminLink" href="admin.html" title="ניהול">⚙</a>
+<main class="board">
+<div class="top">
+<section class="left"><div id="gregDate" class="greg led cyan">--.--.----</div><div id="dayName" class="day led white">---</div><div class="fastSmall"><div class="fastLabel led yellow">תחילת הצום</div><div id="fastStart" class="fastStart led white">--:--</div></div></section>
+<section><div id="hebrewTop" class="centerTitle led yellow">---</div><div id="clock" class="clock led white">--:--:--</div></section>
+<section class="right"><div id="synagogueName" class="synagogue led cyan">בית הכנסת</div><div class="parashaLabel led white">פרשת השבוע</div><div id="parasha" class="parasha led white">---</div><div class="fastBox"><div id="fastName" class="fastName led yellow">---</div><div id="fastDate" class="fastDate led white"></div></div></section>
+</div>
+<section class="zmanim">
+<div class="zman"><div class="zlabel led yellow">עלות השחר</div><div class="zicon led yellow">◒</div><div id="alot" class="ztime led white">--:--</div></div>
+<div class="zman"><div class="zlabel led yellow">זריחה</div><div class="zicon led yellow">☀</div><div id="sunrise" class="ztime led white">--:--</div></div>
+<div class="zman"><div class="zlabel led yellow">סוף זמן<br>קריאת שמע</div><div class="zicon led white">▣</div><div id="shema" class="ztime led white">--:--</div></div>
+<div class="zman"><div class="zlabel led yellow">חצות</div><div class="zicon led yellow">◐</div><div id="chatzot" class="ztime led white">--:--</div></div>
+<div class="zman"><div class="zlabel led yellow">מנחה גדולה</div><div class="zicon led yellow">☀</div><div id="minchaGedola" class="ztime led white">--:--</div></div>
+<div class="zman"><div class="zlabel led yellow">שקיעה</div><div class="zicon led yellow">◓</div><div id="sunset" class="ztime led white">--:--</div></div>
+<div class="zman"><div class="zlabel led yellow">צאת הכוכבים</div><div class="zicon led white">✦⋆✦</div><div id="tzeit" class="ztime led white">--:--</div></div>
+</section>
+<section class="bottomInfo">
+<div class="info"><div><div class="infoLabel led yellow">הדלקת נרות</div><div id="candles" class="infoValue led white">--:--</div></div></div>
+<div class="info"><span class="symbols led yellow">✡</span><div id="hebrewDate" class="hebrewDate led white">---</div><span class="symbols led yellow">✡</span></div>
+<div class="info"><div><div class="infoLabel led yellow">מוצ״ש</div><div id="havdalah" class="infoValue led white">--:--</div></div></div>
+</section>
+<section class="schedule">
+<div><span class="yellow led">שחרית</span><span id="shacharit" class="white led"></span></div>
+<div><span class="yellow led">מנחה</span><span id="mincha" class="white led"></span></div>
+<div><span class="yellow led">ערבית</span><span id="maariv" class="white led"></span></div>
+</section>
+<section class="tickerRow"><div class="speaker led cyan">🔊</div><div class="tickerViewport"><div id="ticker" class="ticker led green">ברוכים הבאים</div></div></section>
+</main>
+<script src="config.js"></script><script src="shared.js"></script><script src="board.js"></script>
+<script>if('serviceWorker'in navigator)addEventListener('load',()=>navigator.serviceWorker.register('./sw.js'))</script>
+</body></html>

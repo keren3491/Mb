@@ -1,0 +1,23 @@
+
+let BOARD={...DEFAULT_DATA};
+const days=['יום ראשון','יום שני','יום שלישי','יום רביעי','יום חמישי','יום שישי','שבת קודש'];
+function parts(d=new Date()){const f=new Intl.DateTimeFormat('en-CA',{timeZone:BOARD.timezone,year:'numeric',month:'2-digit',day:'2-digit',weekday:'short',hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false});return Object.fromEntries(f.formatToParts(d).filter(x=>x.type!=='literal').map(x=>[x.type,x.value]))}
+function ymd(){const x=parts();return `${x.year}-${x.month}-${x.day}`}
+function add(date,n){const [y,m,d]=date.split('-').map(Number),x=new Date(Date.UTC(y,m-1,d+n,12));return x.toISOString().slice(0,10)}
+function tm(iso){if(!iso)return'--:--';return new Intl.DateTimeFormat('en-GB',{timeZone:BOARD.timezone,hour:'2-digit',minute:'2-digit',hour12:false}).format(new Date(iso))}
+function choose(o,a){for(const k of a)if(o&&o[k])return o[k]}
+function applyData(d){BOARD={...DEFAULT_DATA,...d};$('synagogueName').textContent=BOARD.synagogue;$('shacharit').textContent=BOARD.shacharit;$('mincha').textContent=BOARD.mincha;$('maariv').textContent=BOARD.maariv;$('ticker').style.animationDuration=`${BOARD.tickerSpeed||32}s`;document.title=`לוח ${BOARD.synagogue}`;load()}
+function tick(){const x=parts(),h=x.hour==='24'?'00':x.hour;$('clock').textContent=`${h}:${x.minute}:${x.second}`;$('gregDate').textContent=`${x.month}.${x.day}.${x.year}`;const i=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'].indexOf(x.weekday);$('dayName').textContent=(h>='18'&&i<6)?`ליל ${days[(i+1)%7].replace('יום ','')}`:days[i];try{$('hebrewTop').textContent=new Intl.DateTimeFormat('he-u-ca-hebrew',{timeZone:BOARD.timezone,day:'numeric',month:'long',year:'numeric'}).format(new Date())}catch{}}
+async function getJSON(url){const r=await fetch(url,{cache:'no-store'});if(!r.ok)throw new Error();return r.json()}
+async function load(){try{
+ const z=await getJSON(`https://www.hebcal.com/zmanim?cfg=json&geonameid=${encodeURIComponent(BOARD.geo)}&date=${ymd()}`),t=z.times||{};
+ $('alot').textContent=tm(choose(t,['alotHaShachar','alotHaShachar72']));$('sunrise').textContent=tm(t.sunrise);$('shema').textContent=tm(choose(t,['sofZmanShma','sofZmanShmaMGA']));$('chatzot').textContent=tm(t.chatzot);$('minchaGedola').textContent=tm(t.minchaGedola);$('sunset').textContent=tm(t.sunset);$('tzeit').textContent=tm(choose(t,['tzeit7083deg','tzeit85deg','tzeit42min']));
+ const sh=await getJSON(`https://www.hebcal.com/shabbat?cfg=json&geonameid=${encodeURIComponent(BOARD.geo)}&M=on&leyning=off&lg=he`),items=sh.items||[],par=items.find(x=>x.category==='parashat'),c=items.find(x=>x.category==='candles'),h=items.find(x=>x.category==='havdalah');
+ $('parasha').textContent=(par?.hebrew||par?.title||'שבת').replace(/^פרשת\s+/,'');$('candles').textContent=c?tm(c.date):'--:--';$('havdalah').textContent=h?tm(h.date):'--:--';
+ $('hebrewDate').textContent=new Intl.DateTimeFormat('he-u-ca-hebrew',{timeZone:BOARD.timezone,day:'numeric',month:'long'}).format(new Date());
+ const start=ymd(),end=add(start,120),cal=await getJSON(`https://www.hebcal.com/hebcal?v=1&cfg=json&start=${start}&end=${end}&maj=on&min=on&mod=on&nx=on&mf=on&lg=he&geo=geoname&geonameid=${encodeURIComponent(BOARD.geo)}`),f=(cal.items||[]).find(x=>x.category==='fast'&&String(x.date).slice(0,10)>=start);
+ if(f){const fd=String(f.date).slice(0,10);$('fastName').textContent=f.hebrew||f.title;const [Y,M,D]=fd.split('-').map(Number);$('fastDate').textContent=new Intl.DateTimeFormat('he-IL',{weekday:'long',day:'numeric',month:'long'}).format(new Date(Date.UTC(Y,M-1,D,12)));const long=/יום כיפור|תשעה באב|Yom Kippur|Tish/i.test(`${f.hebrew||''}${f.title||''}`),fz=await getJSON(`https://www.hebcal.com/zmanim?cfg=json&geonameid=${encodeURIComponent(BOARD.geo)}&date=${long?add(fd,-1):fd}`);$('fastStart').textContent=tm(long?fz.times?.sunset:choose(fz.times||{},['alotHaShachar','alotHaShachar72']))}
+ else{$('fastName').textContent='אין צום קרוב';$('fastDate').textContent='';$('fastStart').textContent='--:--'}
+ const msgs=[`ברוכים הבאים ל${BOARD.synagogue}`,BOARD.rabbi&&`מרא דאתרא: ${BOARD.rabbi}`,par?.hebrew&&`פרשת ${$('parasha').textContent}`,...(BOARD.announcements||[]),BOARD.dedication].filter(Boolean);$('ticker').textContent=msgs.join(' • ');
+}catch{$('ticker').textContent=`${BOARD.synagogue} • השעון פעיל • לעדכון זמני היום נדרש חיבור לאינטרנט • ${BOARD.dedication}`}}
+tick();setInterval(tick,1000);watchBoardData(applyData);setInterval(load,30*60*1000);
