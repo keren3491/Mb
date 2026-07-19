@@ -1,62 +1,51 @@
 # Synagogue Board — GitHub Pages + Firebase Ready
 
-## What this project includes
-- `index.html` — the public full-screen synagogue display.
-- `admin.html` — phone-friendly administration page.
-- Automatic time, Hebrew date, parashah, zmanim, candle lighting, Havdalah and upcoming fast.
-- Editable synagogue name, rabbi, dedication, announcements and prayer schedule.
-- GitHub Pages hosting.
-- Optional Firebase Realtime Database for remote updates across multiple TVs/devices.
-- Local fallback when Firebase is not configured.
+## Included fixes
+- New York / Eastern time and date using `America/New_York`.
+- Automatic Hebrew date, weekly parashah, zmanim, candle lighting, Havdalah and next fast through Hebcal.
+- Working play/pause button. When `musicUrl` is blank, the board plays a built-in gentle melody; an MP3 URL or local `music.mp3` can also be configured.
+- Dedicated memorial banner plus editable announcements.
+- Phone-friendly administration page.
+- Firebase Realtime Database live updates with local fallback.
+- Updated service-worker cache so GitHub Pages receives new files instead of showing an old version.
 
 ## Publish on GitHub Pages
-1. Create a new GitHub repository.
-2. Upload every file from this folder.
-3. Open the repository's **Settings**.
-4. Open **Pages**.
-5. Under **Build and deployment**, select:
-   - Source: Deploy from a branch
-   - Branch: main
-   - Folder: / (root)
-6. Save.
-7. GitHub will provide a website address.
+1. Upload every file in this folder to the root of the GitHub repository.
+2. Open **Settings → Pages**.
+3. Choose **Deploy from a branch**, branch **main**, folder **/(root)**.
+4. Save and open the GitHub Pages address.
 
-The display page will be:
-`https://YOUR-USERNAME.github.io/YOUR-REPOSITORY/`
+Display: `https://YOUR-USERNAME.github.io/YOUR-REPOSITORY/`
 
-The administrator page will be:
-`https://YOUR-USERNAME.github.io/YOUR-REPOSITORY/admin.html`
+Admin: `https://YOUR-USERNAME.github.io/YOUR-REPOSITORY/admin.html`
 
-## Enable remote cloud updates with Firebase
-1. Create a Firebase project.
-2. Enable Realtime Database.
-3. Create a Web App in Firebase.
-4. Copy the Firebase settings into `config.js`.
-5. Set a unique `boardId` for each synagogue.
+## Firebase setup
+Paste the complete Firebase Web App configuration into `config.js`. Realtime Database must be enabled.
 
-Example:
-```js
-window.APP_CONFIG = {
-  firebase: {
-    apiKey: "YOUR_API_KEY",
-    authDomain: "YOUR_PROJECT.firebaseapp.com",
-    databaseURL: "https://YOUR_PROJECT-default-rtdb.firebaseio.com",
-    projectId: "YOUR_PROJECT",
-    storageBucket: "YOUR_PROJECT.appspot.com",
-    messagingSenderId: "YOUR_SENDER_ID",
-    appId: "YOUR_APP_ID"
-  },
-  boardId: "shaarei-zion"
-};
+Recommended database structure:
+
+```text
+boards/main
 ```
 
-## Important security note
-The included version is a working starter. Before public commercial use, protect Firebase writes with Firebase Authentication and secure database rules. Without authentication, anyone who knows the database endpoint may be able to write data, depending on your Firebase rules.
+Temporary test rules only:
 
-## Multiple synagogues
-Duplicate the repository or change `boardId` for each display:
-- `shaarei-zion`
-- `beth-el`
-- `chabad-main`
+```json
+{
+  "rules": {
+    "boards": {
+      "$boardId": {
+        ".read": true,
+        ".write": true
+      }
+    }
+  }
+}
+```
 
-Each ID stores separate settings in Firebase.
+These public write rules are suitable only for testing. For permanent use, protect the admin page and Firebase writes with Authentication.
+
+## Music
+- Leave the music URL blank to use the built-in melody.
+- Or upload an MP3 named `music.mp3` and enter `music.mp3` in the admin page.
+- Browsers require the user to press Play once before sound may begin.

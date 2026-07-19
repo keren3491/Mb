@@ -1,14 +1,40 @@
-<!doctype html><html lang="he" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>ניהול לוח בית הכנסת</title><link rel="stylesheet" href="admin.css"></head><body>
-<div class="wrap"><div class="card"><h1 class="title">ניהול לוח בית הכנסת</h1>
-<div id="mode" class="warning"></div>
-<div class="grid">
-<div><label>שם בית הכנסת</label><input id="synagogue"></div><div><label>שם הרב</label><input id="rabbi"></div>
-<div class="full"><label>הקדשה / לעילוי נשמת</label><input id="dedication"></div>
-<div class="full"><label>הודעות — כל הודעה בשורה חדשה</label><textarea id="announcements"></textarea></div>
-<div><label>Geoname ID</label><input id="geo"></div><div><label>אזור זמן</label><input id="timezone"></div>
-<div><label>שחרית</label><input id="shacharit"></div><div><label>מנחה</label><input id="mincha"></div>
-<div><label>ערבית</label><input id="maariv"></div><div><label>מהירות הודעות בשניות</label><input id="tickerSpeed" type="number" min="15" max="90"></div>
-</div>
-<div class="actions"><button class="save" id="save">שמור ועדכן</button><a class="btn secondary" href="index.html">פתח את הלוח</a><button class="secondary" id="export">ייצא הגדרות</button><button class="secondary" id="import">ייבא הגדרות</button><input id="file" type="file" accept="application/json" hidden></div>
-<div id="status" class="status"></div></div></div>
-<script src="config.js"></script><script src="shared.js"></script><script src="admin.js"></script></body></html>
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>ניהול לוח בית הכנסת</title>
+  <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+  <div class="wrap"><div class="card">
+    <h1 class="title">ניהול לוח בית הכנסת</h1>
+    <div id="mode" class="warning"></div>
+    <div class="grid">
+      <div><label for="synagogue">שם בית הכנסת</label><input id="synagogue"></div>
+      <div><label for="rabbi">שם הרב</label><input id="rabbi"></div>
+      <div class="full"><label for="dedication">הקדשה / לעילוי נשמת</label><input id="dedication"></div>
+      <div class="full"><label for="announcements">הודעות — כל הודעה בשורה חדשה</label><textarea id="announcements"></textarea></div>
+      <div><label for="geo">Geoname ID</label><input id="geo" inputmode="numeric"></div>
+      <div><label for="timezone">אזור זמן</label><input id="timezone" placeholder="America/New_York"></div>
+      <div><label for="shacharit">שחרית</label><input id="shacharit"></div>
+      <div><label for="mincha">מנחה</label><input id="mincha"></div>
+      <div><label for="maariv">ערבית</label><input id="maariv"></div>
+      <div><label for="tickerSpeed">מהירות הודעות בשניות</label><input id="tickerSpeed" type="number" min="15" max="90"></div>
+      <div class="full"><label for="musicUrl">קישור לקובץ מוזיקה MP3 (אפשר להשאיר ריק למנגינה מובנית)</label><input id="musicUrl" dir="ltr" placeholder="music.mp3 או https://..."></div>
+      <div><label for="musicVolume">עוצמת מוזיקה 0–100</label><input id="musicVolume" type="number" min="0" max="100"></div>
+    </div>
+    <div class="actions">
+      <button class="save" id="save">שמור ועדכן</button>
+      <a class="btn secondary" href="index.html">פתח את הלוח</a>
+      <button class="secondary" id="export">ייצא הגדרות</button>
+      <button class="secondary" id="import">ייבא הגדרות</button>
+      <input id="file" type="file" accept="application/json" hidden>
+    </div>
+    <div id="status" class="status" role="status"></div>
+  </div></div>
+  <script src="config.js"></script>
+  <script src="shared.js"></script>
+  <script src="admin.js"></script>
+</body>
+</html>
