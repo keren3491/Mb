@@ -217,6 +217,16 @@ body{background:#050505}
 #hebrewTop{display:block!important;visibility:visible!important;opacity:1!important;min-height:1.15em!important;max-width:95%!important;overflow:hidden!important;text-overflow:ellipsis!important;white-space:nowrap!important;position:relative!important;z-index:8!important}
 #hebrewTop.placeholder-rabbi{opacity:.55!important;font-size:clamp(15px,1.5vw,27px)!important}
 </style>
+
+<style id="memorial-center-final">
+/* Bottom-center memorial dedication, moving right to left */
+.memorialInfo{min-width:0!important;overflow:hidden!important;display:flex!important;align-items:center!important;justify-content:center!important;gap:.25em!important}
+.memorialViewport{flex:1;min-width:0;height:100%;overflow:hidden;display:flex;align-items:center;direction:ltr}
+.memorialText{display:inline-block;min-width:max-content;white-space:nowrap;font-size:clamp(24px,3.15vw,57px);font-weight:950;color:var(--green);direction:rtl;animation:memorialMoveRTL 13s linear infinite;text-shadow:0 0 7px currentColor,0 0 18px currentColor}
+@keyframes memorialMoveRTL{from{transform:translateX(110%)}to{transform:translateX(-110%)}}
+.memorialInfo .symbols{flex:0 0 auto;color:#fff!important;font-size:clamp(26px,3vw,54px)!important;z-index:2}
+@media(max-width:700px){.memorialText{font-size:clamp(18px,3.2vw,34px);animation-duration:11s}.memorialInfo .symbols{font-size:clamp(20px,3vw,34px)!important}}
+</style>
 </head>
 <body>
 <div class="flame-bg" aria-hidden="true">
@@ -307,7 +317,7 @@ body{background:#050505}
  </section>
  <section class="bottomInfo">
   <div class="info"><div><div class="infoLabel led yellow">הדלקת נרות</div><div id="candles" class="infoValue led white">--:--</div></div></div>
-  <div class="info"><span class="symbols led yellow">✡</span><div id="hebrewDate" class="hebrewDate led white">שבת שלום!</div><span class="symbols led yellow">✡</span></div>
+  <div class="info memorialInfo"><span class="symbols led yellow">✡</span><div class="memorialViewport"><div id="memorialText" class="memorialText led green">לעילוי נשמת זהבה חלא בת דינה</div></div><span class="symbols led yellow">✡</span></div>
   <div class="info"><div><div class="infoLabel led yellow">מוצ״ש</div><div id="havdalah" class="infoValue led white">--:--</div></div></div>
  </section>
  <section class="tickerRow"><div class="speaker led cyan">🔊</div><div class="tickerViewport"><div id="ticker" class="ticker led green">ברוכים הבאים</div></div></section>
@@ -323,7 +333,7 @@ function save(v){localStorage.setItem(KEY,JSON.stringify(v))}
 function fillForm(){const s=settings();$('sSynagogue').value=s.synagogue;$('sRabbi').value=s.rabbi;$('sDedication').value=s.dedication;$('sAnnouncements').value=s.announcements;$('sGeo').value=s.geo;$('sTimezone').value=s.timezone;$('sShacharit').value=s.shacharit;$('sMincha').value=s.mincha;$('sMaariv').value=s.maariv;$('sSpeed').value=s.speed}
 function readForm(){return{synagogue:$('sSynagogue').value.trim()||DEF.synagogue,rabbi:$('sRabbi').value.trim(),dedication:$('sDedication').value.trim(),announcements:$('sAnnouncements').value.trim(),geo:$('sGeo').value.trim()||DEF.geo,timezone:$('sTimezone').value.trim()||DEF.timezone,shacharit:$('sShacharit').value.trim(),mincha:$('sMincha').value.trim(),maariv:$('sMaariv').value.trim(),speed:$('sSpeed').value}}
 function formatRabbiName(value){const v=String(value||'').trim();if(!v)return 'שם הרב';return /^הרב\s/.test(v)?v:`הרב ${v}`}
-function apply(){const s=settings();$('synagogueName').textContent=s.synagogue;const rabbiEl=$('hebrewTop');rabbiEl.textContent=formatRabbiName(s.rabbi);rabbiEl.classList.toggle('placeholder-rabbi',!String(s.rabbi||'').trim());document.title=`לוח ${s.synagogue}`;$('ticker').style.animationDuration=`${s.speed}s`}
+function apply(){const s=settings();$('synagogueName').textContent=s.synagogue;const rabbiEl=$('hebrewTop');rabbiEl.textContent=formatRabbiName(s.rabbi);rabbiEl.classList.toggle('placeholder-rabbi',!String(s.rabbi||'').trim());const memorial=$('memorialText');if(memorial)memorial.textContent=s.dedication||DEF.dedication;document.title=`לוח ${s.synagogue}`;$('ticker').style.animationDuration=`${s.speed}s`}
 function openModal(){fillForm();$('settingsModal').classList.add('open')}
 function closeModal(){$('settingsModal').classList.remove('open')}
 $('settingsBtn').onclick=openModal;$('closeBtn').onclick=closeModal;
@@ -385,7 +395,7 @@ async function updateFast(){let f;try{f=await getFastFromApi()}catch{const today
  const fastDate=f.date,startDate=f.startDate||(f.long?add(fastDate,-1):fastDate),name=fullFastName(f.name||'הצום הקרוב');
  let startIso,startDisplay='--:--';
  try{const z=await getJSON(`https://www.hebcal.com/zmanim?cfg=json&geonameid=${encodeURIComponent(settings().geo)}&date=${startDate}`),t=z.times||{};startIso=f.long?t.sunset:choose(t,['alotHaShachar','alotHaShachar72','sunrise']);startDisplay=tm(startIso)}catch{startIso=localDateTime(startDate,f.long?'20:00':'05:00').toISOString();startDisplay=f.long?'בשקיעה':'בעלות השחר'}
- const startMoment=new Date(startIso);$('hebrewDate').textContent=name;$('fastStart').textContent=startDisplay;
+ const startMoment=new Date(startIso);$('fastStart').textContent=startDisplay;
  const [Y,M,D]=fastDate.split('-').map(Number);$('fastDate').textContent=new Intl.DateTimeFormat('he-IL',{weekday:'long',day:'numeric',month:'long',year:'numeric'}).format(new Date(Date.UTC(Y,M-1,D,12)));
  const cd=countdownData(startMoment,name);$('fastCountdown').textContent=cd.display;return cd.text;
 }
