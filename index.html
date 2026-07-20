@@ -55,6 +55,43 @@ label{display:block;color:var(--yellow);font-size:16px;margin-bottom:6px}input,t
 .biblical-caption{position:absolute;right:0;left:0;bottom:5%;text-align:center;font-size:clamp(30px,4.5vw,78px);color:#fff;font-weight:900;text-shadow:0 0 8px #000,0 0 18px #000,0 3px 3px #000;z-index:2}
 .cycle-status{position:fixed;z-index:65;right:12px;top:12px;padding:7px 12px;border:1px solid #8f7900;border-radius:10px;background:rgba(0,0,0,.78);color:#ffe21f;font-size:clamp(12px,1.2vw,19px);font-weight:800;direction:rtl;text-shadow:0 0 6px currentColor}
 
+
+/* ===== 2026 LED dashboard redesign ===== */
+:root{--line:#b89b00;--yellow:#ffd51c;--green:#58ff35;--cyan:#16efff}
+body{background:#050505}
+.board{width:min(100vw,1778px);height:min(100vh,1000px);aspect-ratio:16/9;border:3px solid #4a4300;border-radius:18px;padding:clamp(10px,1vw,18px);grid-template-rows:36% 31% 19% 9% 5%;box-shadow:inset 0 0 0 2px #151500,0 0 28px #000;background:radial-gradient(circle at 50% 42%,#151515 0,#070707 64%,#010101 100%)}
+.top{grid-template-columns:1.12fr 1.9fr 1.12fr;gap:10px;align-items:stretch}
+.top>section{justify-content:flex-start;padding-top:4px}
+.left,.right{align-items:center!important}
+.day{font-size:clamp(30px,3vw,56px);border-bottom:3px dotted var(--line);width:94%;text-align:center;padding-bottom:.15em}
+.greg{font-size:clamp(17px,1.6vw,28px);margin-top:auto}
+.centerTitle{font-size:clamp(21px,2.15vw,39px);color:var(--yellow);margin-top:.1em}
+.clock{font-size:clamp(68px,7.4vw,132px);line-height:.9;margin-top:.13em;text-shadow:0 0 8px #fff,0 0 18px rgba(255,255,255,.55)}
+.synagogue{font-size:clamp(22px,2.3vw,42px);color:var(--cyan)}
+.parashaLabel{font-size:clamp(24px,2.5vw,45px);color:var(--cyan);margin-top:.12em}
+.parasha{font-size:clamp(39px,4.1vw,73px);font-weight:900}
+.fastCard{width:96%;border:2px solid var(--line);border-radius:14px;padding:clamp(8px,1vw,16px);margin-top:.35em;background:rgba(0,0,0,.44);box-shadow:inset 0 0 14px rgba(255,215,0,.06)}
+.fastCard .fastLabel{font-size:clamp(19px,2vw,36px)}
+.fastCard .fastName{font-size:clamp(35px,3.7vw,68px);line-height:1.05;margin:.12em 0;color:#fff}
+.fastStartRow{display:flex;direction:rtl;align-items:center;justify-content:center;gap:.35em;white-space:nowrap;border-top:1px dotted #6d5e00;padding-top:.35em;font-size:clamp(15px,1.45vw,25px)}
+.startDot{color:var(--yellow);font-size:.75em}.startText{color:#fff}.fastStart{font-size:clamp(19px,1.9vw,34px);margin:0;direction:ltr}
+.fastBox{width:94%;margin-top:auto;margin-bottom:.55em;border-top:2px dotted var(--line);padding-top:.35em}
+.fastDate{font-size:clamp(15px,1.45vw,25px)}
+.centerCountdownBand{width:96%;margin-top:auto;margin-bottom:.35em;border:2px solid var(--line);border-radius:10px;background:rgba(0,22,0,.48);height:clamp(38px,4.6vw,68px);display:flex;align-items:center;overflow:hidden;box-shadow:inset 0 0 16px rgba(70,255,20,.12)}
+.centerCountdownBand .fastCountdownViewport{margin:0;height:100%;display:flex;align-items:center}
+.fastCountdown{font-size:clamp(16px,1.7vw,30px);animation-duration:8s;color:var(--green);font-weight:900}
+@keyframes fastMoveLTR{from{transform:translateX(-110%)}to{transform:translateX(110%)}}
+.zmanim{border:2px solid var(--line);border-radius:2px;overflow:hidden}
+.zman{border-right:2px dotted var(--line);background:rgba(0,0,0,.2)}
+.zlabel{font-size:clamp(15px,1.55vw,28px);color:var(--yellow)}
+.zicon{font-size:clamp(24px,2.2vw,40px)}
+.ztime{font-size:clamp(25px,2.45vw,44px)}
+.bottomInfo{border:2px solid var(--line);border-radius:8px;overflow:hidden}
+.infoLabel{font-size:clamp(17px,1.65vw,29px)}.infoValue{font-size:clamp(29px,2.8vw,50px)}.hebrewDate{font-size:clamp(28px,3vw,54px)}
+.tickerRow{border:1px solid #214c00;border-radius:7px;background:rgba(0,20,0,.38);padding-inline:.4em}
+.cycle-status{border:2px solid var(--line)!important;border-radius:12px!important;background:rgba(0,0,0,.9)!important;color:var(--yellow)!important}
+@media(max-width:850px){.board{border-radius:0}.top{grid-template-columns:1.05fr 1.65fr 1.05fr}.clock{font-size:clamp(48px,7vw,80px)}.fastCard .fastName{font-size:clamp(25px,3.4vw,44px)}}
+
 </style>
 </head>
 <body>
@@ -118,17 +155,22 @@ label{display:block;color:var(--yellow);font-size:16px;margin-bottom:6px}input,t
   <section class="left">
    <div id="gregDate" class="greg led cyan">--.--.----</div>
    <div id="dayName" class="day led white">---</div>
-   <div class="fastSmall"><div class="fastLabel led yellow">הצום הבא</div><div id="fastName" class="fastName led yellow">---</div><div class="fastLabel led white">תחילת הצום</div><div id="fastStart" class="fastStart led white">--:--</div></div>
+   <div class="fastSmall fastCard">
+    <div class="fastLabel led yellow">הצום הבא</div>
+    <div id="fastName" class="fastName led white">---</div>
+    <div class="fastStartRow"><span class="startDot">●</span><span class="startText">תחילת הצום:</span><span id="fastStart" class="fastStart led white">--:--</span></div>
+   </div>
   </section>
   <section>
    <div id="hebrewTop" class="centerTitle led yellow">---</div>
    <div id="clock" class="clock led white">--:--:--</div>
+   <div class="centerCountdownBand"><div class="fastCountdownViewport"><div id="fastCountdown" class="fastCountdown led green">---</div></div></div>
   </section>
   <section class="right">
    <div id="synagogueName" class="synagogue led cyan">בית הכנסת</div>
    <div class="parashaLabel led white">פרשת השבוע</div>
    <div id="parasha" class="parasha led white">---</div>
-   <div class="fastBox"><div id="fastDate" class="fastDate led white"></div><div class="fastCountdownViewport"><div id="fastCountdown" class="fastCountdown led green">---</div></div></div>
+   <div class="fastBox"><div id="fastDate" class="fastDate led white"></div></div>
   </section>
  </div>
  <section class="zmanim">
@@ -190,9 +232,10 @@ const FAST_FALLBACK=[
 function localDateTime(date,time='00:00'){return new Date(`${date}T${time}:00-04:00`)}
 function countdownData(startMoment,name){
  const now=new Date(); const diff=startMoment-now;
- if(diff<=0 && diff>-86400000)return{days:0,text:`${name} מתחיל היום`};
+ if(diff<=0 && diff>-86400000)return{days:0,text:'הצום מתחיל היום',display:'הצום מתחיל היום'};
  const days=Math.max(0,Math.ceil(diff/86400000));
- return{days,text:days===1?`יום אחד עד ${name}`:`${days} ימים עד ${name}`};
+ const display=days===1?'יום אחד עד תחילת הצום':`${days} ימים עד תחילת הצום`;
+ return{days,text:`${display} — ${name}`,display};
 }
 function isFastItem(x){
  const text=`${x?.hebrew||''} ${x?.title||''} ${x?.category||''}`;
@@ -213,7 +256,7 @@ async function updateFast(){let f;try{f=await getFastFromApi()}catch{const today
  try{const z=await getJSON(`https://www.hebcal.com/zmanim?cfg=json&geonameid=${encodeURIComponent(settings().geo)}&date=${startDate}`),t=z.times||{};startIso=f.long?t.sunset:choose(t,['alotHaShachar','alotHaShachar72','sunrise']);startDisplay=tm(startIso)}catch{startIso=localDateTime(startDate,f.long?'20:00':'05:00').toISOString();startDisplay=f.long?'בשקיעה':'בעלות השחר'}
  const startMoment=new Date(startIso);$('fastName').textContent=name;$('fastStart').textContent=startDisplay;
  const [Y,M,D]=fastDate.split('-').map(Number);$('fastDate').textContent=new Intl.DateTimeFormat('he-IL',{weekday:'long',day:'numeric',month:'long',year:'numeric'}).format(new Date(Date.UTC(Y,M-1,D,12)));
- const cd=countdownData(startMoment,name);$('fastCountdown').innerHTML=`<span class="fastDaysNumber">${cd.days}</span> ${cd.text.replace(/^\d+\s*/, '')}`;return cd.text;
+ const cd=countdownData(startMoment,name);$('fastCountdown').textContent=cd.display;return cd.text;
 }
 async function updateZmanim(){try{const z=await getJSON(`https://www.hebcal.com/zmanim?cfg=json&geonameid=${encodeURIComponent(settings().geo)}&date=${ymd()}`),t=z.times||{};$('alot').textContent=tm(choose(t,['alotHaShachar','alotHaShachar72']));$('sunrise').textContent=tm(t.sunrise);$('shema').textContent=tm(choose(t,['sofZmanShma','sofZmanShmaMGA']));$('chatzot').textContent=tm(t.chatzot);$('minchaGedola').textContent=tm(t.minchaGedola);$('sunset').textContent=tm(t.sunset);$('tzeit').textContent=tm(choose(t,['tzeit7083deg','tzeit85deg','tzeit42min']))}catch{}}
 async function updateShabbat(){try{const sh=await getJSON(`https://www.hebcal.com/shabbat?cfg=json&geonameid=${encodeURIComponent(settings().geo)}&M=on&leyning=off&lg=he`),items=sh.items||[],par=items.find(x=>x.category==='parashat'),c=items.find(x=>x.category==='candles'),h=items.find(x=>x.category==='havdalah');$('parasha').textContent=(par?.hebrew||par?.title||'שבת').replace(/^פרשת\s+/,'');$('candles').textContent=c?tm(c.date):'--:--';$('havdalah').textContent=h?tm(h.date):'--:--';return{par,c,h}}catch{return{}}}
