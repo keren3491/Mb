@@ -179,6 +179,44 @@ body{background:#050505}
 /* Large fast name in the bottom-center panel */
 #hebrewDate{font-size:clamp(34px,4vw,72px)!important;color:var(--green)!important;font-weight:900!important;text-shadow:0 0 7px currentColor,0 0 18px currentColor!important}
 </style>
+
+<style id="rabbi-date-final-fix">
+/* Final requested placement */
+.topLeftHebrewDate{
+  color:var(--green)!important;
+  font-size:clamp(24px,2.8vw,50px)!important;
+  font-weight:950!important;
+  line-height:1!important;
+  white-space:nowrap!important;
+  text-align:center!important;
+  width:100%!important;
+}
+.fastCard{margin-top:clamp(54px,6vh,82px)!important}
+.fastCard .fastStartRow{
+  animation:none!important;
+  transform:none!important;
+  border-top:0!important;
+  margin:.35em auto 0!important;
+  justify-content:center!important;
+}
+.fastCard .fastStart{
+  color:var(--green)!important;
+  font-size:clamp(17px,1.65vw,29px)!important;
+  font-weight:900!important;
+}
+.centerTitle{
+  color:var(--yellow)!important;
+  font-weight:950!important;
+  font-size:clamp(22px,2.25vw,41px)!important;
+  text-shadow:0 0 6px currentColor,0 0 15px currentColor!important;
+}
+.zlabel,.infoLabel{font-weight:950!important}
+</style>
+
+<style id="rabbi-display-repair">
+#hebrewTop{display:block!important;visibility:visible!important;opacity:1!important;min-height:1.15em!important;max-width:95%!important;overflow:hidden!important;text-overflow:ellipsis!important;white-space:nowrap!important;position:relative!important;z-index:8!important}
+#hebrewTop.placeholder-rabbi{opacity:.55!important;font-size:clamp(15px,1.5vw,27px)!important}
+</style>
 </head>
 <body>
 <div class="flame-bg" aria-hidden="true">
@@ -214,7 +252,7 @@ body{background:#050505}
   <h2 class="led">ניהול לוח בית הכנסת</h2>
   <div class="grid">
    <div><label>שם בית הכנסת</label><input id="sSynagogue"></div>
-   <div><label>שם הרב</label><input id="sRabbi" placeholder="הרב..."></div>
+   <div><label>שם הרב — יוצג מעל השעון</label><input id="sRabbi" placeholder="לדוגמה: הרב משה כהן" autocomplete="off"></div>
    <div class="full"><label>הקדשה / לעילוי נשמת</label><input id="sDedication"></div>
    <div class="full"><label>הודעות מתחלפות — כל הודעה בשורה נפרדת</label><textarea id="sAnnouncements"></textarea></div>
    <div><label>Geoname ID למיקום</label><input id="sGeo" inputmode="numeric"></div>
@@ -242,9 +280,8 @@ body{background:#050505}
    <div id="gregDate" class="greg led cyan">--.--.----</div>
    <div id="dayName" class="day led white">---</div>
    <div class="fastSmall fastCard">
-    <div class="fastLabel led yellow">הצום הבא</div>
-    <div id="fastName" class="fastName led white">---</div>
-    <div class="fastStartRow"><span class="startDot">●</span><span class="startText">תחילת הצום:</span><span id="fastStart" class="fastStart led white">--:--</span></div>
+    <div id="topLeftHebrewDate" class="topLeftHebrewDate led green">---</div>
+    <div class="fastStartRow"><span id="fastStart" class="fastStart led green">--:--</span></div>
    </div>
   </section>
   <section>
@@ -285,7 +322,8 @@ function settings(){try{return {...DEF,...JSON.parse(localStorage.getItem(KEY)||
 function save(v){localStorage.setItem(KEY,JSON.stringify(v))}
 function fillForm(){const s=settings();$('sSynagogue').value=s.synagogue;$('sRabbi').value=s.rabbi;$('sDedication').value=s.dedication;$('sAnnouncements').value=s.announcements;$('sGeo').value=s.geo;$('sTimezone').value=s.timezone;$('sShacharit').value=s.shacharit;$('sMincha').value=s.mincha;$('sMaariv').value=s.maariv;$('sSpeed').value=s.speed}
 function readForm(){return{synagogue:$('sSynagogue').value.trim()||DEF.synagogue,rabbi:$('sRabbi').value.trim(),dedication:$('sDedication').value.trim(),announcements:$('sAnnouncements').value.trim(),geo:$('sGeo').value.trim()||DEF.geo,timezone:$('sTimezone').value.trim()||DEF.timezone,shacharit:$('sShacharit').value.trim(),mincha:$('sMincha').value.trim(),maariv:$('sMaariv').value.trim(),speed:$('sSpeed').value}}
-function apply(){const s=settings();$('synagogueName').textContent=s.synagogue;document.title=`לוח ${s.synagogue}`;$('ticker').style.animationDuration=`${s.speed}s`}
+function formatRabbiName(value){const v=String(value||'').trim();if(!v)return 'שם הרב';return /^הרב\s/.test(v)?v:`הרב ${v}`}
+function apply(){const s=settings();$('synagogueName').textContent=s.synagogue;const rabbiEl=$('hebrewTop');rabbiEl.textContent=formatRabbiName(s.rabbi);rabbiEl.classList.toggle('placeholder-rabbi',!String(s.rabbi||'').trim());document.title=`לוח ${s.synagogue}`;$('ticker').style.animationDuration=`${s.speed}s`}
 function openModal(){fillForm();$('settingsModal').classList.add('open')}
 function closeModal(){$('settingsModal').classList.remove('open')}
 $('settingsBtn').onclick=openModal;$('closeBtn').onclick=closeModal;
@@ -296,6 +334,7 @@ $('importBtn').onclick=()=>$('importFile').click();
 $('importFile').onchange=async e=>{try{const data=JSON.parse(await e.target.files[0].text());save({...DEF,...data});fillForm();apply();loadAll();alert('ההגדרות יובאו בהצלחה')}catch{alert('קובץ הגדרות לא תקין')}e.target.value=''};
 if($('fullBtn')) $('fullBtn').onclick=()=>{if(!document.fullscreenElement)document.documentElement.requestFullscreen?.();else document.exitFullscreen?.()};
 $('settingsModal').onclick=e=>{if(e.target===$('settingsModal'))closeModal()};
+$('sRabbi').addEventListener('input',e=>{const el=$('hebrewTop');el.textContent=formatRabbiName(e.target.value);el.classList.toggle('placeholder-rabbi',!e.target.value.trim())});
 
 const days=['יום ראשון','יום שני','יום שלישי','יום רביעי','יום חמישי','יום שישי','שבת קודש'];
 function parts(d=new Date()){const s=settings();const f=new Intl.DateTimeFormat('en-CA',{timeZone:s.timezone,year:'numeric',month:'2-digit',day:'2-digit',weekday:'short',hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false});return Object.fromEntries(f.formatToParts(d).filter(x=>x.type!=='literal').map(x=>[x.type,x.value]))}
@@ -303,7 +342,7 @@ function ymd(d=new Date()){const x=parts(d);return `${x.year}-${x.month}-${x.day
 function add(date,n){const [y,m,d]=date.split('-').map(Number),x=new Date(Date.UTC(y,m-1,d+n,12));return x.toISOString().slice(0,10)}
 function tm(iso){if(!iso)return'--:--';return new Intl.DateTimeFormat('en-US',{timeZone:settings().timezone,hour:'numeric',minute:'2-digit',hour12:true}).format(new Date(iso))}
 function choose(o,a){for(const k of a)if(o&&o[k])return o[k]}
-function tick(){const x=parts(),h=x.hour==='24'?'00':x.hour;$('clock').textContent=`${h}:${x.minute}:${x.second}`;$('gregDate').textContent=`${x.month}.${x.day}.${x.year}`;const i=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'].indexOf(x.weekday);$('dayName').textContent=(h>='18'&&i<6)?`ליל ${days[(i+1)%7].replace('יום ','')}`:days[i];try{$('hebrewTop').textContent=new Intl.DateTimeFormat('he-u-ca-hebrew',{timeZone:settings().timezone,day:'numeric',month:'long',year:'numeric'}).format(new Date());$('hebrewDate').textContent=new Intl.DateTimeFormat('he-u-ca-hebrew',{timeZone:settings().timezone,day:'numeric',month:'long'}).format(new Date())}catch{}}
+function tick(){const x=parts(),h=x.hour==='24'?'00':x.hour;$('clock').textContent=`${h}:${x.minute}:${x.second}`;$('gregDate').textContent=`${x.month}.${x.day}.${x.year}`;const i=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'].indexOf(x.weekday);$('dayName').textContent=(h>='18'&&i<6)?`ליל ${days[(i+1)%7].replace('יום ','')}`:days[i];try{const hd=new Intl.DateTimeFormat('he-u-ca-hebrew',{timeZone:settings().timezone,day:'numeric',month:'long'}).format(new Date());$('topLeftHebrewDate').textContent=hd}catch{}}
 async function getJSON(url){const r=await fetch(url,{cache:'no-store'});if(!r.ok)throw new Error(`HTTP ${r.status}`);return r.json()}
 
 const FAST_FALLBACK=[
@@ -346,7 +385,7 @@ async function updateFast(){let f;try{f=await getFastFromApi()}catch{const today
  const fastDate=f.date,startDate=f.startDate||(f.long?add(fastDate,-1):fastDate),name=fullFastName(f.name||'הצום הקרוב');
  let startIso,startDisplay='--:--';
  try{const z=await getJSON(`https://www.hebcal.com/zmanim?cfg=json&geonameid=${encodeURIComponent(settings().geo)}&date=${startDate}`),t=z.times||{};startIso=f.long?t.sunset:choose(t,['alotHaShachar','alotHaShachar72','sunrise']);startDisplay=tm(startIso)}catch{startIso=localDateTime(startDate,f.long?'20:00':'05:00').toISOString();startDisplay=f.long?'בשקיעה':'בעלות השחר'}
- const startMoment=new Date(startIso);$('fastName').textContent=name;$('hebrewDate').textContent=name;$('fastStart').textContent=startDisplay;
+ const startMoment=new Date(startIso);$('hebrewDate').textContent=name;$('fastStart').textContent=startDisplay;
  const [Y,M,D]=fastDate.split('-').map(Number);$('fastDate').textContent=new Intl.DateTimeFormat('he-IL',{weekday:'long',day:'numeric',month:'long',year:'numeric'}).format(new Date(Date.UTC(Y,M-1,D,12)));
  const cd=countdownData(startMoment,name);$('fastCountdown').textContent=cd.display;return cd.text;
 }
