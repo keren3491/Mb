@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#050505">
+<title>מנהל לוח בית הכנסת</title>
+<style>
+:root{--bg:#050505;--panel:#0b0b0b;--line:#b89b00;--yellow:#ffd51c;--green:#58ff35;--cyan:#16efff;--white:#f8fbff}
+*{box-sizing:border-box}html,body{min-height:100%;margin:0;background:radial-gradient(circle at 50% 20%,#171717,#050505 58%,#000);color:var(--white);font-family:Arial,"Noto Sans Hebrew",sans-serif}
+body{padding:clamp(14px,3vw,38px)}
+.wrap{width:min(960px,100%);margin:auto}.head{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:18px}.head h1{margin:0;color:var(--cyan);font-size:clamp(27px,4vw,46px);text-shadow:0 0 10px currentColor}.back{display:inline-flex;align-items:center;justify-content:center;text-decoration:none;color:#000;background:var(--yellow);font-weight:900;border-radius:11px;padding:11px 17px}
+.card{background:rgba(8,8,8,.95);border:2px solid var(--line);border-radius:18px;padding:clamp(16px,3vw,28px);box-shadow:0 0 28px #000,inset 0 0 18px rgba(255,213,28,.05)}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:15px}.full{grid-column:1/-1}label{display:block;color:var(--yellow);font-weight:800;font-size:16px;margin:0 0 7px}input,textarea,select{width:100%;padding:13px;border-radius:10px;border:1px solid #6a5a00;background:#121212;color:#fff;font:inherit;font-size:17px;outline:none}input:focus,textarea:focus,select:focus{border-color:var(--green);box-shadow:0 0 0 2px rgba(88,255,53,.15)}textarea{min-height:105px;resize:vertical}
+.actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:21px}.actions button{border:1px solid #666;background:#222;color:#fff;padding:11px 18px;border-radius:10px;font-weight:900;font-size:16px;cursor:pointer}.actions .save{background:var(--green);border-color:var(--green);color:#001500}.actions .danger{border-color:#8d2929;color:#ffb3b3}.status{min-height:24px;margin-top:14px;color:var(--green);font-weight:800}.hint{color:#aaa;font-size:14px;line-height:1.6;margin-top:10px}
+.preview{margin-top:18px;border:1px solid #4d4300;border-radius:12px;padding:14px;background:#050505}.preview b{color:var(--yellow)}#rabbiPreview{color:var(--yellow);font-size:24px;font-weight:950;text-shadow:0 0 8px currentColor}
+@media(max-width:700px){.grid{grid-template-columns:1fr}.full{grid-column:auto}.head{align-items:flex-start}.back{white-space:nowrap}}
+</style>
+</head>
+<body>
+<div class="wrap">
+ <div class="head"><h1>⚙ ניהול לוח בית הכנסת</h1><a class="back" href="index.html">חזרה ללוח</a></div>
+ <main class="card">
+  <div class="grid">
+   <div><label for="sSynagogue">שם בית הכנסת</label><input id="sSynagogue"></div>
+   <div><label for="sRabbi">שם הרב — יוצג מעל השעון</label><input id="sRabbi" placeholder="לדוגמה: משה כהן" autocomplete="off"></div>
+   <div class="full"><label for="sDedication">הקדשה / לעילוי נשמת</label><input id="sDedication"></div>
+   <div class="full"><label for="sAnnouncements">הודעות מתחלפות — כל הודעה בשורה נפרדת</label><textarea id="sAnnouncements"></textarea></div>
+   <div><label for="sGeo">Geoname ID למיקום</label><input id="sGeo" inputmode="numeric"></div>
+   <div><label for="sTimezone">אזור זמן</label><input id="sTimezone" placeholder="America/New_York"></div>
+   <div><label for="sShacharit">שחרית</label><input id="sShacharit" placeholder="07:00"></div>
+   <div><label for="sMincha">מנחה</label><input id="sMincha" placeholder="לפני השקיעה"></div>
+   <div><label for="sMaariv">ערבית</label><input id="sMaariv" placeholder="20:30"></div>
+   <div><label for="sSpeed">מהירות הודעות</label><select id="sSpeed"><option value="22">מהירה</option><option value="32">רגילה</option><option value="45">איטית</option></select></div>
+  </div>
+  <div class="preview"><b>תצוגה מקדימה של שם הרב:</b><div id="rabbiPreview">שם הרב</div></div>
+  <div class="actions">
+   <button class="save" id="saveBtn">שמור ועדכן</button>
+   <button id="exportBtn">ייצא הגדרות</button>
+   <button id="importBtn">ייבא הגדרות</button>
+   <button class="danger" id="resetBtn">איפוס</button>
+   <input id="importFile" type="file" accept="application/json" hidden>
+  </div>
+  <div id="status" class="status"></div>
+  <div class="hint">ההגדרות נשמרות בדפדפן של המכשיר. לאחר השמירה, חזור ללוח כדי לראות את העדכון.</div>
+ </main>
+</div>
+<script>
+(()=>{'use strict';
+const $=id=>document.getElementById(id),KEY='synagogueBoardProV3';
+const DEF={synagogue:'בית הכנסת אליהו הנביא',rabbi:'',dedication:'לעילוי נשמת זהבה חלא בת דינה',announcements:'שיעור גמרא במוצ״ש 21:15',geo:'5128581',timezone:'America/New_York',shacharit:'07:00',mincha:'לפני השקיעה',maariv:'20:30',speed:'32'};
+function get(){try{return{...DEF,...JSON.parse(localStorage.getItem(KEY)||localStorage.getItem('synagogueBoardProV2')||'{}')}}catch{return{...DEF}}}
+function set(v){localStorage.setItem(KEY,JSON.stringify(v))}
+function rabbi(v){v=String(v||'').trim();return v?(v.startsWith('הרב ')?v:`הרב ${v}`):'שם הרב'}
+function fill(){const s=get();$('sSynagogue').value=s.synagogue;$('sRabbi').value=s.rabbi;$('sDedication').value=s.dedication;$('sAnnouncements').value=s.announcements;$('sGeo').value=s.geo;$('sTimezone').value=s.timezone;$('sShacharit').value=s.shacharit;$('sMincha').value=s.mincha;$('sMaariv').value=s.maariv;$('sSpeed').value=s.speed;$('rabbiPreview').textContent=rabbi(s.rabbi)}
+function read(){return{synagogue:$('sSynagogue').value.trim()||DEF.synagogue,rabbi:$('sRabbi').value.trim(),dedication:$('sDedication').value.trim()||DEF.dedication,announcements:$('sAnnouncements').value.trim(),geo:$('sGeo').value.trim()||DEF.geo,timezone:$('sTimezone').value.trim()||DEF.timezone,shacharit:$('sShacharit').value.trim(),mincha:$('sMincha').value.trim(),maariv:$('sMaariv').value.trim(),speed:$('sSpeed').value}}
+function msg(t){$('status').textContent=t;setTimeout(()=>$('status').textContent='',3500)}
+$('sRabbi').addEventListener('input',e=>$('rabbiPreview').textContent=rabbi(e.target.value));
+$('saveBtn').onclick=()=>{set(read());msg('ההגדרות נשמרו בהצלחה')};
+$('resetBtn').onclick=()=>{if(confirm('לאפס את כל ההגדרות?')){localStorage.removeItem(KEY);fill();msg('ההגדרות אופסו')}};
+$('exportBtn').onclick=()=>{const blob=new Blob([JSON.stringify(get(),null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='synagogue-board-settings.json';a.click();URL.revokeObjectURL(a.href)};
+$('importBtn').onclick=()=>$('importFile').click();
+$('importFile').onchange=async e=>{try{const data=JSON.parse(await e.target.files[0].text());set({...DEF,...data});fill();msg('ההגדרות יובאו בהצלחה')}catch{msg('קובץ ההגדרות אינו תקין')}e.target.value=''};
+fill();
+})();
+</script>
+</body></html>
