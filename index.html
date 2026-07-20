@@ -53,6 +53,7 @@ label{display:block;color:var(--yellow);font-size:16px;margin-bottom:6px}input,t
 .biblical-slide.active{opacity:1}
 .biblical-slide svg{width:100%;height:100%;display:block;filter:saturate(1.12) contrast(1.05)}
 .biblical-caption{position:absolute;right:0;left:0;bottom:5%;text-align:center;font-size:clamp(30px,4.5vw,78px);color:#fff;font-weight:900;text-shadow:0 0 8px #000,0 0 18px #000,0 3px 3px #000;z-index:2}
+.cycle-status{position:fixed;z-index:65;right:12px;top:12px;padding:7px 12px;border:1px solid #8f7900;border-radius:10px;background:rgba(0,0,0,.78);color:#ffe21f;font-size:clamp(12px,1.2vw,19px);font-weight:800;direction:rtl;text-shadow:0 0 6px currentColor}
 
 </style>
 </head>
@@ -60,7 +61,7 @@ label{display:block;color:var(--yellow);font-size:16px;margin-bottom:6px}input,t
 <div class="flame-bg" aria-hidden="true">
   <span class="flame"></span><span class="flame"></span><span class="flame"></span><span class="flame"></span><span class="flame"></span><span class="flame"></span><span class="flame"></span><span class="flame"></span><span class="flame"></span>
 </div>
-
+<div id="cycleStatus" class="cycle-status">תמונה תנ״כית בעוד 30 שניות</div>
 
 <div id="biblicalShow" class="biblical-show" aria-hidden="true">
   <div class="biblical-slide active">
@@ -163,71 +164,68 @@ label{display:block;color:var(--yellow);font-size:16px;margin-bottom:6px}input,t
 <script>
 (()=>{'use strict';
 const $=id=>document.getElementById(id);
-const KEY='synagogueBoardProV2';
+const KEY='synagogueBoardProV3';
 const DEF={synagogue:'בית הכנסת אליהו הנביא',rabbi:'',dedication:'לעילוי נשמת זהבה חלא בת דינה',announcements:'שיעור גמרא במוצ״ש 21:15',geo:'5128581',timezone:'America/New_York',shacharit:'07:00',mincha:'לפני השקיעה',maariv:'20:30',speed:'32'};
-function settings(){try{return {...DEF,...JSON.parse(localStorage.getItem(KEY)||'{}')}}catch{return {...DEF}}}
-function save(s){localStorage.setItem(KEY,JSON.stringify(s))}
+function settings(){try{return {...DEF,...JSON.parse(localStorage.getItem(KEY)||localStorage.getItem('synagogueBoardProV2')||'{}')}}catch{return {...DEF}}}
+function save(v){localStorage.setItem(KEY,JSON.stringify(v))}
 function fillForm(){const s=settings();$('sSynagogue').value=s.synagogue;$('sRabbi').value=s.rabbi;$('sDedication').value=s.dedication;$('sAnnouncements').value=s.announcements;$('sGeo').value=s.geo;$('sTimezone').value=s.timezone;$('sShacharit').value=s.shacharit;$('sMincha').value=s.mincha;$('sMaariv').value=s.maariv;$('sSpeed').value=s.speed}
 function readForm(){return{synagogue:$('sSynagogue').value.trim()||DEF.synagogue,rabbi:$('sRabbi').value.trim(),dedication:$('sDedication').value.trim(),announcements:$('sAnnouncements').value.trim(),geo:$('sGeo').value.trim()||DEF.geo,timezone:$('sTimezone').value.trim()||DEF.timezone,shacharit:$('sShacharit').value.trim(),mincha:$('sMincha').value.trim(),maariv:$('sMaariv').value.trim(),speed:$('sSpeed').value}}
 function apply(){const s=settings();$('synagogueName').textContent=s.synagogue;document.title=`לוח ${s.synagogue}`;$('ticker').style.animationDuration=`${s.speed}s`}
-function open(){fillForm();$('settingsModal').classList.add('open')} function close(){$('settingsModal').classList.remove('open')}
-$('settingsBtn').onclick=open;$('closeBtn').onclick=close;
-$('saveBtn').onclick=()=>{save(readForm());apply();close();load()};
-$('resetBtn').onclick=()=>{if(confirm('לאפס את כל ההגדרות?')){localStorage.removeItem(KEY);fillForm();apply();load()}};
+function openModal(){fillForm();$('settingsModal').classList.add('open')}
+function closeModal(){$('settingsModal').classList.remove('open')}
+$('settingsBtn').onclick=openModal;$('closeBtn').onclick=closeModal;
+$('saveBtn').onclick=()=>{save(readForm());apply();closeModal();loadAll()};
+$('resetBtn').onclick=()=>{if(confirm('לאפס את כל ההגדרות?')){localStorage.removeItem(KEY);fillForm();apply();loadAll()}};
 $('exportBtn').onclick=()=>{const blob=new Blob([JSON.stringify(settings(),null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='synagogue-board-settings.json';a.click();URL.revokeObjectURL(a.href)};
 $('importBtn').onclick=()=>$('importFile').click();
-$('importFile').onchange=async e=>{try{const data=JSON.parse(await e.target.files[0].text());save({...DEF,...data});fillForm();apply();load();alert('ההגדרות יובאו בהצלחה')}catch{alert('קובץ הגדרות לא תקין')}e.target.value=''};
+$('importFile').onchange=async e=>{try{const data=JSON.parse(await e.target.files[0].text());save({...DEF,...data});fillForm();apply();loadAll();alert('ההגדרות יובאו בהצלחה')}catch{alert('קובץ הגדרות לא תקין')}e.target.value=''};
 $('fullBtn').onclick=()=>{if(!document.fullscreenElement)document.documentElement.requestFullscreen?.();else document.exitFullscreen?.()};
-$('settingsModal').onclick=e=>{if(e.target===$('settingsModal'))close()};
+$('settingsModal').onclick=e=>{if(e.target===$('settingsModal'))closeModal()};
 
 const days=['יום ראשון','יום שני','יום שלישי','יום רביעי','יום חמישי','יום שישי','שבת קודש'];
 function parts(d=new Date()){const s=settings();const f=new Intl.DateTimeFormat('en-CA',{timeZone:s.timezone,year:'numeric',month:'2-digit',day:'2-digit',weekday:'short',hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false});return Object.fromEntries(f.formatToParts(d).filter(x=>x.type!=='literal').map(x=>[x.type,x.value]))}
-function ymd(){const x=parts();return `${x.year}-${x.month}-${x.day}`}
+function ymd(d=new Date()){const x=parts(d);return `${x.year}-${x.month}-${x.day}`}
 function add(date,n){const [y,m,d]=date.split('-').map(Number),x=new Date(Date.UTC(y,m-1,d+n,12));return x.toISOString().slice(0,10)}
-function daysBetween(a,b){const A=new Date(a+'T12:00:00Z'),B=new Date(b+'T12:00:00Z');return Math.max(0,Math.round((B-A)/86400000))}
-function tm(iso){if(!iso)return'--:--';return new Intl.DateTimeFormat('en-GB',{timeZone:settings().timezone,hour:'2-digit',minute:'2-digit',hour12:false}).format(new Date(iso))}
+function tm(iso){if(!iso)return'--:--';return new Intl.DateTimeFormat('en-US',{timeZone:settings().timezone,hour:'numeric',minute:'2-digit',hour12:true}).format(new Date(iso))}
 function choose(o,a){for(const k of a)if(o&&o[k])return o[k]}
-function tick(){const x=parts(),h=x.hour==='24'?'00':x.hour;$('clock').textContent=`${h}:${x.minute}:${x.second}`;$('gregDate').textContent=`${x.month}.${x.day}.${x.year}`;const i=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'].indexOf(x.weekday);$('dayName').textContent=(h>='18'&&i<6)?`ליל ${days[(i+1)%7].replace('יום ','')}`:days[i];try{$('hebrewTop').textContent=new Intl.DateTimeFormat('he-u-ca-hebrew',{timeZone:settings().timezone,day:'numeric',month:'long',year:'numeric'}).format(new Date())}catch{}}
-async function getJSON(url){const r=await fetch(url,{cache:'no-store'});if(!r.ok)throw new Error('network');return r.json()}
-async function load(){
- const s=settings();apply();
- try{
-  const z=await getJSON(`https://www.hebcal.com/zmanim?cfg=json&geonameid=${encodeURIComponent(s.geo)}&date=${ymd()}`),t=z.times||{};
-  $('alot').textContent=tm(choose(t,['alotHaShachar','alotHaShachar72']));$('sunrise').textContent=tm(t.sunrise);$('shema').textContent=tm(choose(t,['sofZmanShma','sofZmanShmaMGA']));$('chatzot').textContent=tm(t.chatzot);$('minchaGedola').textContent=tm(t.minchaGedola);$('sunset').textContent=tm(t.sunset);$('tzeit').textContent=tm(choose(t,['tzeit7083deg','tzeit85deg','tzeit42min']));
-  const sh=await getJSON(`https://www.hebcal.com/shabbat?cfg=json&geonameid=${encodeURIComponent(s.geo)}&M=on&leyning=off&lg=he`),items=sh.items||[],par=items.find(x=>x.category==='parashat'),c=items.find(x=>x.category==='candles'),h=items.find(x=>x.category==='havdalah');
-  $('parasha').textContent=(par?.hebrew||par?.title||'שבת').replace(/^פרשת\s+/,'');$('candles').textContent=c?tm(c.date):'--:--';$('havdalah').textContent=h?tm(h.date):'--:--';
-  $('hebrewDate').textContent=new Intl.DateTimeFormat('he-u-ca-hebrew',{timeZone:s.timezone,day:'numeric',month:'long'}).format(new Date());
-  const start=ymd(),end=add(start,120),cal=await getJSON(`https://www.hebcal.com/hebcal?v=1&cfg=json&start=${start}&end=${end}&maj=on&min=on&mod=on&nx=on&mf=on&lg=he&geo=geoname&geonameid=${encodeURIComponent(s.geo)}`),f=(cal.items||[]).find(x=>x.category==='fast'&&String(x.date).slice(0,10)>=start);
-  if(f){const fd=String(f.date).slice(0,10),fastTitle=f.hebrew||f.title||'הצום הקרוב',left=daysBetween(start,fd);$('fastName').textContent=fastTitle;const [Y,M,D]=fd.split('-').map(Number);$('fastDate').textContent=new Intl.DateTimeFormat('he-IL',{weekday:'long',day:'numeric',month:'long'}).format(new Date(Date.UTC(Y,M-1,D,12)));$('fastCountdown').textContent=left===0?`הצום ${fastTitle} חל היום`:left===1?`עוד יום אחד עד ${fastTitle}`:`עוד ${left} ימים עד ${fastTitle}`;const long=/יום כיפור|תשעה באב|Yom Kippur|Tish/i.test(`${f.hebrew||''}${f.title||''}`),fz=await getJSON(`https://www.hebcal.com/zmanim?cfg=json&geonameid=${encodeURIComponent(s.geo)}&date=${long?add(fd,-1):fd}`);$('fastStart').textContent=tm(long?fz.times?.sunset:choose(fz.times||{},['alotHaShachar','alotHaShachar72']))}
-  else{$('fastName').textContent='אין צום קרוב';$('fastDate').textContent='';$('fastCountdown').textContent='';$('fastStart').textContent='--:--'}
-  const msgs=[`ברוכים הבאים ל${s.synagogue}`,s.rabbi&&`מרא דאתרא: ${s.rabbi}`,par?.hebrew&&`פרשת ${$('parasha').textContent}`,$('fastCountdown').textContent,`שחרית ${s.shacharit}`,`מנחה ${s.mincha}`,`ערבית ${s.maariv}`,c&&`הדלקת נרות ${tm(c.date)}`,h&&`מוצ״ש ${tm(h.date)}`,...s.announcements.split(/\n+/).map(x=>x.trim()).filter(Boolean),s.dedication].filter(Boolean);
-  $('ticker').textContent=msgs.join(' • ');
- }catch(e){$('ticker').textContent=`${s.synagogue} • השעון פעיל • לעדכון זמני היום נדרש חיבור לאינטרנט • ${s.dedication}`;}
+function tick(){const x=parts(),h=x.hour==='24'?'00':x.hour;$('clock').textContent=`${h}:${x.minute}:${x.second}`;$('gregDate').textContent=`${x.month}.${x.day}.${x.year}`;const i=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'].indexOf(x.weekday);$('dayName').textContent=(h>='18'&&i<6)?`ליל ${days[(i+1)%7].replace('יום ','')}`:days[i];try{$('hebrewTop').textContent=new Intl.DateTimeFormat('he-u-ca-hebrew',{timeZone:settings().timezone,day:'numeric',month:'long',year:'numeric'}).format(new Date());$('hebrewDate').textContent=new Intl.DateTimeFormat('he-u-ca-hebrew',{timeZone:settings().timezone,day:'numeric',month:'long'}).format(new Date())}catch{}}
+async function getJSON(url){const r=await fetch(url,{cache:'no-store'});if(!r.ok)throw new Error(`HTTP ${r.status}`);return r.json()}
+
+const FAST_FALLBACK=[
+ {date:'2026-07-23',startDate:'2026-07-22',name:'תשעה באב',long:true},
+ {date:'2026-09-14',startDate:'2026-09-14',name:'צום גדליה'},
+ {date:'2026-09-21',startDate:'2026-09-20',name:'יום כיפור',long:true},
+ {date:'2026-12-20',startDate:'2026-12-20',name:'עשרה בטבת'},
+ {date:'2027-03-22',startDate:'2027-03-22',name:'תענית אסתר'},
+ {date:'2027-07-22',startDate:'2027-07-22',name:'שבעה עשר בתמוז'},
+ {date:'2027-08-12',startDate:'2027-08-11',name:'תשעה באב',long:true}
+];
+function localDateTime(date,time='00:00'){return new Date(`${date}T${time}:00-04:00`)}
+function dayText(ms,name){if(ms<=0)return `${name} מתחיל היום`;const days=Math.ceil(ms/86400000);return days===1?`עוד יום אחד עד תחילת ${name}`:`עוד ${days} ימים עד תחילת ${name}`}
+async function getFastFromApi(){const start=ymd(),end=add(start,370);const cal=await getJSON(`https://www.hebcal.com/hebcal?v=1&cfg=json&start=${start}&end=${end}&maj=on&min=on&mf=on&lg=he&geo=geoname&geonameid=${encodeURIComponent(settings().geo)}`);const f=(cal.items||[]).find(x=>x.category==='fast'&&String(x.date).slice(0,10)>=start);if(!f)throw new Error('No fast');return{date:String(f.date).slice(0,10),name:f.hebrew||f.title||'הצום הקרוב',long:/יום כיפור|תשעה באב|Yom Kippur|Tish/i.test(`${f.hebrew||''}${f.title||''}`)}}
+async function updateFast(){let f;try{f=await getFastFromApi()}catch{const today=ymd();f=FAST_FALLBACK.find(x=>x.date>=today)||FAST_FALLBACK[FAST_FALLBACK.length-1]}
+ const fastDate=f.date,startDate=f.startDate||(f.long?add(fastDate,-1):fastDate),name=f.name||'הצום הקרוב';
+ let startIso,startDisplay='--:--';
+ try{const z=await getJSON(`https://www.hebcal.com/zmanim?cfg=json&geonameid=${encodeURIComponent(settings().geo)}&date=${startDate}`),t=z.times||{};startIso=f.long?t.sunset:choose(t,['alotHaShachar','alotHaShachar72','sunrise']);startDisplay=tm(startIso)}catch{startIso=localDateTime(startDate,f.long?'20:00':'05:00').toISOString();startDisplay=f.long?'בשקיעה':'בעלות השחר'}
+ const now=new Date(),startMoment=new Date(startIso);$('fastName').textContent=name;$('fastStart').textContent=startDisplay;
+ const [Y,M,D]=fastDate.split('-').map(Number);$('fastDate').textContent=new Intl.DateTimeFormat('he-IL',{weekday:'long',day:'numeric',month:'long',year:'numeric'}).format(new Date(Date.UTC(Y,M-1,D,12)));
+ $('fastCountdown').textContent=dayText(startMoment-now,name);return $('fastCountdown').textContent;
 }
-tick();apply();setInterval(tick,1000);load();setInterval(load,30*60*1000);
+async function updateZmanim(){try{const z=await getJSON(`https://www.hebcal.com/zmanim?cfg=json&geonameid=${encodeURIComponent(settings().geo)}&date=${ymd()}`),t=z.times||{};$('alot').textContent=tm(choose(t,['alotHaShachar','alotHaShachar72']));$('sunrise').textContent=tm(t.sunrise);$('shema').textContent=tm(choose(t,['sofZmanShma','sofZmanShmaMGA']));$('chatzot').textContent=tm(t.chatzot);$('minchaGedola').textContent=tm(t.minchaGedola);$('sunset').textContent=tm(t.sunset);$('tzeit').textContent=tm(choose(t,['tzeit7083deg','tzeit85deg','tzeit42min']))}catch{}}
+async function updateShabbat(){try{const sh=await getJSON(`https://www.hebcal.com/shabbat?cfg=json&geonameid=${encodeURIComponent(settings().geo)}&M=on&leyning=off&lg=he`),items=sh.items||[],par=items.find(x=>x.category==='parashat'),c=items.find(x=>x.category==='candles'),h=items.find(x=>x.category==='havdalah');$('parasha').textContent=(par?.hebrew||par?.title||'שבת').replace(/^פרשת\s+/,'');$('candles').textContent=c?tm(c.date):'--:--';$('havdalah').textContent=h?tm(h.date):'--:--';return{par,c,h}}catch{return{}}}
+async function loadAll(){const s=settings();apply();const [,sh,fastText]=await Promise.all([updateZmanim(),updateShabbat(),updateFast()]);const msgs=[`ברוכים הבאים ל${s.synagogue}`,s.rabbi&&`מרא דאתרא: ${s.rabbi}`,sh.par?.hebrew&&`פרשת ${$('parasha').textContent}`,fastText,`שחרית ${s.shacharit}`,`מנחה ${s.mincha}`,`ערבית ${s.maariv}`,sh.c&&`הדלקת נרות ${tm(sh.c.date)}`,sh.h&&`מוצ״ש ${tm(sh.h.date)}`,...s.announcements.split(/\n+/).map(x=>x.trim()).filter(Boolean),s.dedication].filter(Boolean);$('ticker').textContent=msgs.join(' • ')}
+
+const biblicalShow=$('biblicalShow'),biblicalSlides=[...document.querySelectorAll('.biblical-slide')],cycleStatus=$('cycleStatus');
+const BOARD_SECONDS=30,IMAGE_SECONDS=8;let biblicalIndex=0,phase='board',remaining=BOARD_SECONDS;
+function setPhase(next){phase=next;remaining=next==='board'?BOARD_SECONDS:IMAGE_SECONDS;if(next==='image'){biblicalSlides.forEach((slide,i)=>slide.classList.toggle('active',i===biblicalIndex));biblicalShow.classList.add('active');biblicalShow.setAttribute('aria-hidden','false')}else{biblicalShow.classList.remove('active');biblicalShow.setAttribute('aria-hidden','true');biblicalIndex=(biblicalIndex+1)%biblicalSlides.length}}
+function cycleTick(){cycleStatus.textContent=phase==='board'?`תמונה תנ״כית בעוד ${remaining} שניות`:`חזרה ללוח בעוד ${remaining} שניות`;remaining--;if(remaining<0)setPhase(phase==='board'?'image':'board')}
+
+// Remove stale service-worker caches so GitHub Pages shows this version immediately.
+if('serviceWorker' in navigator){navigator.serviceWorker.getRegistrations().then(rs=>rs.forEach(r=>r.unregister())).catch(()=>{})}
+if('caches' in window){caches.keys().then(keys=>Promise.all(keys.map(k=>caches.delete(k)))).catch(()=>{})}
+
+tick();apply();loadAll();cycleTick();setInterval(tick,1000);setInterval(cycleTick,1000);setInterval(loadAll,30*60*1000);
 })();
 </script>
-<script>
 
-// Show each biblical image for 6 seconds, then return to the board for 30 seconds.
-const biblicalShow=document.getElementById('biblicalShow');
-const biblicalSlides=[...document.querySelectorAll('.biblical-slide')];
-const IMAGE_SECONDS=6;
-const BOARD_SECONDS=30;
-let biblicalIndex=0;
-function showBiblicalImage(){
-  biblicalSlides.forEach((slide,i)=>slide.classList.toggle('active',i===biblicalIndex));
-  biblicalShow.classList.add('active');
-  biblicalShow.setAttribute('aria-hidden','false');
-  setTimeout(()=>{
-    biblicalShow.classList.remove('active');
-    biblicalShow.setAttribute('aria-hidden','true');
-    biblicalIndex=(biblicalIndex+1)%biblicalSlides.length;
-    setTimeout(showBiblicalImage,BOARD_SECONDS*1000);
-  },IMAGE_SECONDS*1000);
-}
-setTimeout(showBiblicalImage,BOARD_SECONDS*1000);
-
-</script>
-<script>if('serviceWorker' in navigator){addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}))}</script>
 </body></html>
