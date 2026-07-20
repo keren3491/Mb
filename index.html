@@ -169,6 +169,16 @@ body{background:#050505}
   #settingsBtn{width:46px!important;height:46px!important;font-size:24px!important}
 }
 </style>
+
+<style id="approved-fast-layout">
+/* Approved layout: smaller fast information at upper-left */
+.fastCard .fastLabel{font-size:clamp(13px,1.2vw,22px)!important}
+.fastCard .fastName{font-size:clamp(27px,2.94vw,53px)!important}
+.fastCard .fastStartRow{font-size:clamp(13px,1.26vw,22px)!important}
+.fastCard .fastStart{font-size:clamp(14px,1.33vw,24px)!important}
+/* Large fast name in the bottom-center panel */
+#hebrewDate{font-size:clamp(34px,4vw,72px)!important;color:var(--green)!important;font-weight:900!important;text-shadow:0 0 7px currentColor,0 0 18px currentColor!important}
+</style>
 </head>
 <body>
 <div class="flame-bg" aria-hidden="true">
@@ -326,11 +336,17 @@ async function getFastFromApi(){
  const label=(f.hebrew||f.title||'הצום הקרוב').replace(/^ערב\s+/, '').trim();
  return{date:String(f.date).slice(0,10),name:label,long:/יום כיפור|תשעה באב|Yom Kippur|Tish/i.test(label)};
 }
+function fullFastName(name){
+ const clean=String(name||'').replace(/^צום\s+/, '').trim();
+ if(/יום כיפור/.test(clean)) return 'צום יום כיפור';
+ if(/תענית/.test(clean)) return clean;
+ return `צום ${clean||'הקרוב'}`;
+}
 async function updateFast(){let f;try{f=await getFastFromApi()}catch{const today=ymd();f=FAST_FALLBACK.find(x=>x.date>=today)||FAST_FALLBACK[FAST_FALLBACK.length-1]}
- const fastDate=f.date,startDate=f.startDate||(f.long?add(fastDate,-1):fastDate),name=f.name||'הצום הקרוב';
+ const fastDate=f.date,startDate=f.startDate||(f.long?add(fastDate,-1):fastDate),name=fullFastName(f.name||'הצום הקרוב');
  let startIso,startDisplay='--:--';
  try{const z=await getJSON(`https://www.hebcal.com/zmanim?cfg=json&geonameid=${encodeURIComponent(settings().geo)}&date=${startDate}`),t=z.times||{};startIso=f.long?t.sunset:choose(t,['alotHaShachar','alotHaShachar72','sunrise']);startDisplay=tm(startIso)}catch{startIso=localDateTime(startDate,f.long?'20:00':'05:00').toISOString();startDisplay=f.long?'בשקיעה':'בעלות השחר'}
- const startMoment=new Date(startIso);$('fastName').textContent=name;$('fastStart').textContent=startDisplay;
+ const startMoment=new Date(startIso);$('fastName').textContent=name;$('hebrewDate').textContent=name;$('fastStart').textContent=startDisplay;
  const [Y,M,D]=fastDate.split('-').map(Number);$('fastDate').textContent=new Intl.DateTimeFormat('he-IL',{weekday:'long',day:'numeric',month:'long',year:'numeric'}).format(new Date(Date.UTC(Y,M-1,D,12)));
  const cd=countdownData(startMoment,name);$('fastCountdown').textContent=cd.display;return cd.text;
 }
