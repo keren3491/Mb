@@ -53,7 +53,7 @@ label{display:block;color:var(--yellow);font-size:16px;margin-bottom:6px}input,t
 .biblical-slide.active{opacity:1}
 .biblical-slide img{width:100%;height:100%;display:block;object-fit:cover;filter:saturate(1.08) contrast(1.08) brightness(.82);transform:scale(1.02);animation:photoZoom 14s ease-in-out infinite alternate}.biblical-slide:after{content:"";position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,.12),rgba(0,0,0,.1) 55%,rgba(0,0,0,.58));pointer-events:none}@keyframes photoZoom{from{transform:scale(1.02)}to{transform:scale(1.10)}}
 .biblical-caption{position:absolute;right:0;left:0;bottom:5%;text-align:center;font-size:clamp(30px,4.5vw,78px);color:#fff;font-weight:900;text-shadow:0 0 8px #000,0 0 18px #000,0 3px 3px #000;z-index:2}
-.cycle-status{position:fixed;z-index:65;right:12px;top:12px;padding:7px 12px;border:1px solid #8f7900;border-radius:10px;background:rgba(0,0,0,.78);color:#ffe21f;font-size:clamp(12px,1.2vw,19px);font-weight:800;direction:rtl;text-shadow:0 0 6px currentColor}
+.cycle-status{position:fixed;z-index:65;right:8px;top:8px;width:30px;height:30px;padding:0;border:1px solid #8f7900;border-radius:50%;background:rgba(0,0,0,.68);color:#ffe21f;font:800 15px/30px Arial,sans-serif;text-align:center;direction:ltr;text-shadow:0 0 5px currentColor;pointer-events:none}
 
 
 /* ===== 2026 LED dashboard redesign ===== */
@@ -89,16 +89,92 @@ body{background:#050505}
 .bottomInfo{border:2px solid var(--line);border-radius:8px;overflow:hidden}
 .infoLabel{font-size:clamp(17px,1.65vw,29px)}.infoValue{font-size:clamp(29px,2.8vw,50px)}.hebrewDate{font-size:clamp(28px,3vw,54px)}
 .tickerRow{border:1px solid #214c00;border-radius:7px;background:rgba(0,20,0,.38);padding-inline:.4em}
-.cycle-status{border:2px solid var(--line)!important;border-radius:12px!important;background:rgba(0,0,0,.9)!important;color:var(--yellow)!important}
+.cycle-status{border:1px solid var(--line)!important;border-radius:50%!important;background:rgba(0,0,0,.68)!important;color:var(--yellow)!important}
 @media(max-width:850px){.board{border-radius:0}.top{grid-template-columns:1.05fr 1.65fr 1.05fr}.clock{font-size:clamp(48px,7vw,80px)}.fastCard .fastName{font-size:clamp(25px,3.4vw,44px)}}
 
+
+/* Latest requested layout adjustments */
+.controls{
+  left:clamp(72px,7.5vw,135px)!important;
+}
+.fastCard{
+  overflow:hidden;
+}
+.fastCard .fastLabel{
+  color:var(--green)!important;
+}
+.fastCard .fastName,
+.fastCard .fastStartRow,
+.fastCard .fastStartRow .startText,
+.fastCard .fastStartRow .fastStart,
+.fastCard .fastStartRow .startDot{
+  color:var(--green)!important;
+}
+.fastCard .fastName{
+  display:inline-block;
+  min-width:max-content;
+  white-space:nowrap;
+  animation:fastInfoMoveLTR 9s linear infinite;
+}
+.fastCard .fastStartRow{
+  width:max-content;
+  min-width:max-content;
+  margin-inline:auto;
+  animation:fastInfoMoveLTR 9s linear infinite;
+  animation-delay:-4.5s;
+}
+@keyframes fastInfoMoveLTR{
+  from{transform:translateX(-115%)}
+  to{transform:translateX(115%)}
+}
+@media(max-width:700px){
+  .controls{left:clamp(58px,10vw,90px)!important}
+}
+
+</style>
+
+<style id="final-image-layout-fix">
+/* Final requested layout: gear only in the far upper-left corner */
+.controls{
+  position:fixed!important;
+  top:max(10px,env(safe-area-inset-top))!important;
+  left:max(10px,env(safe-area-inset-left))!important;
+  right:auto!important;
+  z-index:80!important;
+}
+#fullBtn{display:none!important}
+#settingsBtn{
+  width:58px!important;
+  height:58px!important;
+  font-size:30px!important;
+  border:2px solid var(--line)!important;
+  box-shadow:0 0 14px rgba(255,213,28,.45),inset 0 0 12px rgba(255,213,28,.08)!important;
+}
+/* Keep the board styling close to the approved reference image */
+.left .greg,.left .day{display:none!important}
+.fastCard{
+  margin-top:clamp(55px,6vh,85px)!important;
+  border:0!important;
+  box-shadow:none!important;
+  background:transparent!important;
+  width:100%!important;
+}
+.fastCard .fastLabel{font-size:clamp(18px,1.7vw,31px)!important}
+.fastCard .fastName{font-size:clamp(38px,4.2vw,76px)!important;color:var(--green)!important}
+.fastCard .fastStartRow{border-top:0!important;font-size:clamp(18px,1.8vw,32px)!important;color:var(--green)!important}
+.centerCountdownBand{border-left:0!important;border-right:0!important;border-radius:0!important}
+.cycle-status{top:12px!important;right:12px!important}
+@media(max-width:700px){
+  .controls{left:max(6px,env(safe-area-inset-left))!important;top:max(6px,env(safe-area-inset-top))!important}
+  #settingsBtn{width:46px!important;height:46px!important;font-size:24px!important}
+}
 </style>
 </head>
 <body>
 <div class="flame-bg" aria-hidden="true">
   <span class="flame"></span><span class="flame"></span><span class="flame"></span><span class="flame"></span><span class="flame"></span><span class="flame"></span><span class="flame"></span><span class="flame"></span><span class="flame"></span>
 </div>
-<div id="cycleStatus" class="cycle-status">תמונה תנ״כית בעוד 30 שניות</div>
+<div id="cycleStatus" class="cycle-status">30</div>
 
 <div id="biblicalShow" class="biblical-show" aria-hidden="true">
   <div class="biblical-slide active" data-caption="קריעת ים סוף">
@@ -208,7 +284,7 @@ $('resetBtn').onclick=()=>{if(confirm('לאפס את כל ההגדרות?')){loc
 $('exportBtn').onclick=()=>{const blob=new Blob([JSON.stringify(settings(),null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='synagogue-board-settings.json';a.click();URL.revokeObjectURL(a.href)};
 $('importBtn').onclick=()=>$('importFile').click();
 $('importFile').onchange=async e=>{try{const data=JSON.parse(await e.target.files[0].text());save({...DEF,...data});fillForm();apply();loadAll();alert('ההגדרות יובאו בהצלחה')}catch{alert('קובץ הגדרות לא תקין')}e.target.value=''};
-$('fullBtn').onclick=()=>{if(!document.fullscreenElement)document.documentElement.requestFullscreen?.();else document.exitFullscreen?.()};
+if($('fullBtn')) $('fullBtn').onclick=()=>{if(!document.fullscreenElement)document.documentElement.requestFullscreen?.();else document.exitFullscreen?.()};
 $('settingsModal').onclick=e=>{if(e.target===$('settingsModal'))closeModal()};
 
 const days=['יום ראשון','יום שני','יום שלישי','יום רביעי','יום חמישי','יום שישי','שבת קודש'];
@@ -265,7 +341,7 @@ async function loadAll(){const s=settings();apply();const [,sh,fastText]=await P
 const biblicalShow=$('biblicalShow'),biblicalSlides=[...document.querySelectorAll('.biblical-slide')],cycleStatus=$('cycleStatus');
 const BOARD_SECONDS=30,IMAGE_SECONDS=7;let biblicalIndex=0,phase='board',remaining=BOARD_SECONDS;
 function setPhase(next){phase=next;remaining=next==='board'?BOARD_SECONDS:IMAGE_SECONDS;if(next==='image'){biblicalSlides.forEach((slide,i)=>slide.classList.toggle('active',i===biblicalIndex));biblicalShow.classList.add('active');biblicalShow.setAttribute('aria-hidden','false')}else{biblicalShow.classList.remove('active');biblicalShow.setAttribute('aria-hidden','true');biblicalIndex=(biblicalIndex+1)%biblicalSlides.length}}
-function cycleTick(){cycleStatus.textContent=phase==='board'?`תמונה תנ״כית בעוד ${remaining} שניות`:`חזרה ללוח בעוד ${remaining} שניות`;remaining--;if(remaining<0)setPhase(phase==='board'?'image':'board')}
+function cycleTick(){cycleStatus.textContent=String(Math.max(0,remaining));remaining--;if(remaining<0)setPhase(phase==='board'?'image':'board')}
 
 // Remove stale service-worker caches so GitHub Pages shows this version immediately.
 if('serviceWorker' in navigator){navigator.serviceWorker.getRegistrations().then(rs=>rs.forEach(r=>r.unregister())).catch(()=>{})}
