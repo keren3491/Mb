@@ -3,61 +3,260 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
-<meta name="theme-color" content="#000">
+<meta name="theme-color" content="#000000">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="manifest" href="manifest.json">
 <title>לוח בית הכנסת</title>
 <style>
-:root{--white:#f4f7fa;--cyan:#27e8ef;--yellow:#ffe21f;--green:#44ff55;--line:#7b6900}
+:root{--bg:#000;--panel:#050505;--frame:#252525;--white:#f7fbff;--cyan:#35f5ff;--yellow:#ffe21f;--green:#63ff50;--line:#8f7900;--scale:1}
 *{box-sizing:border-box}html,body{width:100%;height:100%;margin:0;background:#000;overflow:hidden}
 body{display:grid;place-items:center;font-family:Arial,"Noto Sans Hebrew",sans-serif;color:var(--white)}
-.board{position:relative;width:min(100vw,1600px);height:min(100vh,960px);aspect-ratio:5/3;overflow:hidden;padding:clamp(9px,1.15vw,19px) clamp(13px,1.55vw,25px);display:grid;grid-template-rows:31% 31% 18% 12% 8%;background:
-radial-gradient(circle at 50% 28%,rgba(22,22,22,.75) 0,rgba(5,5,5,.94) 48%,#000 100%);
-border:clamp(8px,1.1vw,18px) solid #1d1d1d;box-shadow:inset 0 0 0 5px #050505,inset 0 0 0 7px #2a2a2a,0 10px 25px #000}
-.board:before{content:"";position:absolute;inset:0;pointer-events:none;opacity:.22;background-image:
-radial-gradient(circle,rgba(255,255,255,.72) 0 1px,transparent 1.25px);background-size:5px 5px;mix-blend-mode:screen}
-.board:after{content:"";position:absolute;inset:0;pointer-events:none;background:
-linear-gradient(rgba(0,0,0,.18),rgba(0,0,0,.42)),
-radial-gradient(circle at center,transparent 40%,rgba(0,0,0,.55) 100%)}
-.led{font-weight:800;letter-spacing:.02em;text-shadow:0 0 4px currentColor,0 0 9px currentColor}
-.cyan{color:var(--cyan)}.yellow{color:var(--yellow)}.green{color:var(--green)}.white{color:var(--white)}
-.top{display:grid;grid-template-columns:1fr 1.18fr 1fr;direction:ltr;min-height:0;position:relative;z-index:2}
-.top>section{direction:rtl;min-width:0;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding-top:.08em}
-.left{align-items:flex-start!important}.right{align-items:center!important}
-.greg{font-size:clamp(18px,1.9vw,33px);direction:ltr;white-space:nowrap}.day{font-size:clamp(25px,2.6vw,45px);line-height:1;margin-top:.08em;white-space:nowrap}
-.fastSmall{margin-top:.38em;padding-top:.22em;border-top:3px dotted var(--line);width:92%;text-align:center}.fastLabel{font-size:clamp(15px,1.55vw,27px)}.fastStart{font-size:clamp(20px,1.95vw,34px);direction:ltr;margin-top:.04em}
-.centerTitle{font-size:clamp(15px,1.55vw,27px);white-space:nowrap}.clock{font-family:Consolas,"Courier New",monospace;font-size:clamp(38px,4.55vw,74px);font-weight:500;line-height:.92;direction:ltr;white-space:nowrap;margin-top:.35em}
-.parashaLabel{font-size:clamp(15px,1.5vw,26px)}.parasha{font-size:clamp(25px,2.55vw,44px);line-height:1;white-space:nowrap;margin-top:.05em}
-.fastBox{margin-top:.16em;padding-top:.16em;border-top:3px dotted var(--line);width:96%;text-align:center}
-.fastName{font-size:clamp(17px,1.75vw,30px);white-space:nowrap}.fastDate{font-size:clamp(11px,1.05vw,18px);white-space:nowrap;margin-top:.02em}
-.countdownWrap{margin-top:.1em;text-align:center;width:96%}.countdownNumber{font-family:Consolas,"Courier New",monospace;font-size:clamp(25px,2.7vw,45px);line-height:.86;direction:ltr}.countdownLabel{font-size:clamp(12px,1.15vw,20px);margin-top:.1em;white-space:nowrap}
-.zmanim{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));direction:ltr;border-top:3px dotted var(--line);border-bottom:3px dotted var(--line);min-height:0;position:relative;z-index:2}
-.zman{direction:rtl;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:.12em;border-right:2px dotted var(--line);overflow:hidden}.zman:last-child{border-right:0}
-.zlabel{font-size:clamp(12px,1.25vw,22px);line-height:1.05;min-height:2.1em;display:flex;align-items:center;justify-content:center}.zicon{font-size:clamp(15px,1.5vw,26px);line-height:1;margin:.05em 0}.ztime{font-family:Consolas,"Courier New",monospace;font-size:clamp(19px,2.05vw,35px);direction:ltr;white-space:nowrap}
-.bottomInfo{display:grid;grid-template-columns:1fr 2.2fr 1fr;direction:ltr;border:3px solid var(--line);min-height:0;position:relative;z-index:2}
-.info{direction:rtl;display:flex;align-items:center;justify-content:center;text-align:center;overflow:hidden;border-right:2px dotted var(--line);padding:.06em .3em}.info:last-child{border-right:0}
-.infoLabel{font-size:clamp(13px,1.3vw,22px)}.infoValue{font-size:clamp(18px,1.9vw,33px);line-height:1;margin-top:.03em;white-space:nowrap}.hebrewDate{font-size:clamp(23px,2.35vw,41px);white-space:nowrap}.symbols{font-size:clamp(18px,1.85vw,32px);margin-inline:.22em}
-.tickerRow{display:flex;align-items:center;min-height:0;border-top:1px solid #181818;overflow:hidden;direction:ltr;position:relative;z-index:2}.speaker{font-size:clamp(17px,1.85vw,31px);margin-right:.4em}.tickerViewport{overflow:hidden;flex:1}.ticker{display:inline-block;min-width:max-content;white-space:nowrap;font-size:clamp(13px,1.35vw,23px);direction:rtl;animation:scroll 32s linear infinite}@keyframes scroll{from{transform:translateX(-100%)}to{transform:translateX(100%)}}
-.controls{position:fixed;z-index:60;top:max(8px,env(safe-area-inset-top));left:max(8px,env(safe-area-inset-left));display:flex;gap:8px;direction:ltr}.ctrl{width:44px;height:44px;border:1px solid #665b00;border-radius:50%;background:rgba(0,0,0,.86);color:var(--yellow);font-size:22px;display:grid;place-items:center;cursor:pointer}
-@media(max-height:650px){.board{grid-template-rows:32% 30% 18% 12% 8%;padding:7px 10px}.clock{font-size:clamp(34px,4.2vw,62px)}.parasha{font-size:clamp(22px,2.3vw,36px)}.fastName{font-size:clamp(14px,1.45vw,24px)}.countdownNumber{font-size:clamp(22px,2.35vw,38px)}}
+.board{position:relative;width:min(100vw,1600px);height:min(100vh,960px);aspect-ratio:5/3;background:radial-gradient(circle at 50% 30%,#111 0,#050505 55%,#010101 100%);border:clamp(8px,1.2vw,20px) solid var(--frame);box-shadow:inset 0 0 0 7px #090909,inset 0 0 0 9px #333,0 12px 30px #000;padding:clamp(12px,1.45vw,24px) clamp(15px,1.8vw,30px);overflow:hidden;display:grid;grid-template-rows:29% 32% 18% 12% 9%}
+.board:after{content:"";position:absolute;inset:0;pointer-events:none;opacity:.22;background-image:radial-gradient(circle,rgba(255,255,255,.65) 0 1px,transparent 1.15px);background-size:5px 5px;mix-blend-mode:screen}
+.led{font-weight:800;letter-spacing:.02em;text-shadow:0 0 5px currentColor,0 0 12px currentColor}.cyan{color:var(--cyan)}.yellow{color:var(--yellow)}.green{color:var(--green)}.white{color:var(--white)}
+.top{display:grid;grid-template-columns:1fr 1.5fr 1fr;direction:ltr;min-height:0}
+.top>section{direction:rtl;min-width:0;display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:hidden}
+.left{align-items:flex-start!important}.right{align-items:flex-end!important}
+.greg{font-size:clamp(21px,2.2vw,40px);direction:ltr;white-space:nowrap}.day{font-size:clamp(29px,3vw,54px);line-height:1;margin-top:.16em;white-space:nowrap}
+.fastSmall,.fastBox{margin-top:.35em;padding-top:.3em;border-top:3px dotted var(--line);width:92%;text-align:center}.fastLabel,.fastName{font-size:clamp(17px,1.8vw,32px)}.fastStart{font-size:clamp(22px,2.25vw,40px);direction:ltr;margin-top:.08em}.fastDate{font-size:clamp(13px,1.3vw,23px);white-space:nowrap}
+.centerTitle{font-size:clamp(17px,1.75vw,31px);white-space:nowrap}.clock{font-family:Consolas,"Courier New",monospace;font-size:clamp(54px,6.4vw,104px);font-weight:500;line-height:.9;direction:ltr;white-space:nowrap;margin-top:.18em}
+.synagogue{font-size:clamp(20px,2.2vw,39px);white-space:nowrap;max-width:100%;overflow:hidden;text-overflow:ellipsis}.parashaLabel{font-size:clamp(17px,1.8vw,32px);margin-top:.18em}.parasha{font-size:clamp(32px,3.5vw,62px);line-height:.95;white-space:nowrap;max-width:100%;overflow:hidden;text-overflow:ellipsis}
+.zmanim{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));direction:ltr;border-top:3px dotted var(--line);border-bottom:3px dotted var(--line);min-height:0}
+.zman{direction:rtl;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:.18em;border-right:2px dotted var(--line);overflow:hidden}.zman:last-child{border-right:0}
+.zlabel{font-size:clamp(14px,1.48vw,26px);line-height:1.05;min-height:2.1em;display:flex;align-items:center;justify-content:center}.zicon{font-size:clamp(17px,1.75vw,31px);line-height:1;margin:.08em 0}.ztime{font-family:Consolas,"Courier New",monospace;font-size:clamp(22px,2.35vw,42px);direction:ltr;white-space:nowrap}
+.bottomInfo{display:grid;grid-template-columns:1fr 2.2fr 1fr;direction:ltr;border:3px solid var(--line);min-height:0}
+.info{direction:rtl;display:flex;align-items:center;justify-content:center;text-align:center;overflow:hidden;border-right:2px dotted var(--line);padding:.08em .35em}.info:last-child{border-right:0}.infoLabel{font-size:clamp(14px,1.45vw,26px)}.infoValue{font-size:clamp(21px,2.2vw,40px);line-height:1;margin-top:.04em;white-space:nowrap}.hebrewDate{font-size:clamp(27px,2.8vw,50px);white-space:nowrap}.symbols{font-size:clamp(20px,2.2vw,40px);margin-inline:.25em}
+.tickerRow{display:flex;align-items:center;min-height:0;border-top:1px solid #222;overflow:hidden;direction:ltr}.speaker{font-size:clamp(19px,2.1vw,37px);margin-right:.45em}.tickerViewport{overflow:hidden;flex:1}.ticker{display:inline-block;min-width:max-content;white-space:nowrap;font-size:clamp(15px,1.55vw,28px);direction:rtl;animation:scroll 32s linear infinite}@keyframes scroll{from{transform:translateX(-100%)}to{transform:translateX(100%)}}
+.controls{position:fixed;z-index:60;top:max(8px,env(safe-area-inset-top));left:max(8px,env(safe-area-inset-left));display:flex;gap:8px;direction:ltr}
+.ctrl{width:44px;height:44px;border:1px solid #665b00;border-radius:50%;background:rgba(0,0,0,.78);color:var(--yellow);font-size:22px;display:grid;place-items:center;cursor:pointer;box-shadow:0 0 10px rgba(255,225,31,.25)}
+.modal{position:fixed;z-index:100;inset:0;background:rgba(0,0,0,.9);display:none;overflow:auto;padding:18px;direction:rtl}.modal.open{display:block}
+.card{width:min(96vw,760px);margin:0 auto;background:#080808;border:2px solid var(--line);border-radius:16px;padding:20px;color:#fff}.card h2{color:var(--cyan);margin:0 0 15px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.full{grid-column:1/-1}
+label{display:block;color:var(--yellow);font-size:16px;margin-bottom:6px}input,textarea,select{width:100%;padding:11px;border-radius:9px;border:1px solid #655b00;background:#111;color:#fff;font-size:17px;font-family:inherit}textarea{min-height:86px;resize:vertical}
+.actions{display:flex;flex-wrap:wrap;gap:9px;margin-top:16px}.actions button{padding:10px 16px;border-radius:9px;border:1px solid #555;background:#222;color:#fff;font-weight:700;cursor:pointer}.actions .save{background:var(--yellow);color:#000;border-color:var(--yellow)}.hint{font-size:13px;color:#aaa;line-height:1.5;margin-top:10px}
+@media(max-width:650px){.grid{grid-template-columns:1fr}.full{grid-column:auto}}
+@media(max-height:650px){.board{padding:8px 12px;grid-template-rows:28% 33% 18% 12% 9%}.clock{font-size:clamp(42px,6vw,76px)}.zlabel{font-size:clamp(11px,1.25vw,19px)}.ztime{font-size:clamp(17px,2vw,30px)}.ticker{font-size:clamp(11px,1.3vw,19px)}}
+
+/* Animated live flame background */
+.flame-bg{position:fixed;inset:0;overflow:hidden;pointer-events:none;z-index:0;background:radial-gradient(ellipse at bottom,rgba(115,24,0,.58) 0,rgba(20,0,0,.45) 34%,#000 76%)}
+.flame{position:absolute;bottom:-12vh;width:10vw;height:28vh;min-width:70px;min-height:180px;border-radius:50% 50% 20% 20%;background:radial-gradient(ellipse at 50% 78%,#fff7a8 0 8%,#ffd21a 9% 23%,#ff6a00 24% 50%,rgba(210,0,0,.78) 51% 68%,transparent 69%);filter:blur(2px) drop-shadow(0 0 18px #ff6a00);mix-blend-mode:screen;opacity:.82;transform-origin:50% 100%;animation:flameDance 2.2s ease-in-out infinite alternate}
+.flame:nth-child(1){left:-1%;animation-duration:2.1s;animation-delay:-.4s}.flame:nth-child(2){left:9%;height:22vh;animation-duration:1.8s;animation-delay:-1.1s}.flame:nth-child(3){left:20%;height:31vh;animation-duration:2.6s;animation-delay:-.7s}.flame:nth-child(4){left:33%;height:24vh;animation-duration:1.9s;animation-delay:-1.4s}.flame:nth-child(5){left:45%;height:34vh;animation-duration:2.4s;animation-delay:-.2s}.flame:nth-child(6){left:58%;height:25vh;animation-duration:2s;animation-delay:-1.6s}.flame:nth-child(7){left:70%;height:30vh;animation-duration:2.7s;animation-delay:-.9s}.flame:nth-child(8){left:82%;height:23vh;animation-duration:1.85s;animation-delay:-.3s}.flame:nth-child(9){left:92%;height:33vh;animation-duration:2.3s;animation-delay:-1.2s}
+@keyframes flameDance{0%{transform:translateY(3%) rotate(-4deg) scaleX(.92) scaleY(.96)}45%{transform:translateY(-4%) rotate(3deg) scaleX(1.08) scaleY(1.05)}100%{transform:translateY(-8%) rotate(-2deg) scaleX(.97) scaleY(1.12)}}
+.board{z-index:2;background:radial-gradient(circle at 50% 30%,rgba(17,17,17,.93) 0,rgba(5,5,5,.93) 55%,rgba(1,1,1,.96) 100%)}
+.fastCountdownViewport{width:100%;overflow:hidden;margin-top:.18em;direction:ltr;white-space:nowrap}.fastCountdown{display:inline-block;min-width:max-content;font-size:clamp(13px,1.25vw,22px);line-height:1.15;color:#63ff50;white-space:nowrap;direction:rtl;animation:fastMoveLTR 9s linear infinite}.fastDaysNumber{display:inline;font-size:1em;color:#ffef35;line-height:inherit;text-shadow:0 0 6px currentColor,0 0 12px currentColor}@keyframes fastMoveLTR{from{transform:translateX(-105%)}to{transform:translateX(105%)}}
+
+
+/* Biblical image intermission */
+.biblical-show{position:fixed;inset:0;z-index:20;background:#000;display:flex;align-items:center;justify-content:center;opacity:0;visibility:hidden;transition:opacity 1.2s ease,visibility 1.2s ease;overflow:hidden}
+.biblical-show.active{opacity:1;visibility:visible}
+.biblical-slide{position:absolute;inset:0;opacity:0;transition:opacity 1.2s ease;display:flex;align-items:center;justify-content:center;background:#000}
+.biblical-slide.active{opacity:1}
+.biblical-slide img{width:100%;height:100%;display:block;object-fit:cover;filter:saturate(1.08) contrast(1.08) brightness(.82);transform:scale(1.02);animation:photoZoom 14s ease-in-out infinite alternate}.biblical-slide:after{content:"";position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,.12),rgba(0,0,0,.1) 55%,rgba(0,0,0,.58));pointer-events:none}@keyframes photoZoom{from{transform:scale(1.02)}to{transform:scale(1.10)}}
+.biblical-caption{position:absolute;right:0;left:0;bottom:5%;text-align:center;font-size:clamp(30px,4.5vw,78px);color:#fff;font-weight:900;text-shadow:0 0 8px #000,0 0 18px #000,0 3px 3px #000;z-index:2}
+.cycle-status{position:fixed;z-index:65;right:8px;top:8px;width:30px;height:30px;padding:0;border:1px solid #8f7900;border-radius:50%;background:rgba(0,0,0,.68);color:#ffe21f;font:800 15px/30px Arial,sans-serif;text-align:center;direction:ltr;text-shadow:0 0 5px currentColor;pointer-events:none}
+
+
+/* ===== 2026 LED dashboard redesign ===== */
+:root{--line:#b89b00;--yellow:#ffd51c;--green:#58ff35;--cyan:#16efff}
+body{background:#050505}
+.board{width:min(100vw,1778px);height:min(100vh,1000px);aspect-ratio:16/9;border:3px solid #4a4300;border-radius:18px;padding:clamp(10px,1vw,18px);grid-template-rows:36% 31% 19% 9% 5%;box-shadow:inset 0 0 0 2px #151500,0 0 28px #000;background:radial-gradient(circle at 50% 42%,#151515 0,#070707 64%,#010101 100%)}
+.top{grid-template-columns:1.12fr 1.9fr 1.12fr;gap:10px;align-items:stretch}
+.top>section{justify-content:flex-start;padding-top:4px}
+.left,.right{align-items:center!important}
+.day{font-size:clamp(30px,3vw,56px);border-bottom:3px dotted var(--line);width:94%;text-align:center;padding-bottom:.15em}
+.greg{font-size:clamp(17px,1.6vw,28px);margin-top:auto}
+.centerTitle{font-size:clamp(21px,2.15vw,39px);color:var(--yellow);margin-top:.1em}
+.clock{font-size:clamp(68px,7.4vw,132px);line-height:.9;margin-top:.13em;text-shadow:0 0 8px #fff,0 0 18px rgba(255,255,255,.55)}
+.synagogue{font-size:clamp(22px,2.3vw,42px);color:var(--cyan)}
+.parashaLabel{font-size:clamp(24px,2.5vw,45px);color:var(--cyan);margin-top:.12em}
+.parasha{font-size:clamp(39px,4.1vw,73px);font-weight:900}
+.fastCard{width:96%;border:2px solid var(--line);border-radius:14px;padding:clamp(8px,1vw,16px);margin-top:.35em;background:rgba(0,0,0,.44);box-shadow:inset 0 0 14px rgba(255,215,0,.06)}
+.fastCard .fastLabel{font-size:clamp(19px,2vw,36px)}
+.fastCard .fastName{font-size:clamp(35px,3.7vw,68px);line-height:1.05;margin:.12em 0;color:#fff}
+.fastStartRow{display:flex;direction:rtl;align-items:center;justify-content:center;gap:.35em;white-space:nowrap;border-top:1px dotted #6d5e00;padding-top:.35em;font-size:clamp(15px,1.45vw,25px)}
+.startDot{color:var(--yellow);font-size:.75em}.startText{color:#fff}.fastStart{font-size:clamp(19px,1.9vw,34px);margin:0;direction:ltr}
+.fastBox{width:94%;margin-top:auto;margin-bottom:.55em;border-top:2px dotted var(--line);padding-top:.35em}
+.fastDate{font-size:clamp(15px,1.45vw,25px)}
+.centerCountdownBand{width:96%;margin-top:auto;margin-bottom:.35em;border:2px solid var(--line);border-radius:10px;background:rgba(0,22,0,.48);height:clamp(38px,4.6vw,68px);display:flex;align-items:center;overflow:hidden;box-shadow:inset 0 0 16px rgba(70,255,20,.12)}
+.centerCountdownBand .fastCountdownViewport{margin:0;height:100%;display:flex;align-items:center}
+.fastCountdown{font-size:clamp(16px,1.7vw,30px);animation-duration:8s;color:var(--green);font-weight:900}
+@keyframes fastMoveLTR{from{transform:translateX(-110%)}to{transform:translateX(110%)}}
+.zmanim{border:2px solid var(--line);border-radius:2px;overflow:hidden}
+.zman{border-right:2px dotted var(--line);background:rgba(0,0,0,.2)}
+.zlabel{font-size:clamp(15px,1.55vw,28px);color:var(--yellow)}
+.zicon{font-size:clamp(24px,2.2vw,40px)}
+.ztime{font-size:clamp(25px,2.45vw,44px)}
+.bottomInfo{border:2px solid var(--line);border-radius:8px;overflow:hidden}
+.infoLabel{font-size:clamp(17px,1.65vw,29px)}.infoValue{font-size:clamp(29px,2.8vw,50px)}.hebrewDate{font-size:clamp(28px,3vw,54px)}
+.tickerRow{border:1px solid #214c00;border-radius:7px;background:rgba(0,20,0,.38);padding-inline:.4em}
+.cycle-status{border:1px solid var(--line)!important;border-radius:50%!important;background:rgba(0,0,0,.68)!important;color:var(--yellow)!important}
+@media(max-width:850px){.board{border-radius:0}.top{grid-template-columns:1.05fr 1.65fr 1.05fr}.clock{font-size:clamp(48px,7vw,80px)}.fastCard .fastName{font-size:clamp(25px,3.4vw,44px)}}
+
+
+/* Latest requested layout adjustments */
+.controls{
+  left:clamp(72px,7.5vw,135px)!important;
+}
+.fastCard{
+  overflow:hidden;
+}
+.fastCard .fastLabel{
+  color:var(--green)!important;
+}
+.fastCard .fastName,
+.fastCard .fastStartRow,
+.fastCard .fastStartRow .startText,
+.fastCard .fastStartRow .fastStart,
+.fastCard .fastStartRow .startDot{
+  color:var(--green)!important;
+}
+.fastCard .fastName{
+  display:inline-block;
+  min-width:max-content;
+  white-space:nowrap;
+  animation:fastInfoMoveLTR 9s linear infinite;
+}
+.fastCard .fastStartRow{
+  width:max-content;
+  min-width:max-content;
+  margin-inline:auto;
+  animation:fastInfoMoveLTR 9s linear infinite;
+  animation-delay:-4.5s;
+}
+@keyframes fastInfoMoveLTR{
+  from{transform:translateX(-115%)}
+  to{transform:translateX(115%)}
+}
+@media(max-width:700px){
+  .controls{left:clamp(58px,10vw,90px)!important}
+}
+
+</style>
+
+<style id="final-image-layout-fix">
+/* Final requested layout: gear only in the far upper-left corner */
+.controls{
+  position:fixed!important;
+  top:max(10px,env(safe-area-inset-top))!important;
+  left:max(10px,env(safe-area-inset-left))!important;
+  right:auto!important;
+  z-index:80!important;
+}
+#fullBtn{display:none!important}
+#settingsBtn{
+  width:58px!important;
+  height:58px!important;
+  font-size:30px!important;
+  border:2px solid var(--line)!important;
+  box-shadow:0 0 14px rgba(255,213,28,.45),inset 0 0 12px rgba(255,213,28,.08)!important;
+}
+/* Keep the board styling close to the approved reference image */
+.left .greg,.left .day{display:none!important}
+.fastCard{
+  margin-top:clamp(55px,6vh,85px)!important;
+  border:0!important;
+  box-shadow:none!important;
+  background:transparent!important;
+  width:100%!important;
+}
+.fastCard .fastLabel{font-size:clamp(18px,1.7vw,31px)!important}
+.fastCard .fastName{font-size:clamp(38px,4.2vw,76px)!important;color:var(--green)!important}
+.fastCard .fastStartRow{border-top:0!important;font-size:clamp(18px,1.8vw,32px)!important;color:var(--green)!important}
+.centerCountdownBand{border-left:0!important;border-right:0!important;border-radius:0!important}
+.cycle-status{top:12px!important;right:12px!important}
+@media(max-width:700px){
+  .controls{left:max(6px,env(safe-area-inset-left))!important;top:max(6px,env(safe-area-inset-top))!important}
+  #settingsBtn{width:46px!important;height:46px!important;font-size:24px!important}
+}
+</style>
+
+<style id="approved-fast-layout">
+/* Approved layout: smaller fast information at upper-left */
+.fastCard .fastLabel{font-size:clamp(13px,1.2vw,22px)!important}
+.fastCard .fastName{font-size:clamp(27px,2.94vw,53px)!important}
+.fastCard .fastStartRow{font-size:clamp(13px,1.26vw,22px)!important}
+.fastCard .fastStart{font-size:clamp(14px,1.33vw,24px)!important}
+/* Large fast name in the bottom-center panel */
+#hebrewDate{font-size:clamp(34px,4vw,72px)!important;color:var(--green)!important;font-weight:900!important;text-shadow:0 0 7px currentColor,0 0 18px currentColor!important}
 </style>
 </head>
 <body>
-<div class="controls"><button id="fullBtn" class="ctrl" title="מסך מלא">⛶</button></div>
+<div class="flame-bg" aria-hidden="true">
+  <span class="flame"></span><span class="flame"></span><span class="flame"></span><span class="flame"></span><span class="flame"></span><span class="flame"></span><span class="flame"></span><span class="flame"></span><span class="flame"></span>
+</div>
+<div id="cycleStatus" class="cycle-status">30</div>
+
+<div id="biblicalShow" class="biblical-show" aria-hidden="true">
+  <div class="biblical-slide active" data-caption="קריעת ים סוף">
+    <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=88" alt="ים סוף ונוף ים אמיתי">
+    <div class="biblical-caption">קריעת ים סוף</div>
+  </div>
+  <div class="biblical-slide" data-caption="מעמד הר סיני">
+    <img src="https://images.unsplash.com/photo-1470770841072-f978cf4d019e?auto=format&fit=crop&w=1920&q=88" alt="הרים מדבריים אמיתיים המזכירים את הר סיני">
+    <div class="biblical-caption">מעמד הר סיני</div>
+  </div>
+  <div class="biblical-slide" data-caption="ירושלים עיר הקודש">
+    <img src="https://commons.wikimedia.org/wiki/Special:Redirect/file/Western_wall_jerusalem_night.jpg?width=1920" alt="הכותל המערבי בירושלים בלילה">
+    <div class="biblical-caption">ירושלים עיר הקודש</div>
+  </div>
+  <div class="biblical-slide" data-caption="המדבר שבו הלכו בני ישראל">
+    <img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1920&q=88" alt="נוף מדברי אמיתי">
+    <div class="biblical-caption">בני ישראל במדבר</div>
+  </div>
+</div>
+<div class="controls">
+  <button id="settingsBtn" class="ctrl" title="הגדרות">⚙</button>
+  <button id="fullBtn" class="ctrl" title="מסך מלא">⛶</button>
+</div>
+
+<div id="settingsModal" class="modal">
+ <div class="card">
+  <h2 class="led">ניהול לוח בית הכנסת</h2>
+  <div class="grid">
+   <div><label>שם בית הכנסת</label><input id="sSynagogue"></div>
+   <div><label>שם הרב</label><input id="sRabbi" placeholder="הרב..."></div>
+   <div class="full"><label>הקדשה / לעילוי נשמת</label><input id="sDedication"></div>
+   <div class="full"><label>הודעות מתחלפות — כל הודעה בשורה נפרדת</label><textarea id="sAnnouncements"></textarea></div>
+   <div><label>Geoname ID למיקום</label><input id="sGeo" inputmode="numeric"></div>
+   <div><label>אזור זמן</label><input id="sTimezone" placeholder="America/New_York"></div>
+   <div><label>שחרית</label><input id="sShacharit" placeholder="07:00"></div>
+   <div><label>מנחה</label><input id="sMincha" placeholder="לפני השקיעה"></div>
+   <div><label>ערבית</label><input id="sMaariv" placeholder="20:30"></div>
+   <div><label>מהירות הודעות</label><select id="sSpeed"><option value="22">מהירה</option><option value="32">רגילה</option><option value="45">איטית</option></select></div>
+  </div>
+  <div class="actions">
+   <button class="save" id="saveBtn">שמור ועדכן</button>
+   <button id="closeBtn">סגור</button>
+   <button id="exportBtn">ייצא הגדרות</button>
+   <button id="importBtn">ייבא הגדרות</button>
+   <button id="resetBtn">איפוס</button>
+   <input id="importFile" type="file" accept="application/json" hidden>
+  </div>
+  <div class="hint">כל ההגדרות נשמרות במכשיר. אפשר לייצא קובץ הגדרות ולהעביר אותו לטאבלט או לטלפון אחר.</div>
+ </div>
+</div>
+
 <main class="board">
  <div class="top">
   <section class="left">
    <div id="gregDate" class="greg led cyan">--.--.----</div>
    <div id="dayName" class="day led white">---</div>
-   <div class="fastSmall"><div class="fastLabel led yellow">תחילת הצום</div><div id="fastStart" class="fastStart led white">--:--</div></div>
+   <div class="fastSmall fastCard">
+    <div class="fastLabel led yellow">הצום הבא</div>
+    <div id="fastName" class="fastName led white">---</div>
+    <div class="fastStartRow"><span class="startDot">●</span><span class="startText">תחילת הצום:</span><span id="fastStart" class="fastStart led white">--:--</span></div>
+   </div>
   </section>
   <section>
    <div id="hebrewTop" class="centerTitle led yellow">---</div>
    <div id="clock" class="clock led white">--:--:--</div>
+   <div class="centerCountdownBand"><div class="fastCountdownViewport"><div id="fastCountdown" class="fastCountdown led green">---</div></div></div>
   </section>
   <section class="right">
+   <div id="synagogueName" class="synagogue led cyan">בית הכנסת</div>
    <div class="parashaLabel led white">פרשת השבוע</div>
    <div id="parasha" class="parasha led white">---</div>
-   <div class="fastBox"><div id="fastName" class="fastName led yellow">---</div><div id="fastDate" class="fastDate led white"></div></div>
-   <div class="countdownWrap"><div id="countdownNumber" class="countdownNumber led cyan">--</div><div id="countdownLabel" class="countdownLabel led white">ימים עד הצום</div></div>
+   <div class="fastBox"><div id="fastDate" class="fastDate led white"></div></div>
   </section>
  </div>
  <section class="zmanim">
@@ -71,29 +270,101 @@ radial-gradient(circle at center,transparent 40%,rgba(0,0,0,.55) 100%)}
  </section>
  <section class="bottomInfo">
   <div class="info"><div><div class="infoLabel led yellow">הדלקת נרות</div><div id="candles" class="infoValue led white">--:--</div></div></div>
-  <div class="info"><span class="symbols led yellow">✡</span><div id="hebrewDate" class="hebrewDate led white">---</div><span class="symbols led yellow">✡</span></div>
+  <div class="info"><span class="symbols led yellow">✡</span><div id="hebrewDate" class="hebrewDate led white">שבת שלום!</div><span class="symbols led yellow">✡</span></div>
   <div class="info"><div><div class="infoLabel led yellow">מוצ״ש</div><div id="havdalah" class="infoValue led white">--:--</div></div></div>
  </section>
- <section class="tickerRow"><div class="speaker led cyan">🔊</div><div class="tickerViewport"><div id="ticker" class="ticker led green">ברוכים הבאים לבית הכנסת אליהו הנביא • לעילוי נשמת זהבה חלא בת דינה זצ״ל</div></div></section>
+ <section class="tickerRow"><div class="speaker led cyan">🔊</div><div class="tickerViewport"><div id="ticker" class="ticker led green">ברוכים הבאים</div></div></section>
 </main>
+
 <script>
 (()=>{'use strict';
-const $=id=>document.getElementById(id),TZ='America/New_York',GEO='5128581';
+const $=id=>document.getElementById(id);
+const KEY='synagogueBoardProV3';
+const DEF={synagogue:'בית הכנסת אליהו הנביא',rabbi:'',dedication:'לעילוי נשמת זהבה חלא בת דינה',announcements:'שיעור גמרא במוצ״ש 21:15',geo:'5128581',timezone:'America/New_York',shacharit:'07:00',mincha:'לפני השקיעה',maariv:'20:30',speed:'32'};
+function settings(){try{return {...DEF,...JSON.parse(localStorage.getItem(KEY)||localStorage.getItem('synagogueBoardProV2')||'{}')}}catch{return {...DEF}}}
+function save(v){localStorage.setItem(KEY,JSON.stringify(v))}
+function fillForm(){const s=settings();$('sSynagogue').value=s.synagogue;$('sRabbi').value=s.rabbi;$('sDedication').value=s.dedication;$('sAnnouncements').value=s.announcements;$('sGeo').value=s.geo;$('sTimezone').value=s.timezone;$('sShacharit').value=s.shacharit;$('sMincha').value=s.mincha;$('sMaariv').value=s.maariv;$('sSpeed').value=s.speed}
+function readForm(){return{synagogue:$('sSynagogue').value.trim()||DEF.synagogue,rabbi:$('sRabbi').value.trim(),dedication:$('sDedication').value.trim(),announcements:$('sAnnouncements').value.trim(),geo:$('sGeo').value.trim()||DEF.geo,timezone:$('sTimezone').value.trim()||DEF.timezone,shacharit:$('sShacharit').value.trim(),mincha:$('sMincha').value.trim(),maariv:$('sMaariv').value.trim(),speed:$('sSpeed').value}}
+function apply(){const s=settings();$('synagogueName').textContent=s.synagogue;document.title=`לוח ${s.synagogue}`;$('ticker').style.animationDuration=`${s.speed}s`}
+function openModal(){fillForm();$('settingsModal').classList.add('open')}
+function closeModal(){$('settingsModal').classList.remove('open')}
+$('settingsBtn').onclick=openModal;$('closeBtn').onclick=closeModal;
+$('saveBtn').onclick=()=>{save(readForm());apply();closeModal();loadAll()};
+$('resetBtn').onclick=()=>{if(confirm('לאפס את כל ההגדרות?')){localStorage.removeItem(KEY);fillForm();apply();loadAll()}};
+$('exportBtn').onclick=()=>{const blob=new Blob([JSON.stringify(settings(),null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='synagogue-board-settings.json';a.click();URL.revokeObjectURL(a.href)};
+$('importBtn').onclick=()=>$('importFile').click();
+$('importFile').onchange=async e=>{try{const data=JSON.parse(await e.target.files[0].text());save({...DEF,...data});fillForm();apply();loadAll();alert('ההגדרות יובאו בהצלחה')}catch{alert('קובץ הגדרות לא תקין')}e.target.value=''};
+if($('fullBtn')) $('fullBtn').onclick=()=>{if(!document.fullscreenElement)document.documentElement.requestFullscreen?.();else document.exitFullscreen?.()};
+$('settingsModal').onclick=e=>{if(e.target===$('settingsModal'))closeModal()};
+
 const days=['יום ראשון','יום שני','יום שלישי','יום רביעי','יום חמישי','יום שישי','שבת קודש'];
-function parts(d=new Date()){const f=new Intl.DateTimeFormat('en-CA',{timeZone:TZ,year:'numeric',month:'2-digit',day:'2-digit',weekday:'short',hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false});return Object.fromEntries(f.formatToParts(d).filter(x=>x.type!=='literal').map(x=>[x.type,x.value]))}
-function ymd(){const x=parts();return `${x.year}-${x.month}-${x.day}`}
+function parts(d=new Date()){const s=settings();const f=new Intl.DateTimeFormat('en-CA',{timeZone:s.timezone,year:'numeric',month:'2-digit',day:'2-digit',weekday:'short',hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false});return Object.fromEntries(f.formatToParts(d).filter(x=>x.type!=='literal').map(x=>[x.type,x.value]))}
+function ymd(d=new Date()){const x=parts(d);return `${x.year}-${x.month}-${x.day}`}
 function add(date,n){const [y,m,d]=date.split('-').map(Number),x=new Date(Date.UTC(y,m-1,d+n,12));return x.toISOString().slice(0,10)}
-function tm(iso){if(!iso)return'--:--';return new Intl.DateTimeFormat('en-GB',{timeZone:TZ,hour:'2-digit',minute:'2-digit',hour12:false}).format(new Date(iso))}
+function tm(iso){if(!iso)return'--:--';return new Intl.DateTimeFormat('en-US',{timeZone:settings().timezone,hour:'numeric',minute:'2-digit',hour12:true}).format(new Date(iso))}
 function choose(o,a){for(const k of a)if(o&&o[k])return o[k]}
-async function getJSON(url){const r=await fetch(url,{cache:'no-store'});if(!r.ok)throw new Error(r.status);return r.json()}
-function tick(){const x=parts(),h=x.hour==='24'?'00':x.hour;$('clock').textContent=`${h}:${x.minute}:${x.second}`;$('gregDate').textContent=`${x.month}.${x.day}.${x.year}`;const map={Sun:0,Mon:1,Tue:2,Wed:3,Thu:4,Fri:5,Sat:6};$('dayName').textContent=days[map[x.weekday]??0];const now=new Date();$('hebrewTop').textContent=new Intl.DateTimeFormat('he-u-ca-hebrew',{timeZone:TZ,day:'numeric',month:'long',year:'numeric'}).format(now);$('hebrewDate').textContent=new Intl.DateTimeFormat('he-u-ca-hebrew',{timeZone:TZ,day:'numeric',month:'long'}).format(now)}
-async function updateZmanim(){try{const z=await getJSON(`https://www.hebcal.com/zmanim?cfg=json&geonameid=${GEO}&date=${ymd()}`),t=z.times||{};$('alot').textContent=tm(choose(t,['alotHaShachar','alotHaShachar72']));$('sunrise').textContent=tm(t.sunrise);$('shema').textContent=tm(choose(t,['sofZmanShma','sofZmanShmaMGA']));$('chatzot').textContent=tm(t.chatzot);$('minchaGedola').textContent=tm(t.minchaGedola);$('sunset').textContent=tm(t.sunset);$('tzeit').textContent=tm(choose(t,['tzeit7083deg','tzeit85deg','tzeit42min']))}catch{}}
-async function updateShabbat(){try{const sh=await getJSON(`https://www.hebcal.com/shabbat?cfg=json&geonameid=${GEO}&M=on&leyning=off&lg=he`),items=sh.items||[],par=items.find(x=>x.category==='parashat'),c=items.find(x=>x.category==='candles'),h=items.find(x=>x.category==='havdalah');$('parasha').textContent=(par?.hebrew||par?.title||'שבת').replace(/^פרשת\s+/,'');$('candles').textContent=c?tm(c.date):'--:--';$('havdalah').textContent=h?tm(h.date):'--:--'}catch{$('parasha').textContent='ואתחנן'}}
-async function updateFast(){try{const start=ymd(),end=add(start,370),cal=await getJSON(`https://www.hebcal.com/hebcal?v=1&cfg=json&start=${start}&end=${end}&maj=on&min=on&mod=on&nx=on&mf=on&lg=he&geo=geoname&geonameid=${GEO}`),f=(cal.items||[]).find(x=>x.category==='fast'&&String(x.date).slice(0,10)>=start);if(!f)return;const fd=String(f.date).slice(0,10),name=(f.hebrew||f.title||'הצום הקרוב').replace(/^ערב\s+/,'');const today=new Date(`${start}T12:00:00Z`),fastDay=new Date(`${fd}T12:00:00Z`),daysLeft=Math.max(0,Math.ceil((fastDay-today)/86400000));$('fastName').textContent=name;$('countdownNumber').textContent=daysLeft;$('countdownLabel').textContent=daysLeft===1?`יום אחד עד ${name}`:`ימים עד ${name}`;const [Y,M,D]=fd.split('-').map(Number);$('fastDate').textContent=new Intl.DateTimeFormat('he-IL',{weekday:'long',day:'numeric',month:'long'}).format(new Date(Date.UTC(Y,M-1,D,12)));const long=/יום כיפור|תשעה באב|Yom Kippur|Tish/i.test(name),z=await getJSON(`https://www.hebcal.com/zmanim?cfg=json&geonameid=${GEO}&date=${long?add(fd,-1):fd}`);$('fastStart').textContent=tm(long?z.times?.sunset:choose(z.times||{},['alotHaShachar','alotHaShachar72']))}catch{$('fastName').textContent='תשעה באב';$('countdownLabel').textContent='ימים עד תשעה באב'}}
-async function load(){await Promise.all([updateZmanim(),updateShabbat(),updateFast()])}
-$('fullBtn').onclick=()=>document.fullscreenElement?document.exitFullscreen?.():document.documentElement.requestFullscreen?.();
-tick();setInterval(tick,1000);load();setInterval(load,30*60*1000);
+function tick(){const x=parts(),h=x.hour==='24'?'00':x.hour;$('clock').textContent=`${h}:${x.minute}:${x.second}`;$('gregDate').textContent=`${x.month}.${x.day}.${x.year}`;const i=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'].indexOf(x.weekday);$('dayName').textContent=(h>='18'&&i<6)?`ליל ${days[(i+1)%7].replace('יום ','')}`:days[i];try{$('hebrewTop').textContent=new Intl.DateTimeFormat('he-u-ca-hebrew',{timeZone:settings().timezone,day:'numeric',month:'long',year:'numeric'}).format(new Date());$('hebrewDate').textContent=new Intl.DateTimeFormat('he-u-ca-hebrew',{timeZone:settings().timezone,day:'numeric',month:'long'}).format(new Date())}catch{}}
+async function getJSON(url){const r=await fetch(url,{cache:'no-store'});if(!r.ok)throw new Error(`HTTP ${r.status}`);return r.json()}
+
+const FAST_FALLBACK=[
+ {date:'2026-07-23',startDate:'2026-07-22',name:'תשעה באב',long:true},
+ {date:'2026-09-14',startDate:'2026-09-14',name:'צום גדליה'},
+ {date:'2026-09-21',startDate:'2026-09-20',name:'יום כיפור',long:true},
+ {date:'2026-12-20',startDate:'2026-12-20',name:'עשרה בטבת'},
+ {date:'2027-03-22',startDate:'2027-03-22',name:'תענית אסתר'},
+ {date:'2027-07-22',startDate:'2027-07-22',name:'שבעה עשר בתמוז'},
+ {date:'2027-08-12',startDate:'2027-08-11',name:'תשעה באב',long:true}
+];
+function localDateTime(date,time='00:00'){return new Date(`${date}T${time}:00-04:00`)}
+function countdownData(startMoment,name){
+ const now=new Date(); const diff=startMoment-now;
+ if(diff<=0 && diff>-86400000)return{days:0,text:'הצום מתחיל היום',display:'הצום מתחיל היום'};
+ const days=Math.max(0,Math.ceil(diff/86400000));
+ const display=days===1?'יום אחד עד תחילת הצום':`${days} ימים עד תחילת הצום`;
+ return{days,text:`${display} — ${name}`,display};
+}
+function isFastItem(x){
+ const text=`${x?.hebrew||''} ${x?.title||''} ${x?.category||''}`;
+ return /צום|תענית|תשעה באב|יום כיפור|Fast|Tisha|Yom Kippur/i.test(text);
+}
+async function getFastFromApi(){
+ const start=ymd(),end=add(start,370);
+ const url=`https://www.hebcal.com/hebcal?v=1&cfg=json&start=${start}&end=${end}&maj=on&min=on&mod=on&nx=on&mf=on&lg=he&geo=geoname&geonameid=${encodeURIComponent(settings().geo)}`;
+ const cal=await getJSON(url);
+ const f=(cal.items||[]).filter(isFastItem).find(x=>String(x.date).slice(0,10)>=start);
+ if(!f)throw new Error('No upcoming fast found');
+ const label=(f.hebrew||f.title||'הצום הקרוב').replace(/^ערב\s+/, '').trim();
+ return{date:String(f.date).slice(0,10),name:label,long:/יום כיפור|תשעה באב|Yom Kippur|Tish/i.test(label)};
+}
+function fullFastName(name){
+ const clean=String(name||'').replace(/^צום\s+/, '').trim();
+ if(/יום כיפור/.test(clean)) return 'צום יום כיפור';
+ if(/תענית/.test(clean)) return clean;
+ return `צום ${clean||'הקרוב'}`;
+}
+async function updateFast(){let f;try{f=await getFastFromApi()}catch{const today=ymd();f=FAST_FALLBACK.find(x=>x.date>=today)||FAST_FALLBACK[FAST_FALLBACK.length-1]}
+ const fastDate=f.date,startDate=f.startDate||(f.long?add(fastDate,-1):fastDate),name=fullFastName(f.name||'הצום הקרוב');
+ let startIso,startDisplay='--:--';
+ try{const z=await getJSON(`https://www.hebcal.com/zmanim?cfg=json&geonameid=${encodeURIComponent(settings().geo)}&date=${startDate}`),t=z.times||{};startIso=f.long?t.sunset:choose(t,['alotHaShachar','alotHaShachar72','sunrise']);startDisplay=tm(startIso)}catch{startIso=localDateTime(startDate,f.long?'20:00':'05:00').toISOString();startDisplay=f.long?'בשקיעה':'בעלות השחר'}
+ const startMoment=new Date(startIso);$('fastName').textContent=name;$('hebrewDate').textContent=name;$('fastStart').textContent=startDisplay;
+ const [Y,M,D]=fastDate.split('-').map(Number);$('fastDate').textContent=new Intl.DateTimeFormat('he-IL',{weekday:'long',day:'numeric',month:'long',year:'numeric'}).format(new Date(Date.UTC(Y,M-1,D,12)));
+ const cd=countdownData(startMoment,name);$('fastCountdown').textContent=cd.display;return cd.text;
+}
+async function updateZmanim(){try{const z=await getJSON(`https://www.hebcal.com/zmanim?cfg=json&geonameid=${encodeURIComponent(settings().geo)}&date=${ymd()}`),t=z.times||{};$('alot').textContent=tm(choose(t,['alotHaShachar','alotHaShachar72']));$('sunrise').textContent=tm(t.sunrise);$('shema').textContent=tm(choose(t,['sofZmanShma','sofZmanShmaMGA']));$('chatzot').textContent=tm(t.chatzot);$('minchaGedola').textContent=tm(t.minchaGedola);$('sunset').textContent=tm(t.sunset);$('tzeit').textContent=tm(choose(t,['tzeit7083deg','tzeit85deg','tzeit42min']))}catch{}}
+async function updateShabbat(){try{const sh=await getJSON(`https://www.hebcal.com/shabbat?cfg=json&geonameid=${encodeURIComponent(settings().geo)}&M=on&leyning=off&lg=he`),items=sh.items||[],par=items.find(x=>x.category==='parashat'),c=items.find(x=>x.category==='candles'),h=items.find(x=>x.category==='havdalah');$('parasha').textContent=(par?.hebrew||par?.title||'שבת').replace(/^פרשת\s+/,'');$('candles').textContent=c?tm(c.date):'--:--';$('havdalah').textContent=h?tm(h.date):'--:--';return{par,c,h}}catch{return{}}}
+async function loadAll(){const s=settings();apply();const [,sh,fastText]=await Promise.all([updateZmanim(),updateShabbat(),updateFast()]);const msgs=[`ברוכים הבאים ל${s.synagogue}`,s.rabbi&&`מרא דאתרא: ${s.rabbi}`,sh.par?.hebrew&&`פרשת ${$('parasha').textContent}`,fastText,`שחרית ${s.shacharit}`,`מנחה ${s.mincha}`,`ערבית ${s.maariv}`,sh.c&&`הדלקת נרות ${tm(sh.c.date)}`,sh.h&&`מוצ״ש ${tm(sh.h.date)}`,...s.announcements.split(/\n+/).map(x=>x.trim()).filter(Boolean),s.dedication].filter(Boolean);$('ticker').textContent=msgs.join(' • ')}
+
+const biblicalShow=$('biblicalShow'),biblicalSlides=[...document.querySelectorAll('.biblical-slide')],cycleStatus=$('cycleStatus');
+const BOARD_SECONDS=30,IMAGE_SECONDS=7;let biblicalIndex=0,phase='board',remaining=BOARD_SECONDS;
+function setPhase(next){phase=next;remaining=next==='board'?BOARD_SECONDS:IMAGE_SECONDS;if(next==='image'){biblicalSlides.forEach((slide,i)=>slide.classList.toggle('active',i===biblicalIndex));biblicalShow.classList.add('active');biblicalShow.setAttribute('aria-hidden','false')}else{biblicalShow.classList.remove('active');biblicalShow.setAttribute('aria-hidden','true');biblicalIndex=(biblicalIndex+1)%biblicalSlides.length}}
+function cycleTick(){cycleStatus.textContent=String(Math.max(0,remaining));remaining--;if(remaining<0)setPhase(phase==='board'?'image':'board')}
+
+// Remove stale service-worker caches so GitHub Pages shows this version immediately.
+if('serviceWorker' in navigator){navigator.serviceWorker.getRegistrations().then(rs=>rs.forEach(r=>r.unregister())).catch(()=>{})}
+if('caches' in window){caches.keys().then(keys=>Promise.all(keys.map(k=>caches.delete(k)))).catch(()=>{})}
+
+tick();apply();loadAll();cycleTick();setInterval(tick,1000);setInterval(cycleTick,1000);setInterval(loadAll,30*60*1000);
 })();
 </script>
-</body>
-</html>
+
+</body></html>
