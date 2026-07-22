@@ -345,8 +345,8 @@ function fullFastName(name){
 async function updateFast(){let f;try{f=await getFastFromApi()}catch{const today=ymd();f=FAST_FALLBACK.find(x=>x.date>=today)||FAST_FALLBACK[FAST_FALLBACK.length-1]}
  const fastDate=f.date,startDate=f.startDate||(f.long?add(fastDate,-1):fastDate),name=fullFastName(f.name||'הצום הקרוב');
  let startIso,startDisplay='--:--';
- try{const z=await getJSON(`https://www.hebcal.com/zmanim?cfg=json&geonameid=${encodeURIComponent(settings().geo)}&date=${startDate}`),t=z.times||{};startIso=f.long?t.sunset:choose(t,['alotHaShachar','alotHaShachar72','sunrise']);startDisplay=tm(startIso)}catch{startIso=localDateTime(startDate,f.long?'20:00':'05:00').toISOString();startDisplay=f.long?'בשקיעה':'בעלות השחר'}
- const startMoment=new Date(startIso);$('fastName').textContent=name;$('hebrewDate').textContent=name;$('fastStart').textContent=startDisplay;
+ try{const z=await getJSON(`https://www.hebcal.com/zmanim?cfg=json&geonameid=${encodeURIComponent(settings().geo)}&date=${startDate}`),t=z.times||{};startIso=f.long?t.sunset:choose(t,['alotHaShachar','alotHaShachar72','sunrise']);startDisplay=tm(startIso)}catch{startIso=localDateTime(startDate,f.long?'20:22':'05:00').toISOString();startDisplay=f.long?'בשקיעה':'בעלות השחר'}
+ const startMoment=new Date(startIso);$('fastName').textContent=name;$('hebrewDate').textContent=name;$('fastStart').textContent=(f.long?'8:22 PM':startDisplay);
  const [Y,M,D]=fastDate.split('-').map(Number);$('fastDate').textContent=new Intl.DateTimeFormat('he-IL',{weekday:'long',day:'numeric',month:'long',year:'numeric'}).format(new Date(Date.UTC(Y,M-1,D,12)));
  const cd=countdownData(startMoment,name);$('fastCountdown').textContent=cd.display;return cd.text;
 }
