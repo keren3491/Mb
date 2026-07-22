@@ -14,7 +14,7 @@ html,body{margin:0;width:100%;height:100%;background:#000;color:#fff;font-family
 body{display:flex;align-items:center;justify-content:center}
 .board{
  width:100vw;height:100vh;max-width:177.78vh;max-height:56.25vw;
- display:grid;grid-template-rows:19% 24% 36% 19%;
+ display:grid;grid-template-rows:18% 22% 35% 23%;
  gap:.55%;padding:.45%;
  background:
    radial-gradient(circle at 50% 0%,rgba(27,62,92,.3),transparent 35%),
@@ -76,12 +76,20 @@ body{display:flex;align-items:center;justify-content:center}
 .eventText{font-size:clamp(13px,1.2vw,23px);line-height:1.35;margin-top:7%}
 
 .memorial{
- display:grid;grid-template-columns:15% 70% 15%;align-items:center;text-align:center;padding:1%;
+ display:grid;grid-template-columns:15% 70% 15%;align-items:center;text-align:center;padding:1.2%;
  background:linear-gradient(90deg,rgba(14,7,0,.97),rgba(0,8,9,.98),rgba(14,7,0,.97))
 }
 .memArt{height:100%;background:url("biblical_1.jpeg") center/cover;filter:sepia(.35) brightness(.62);border:1px solid rgba(215,169,60,.65)}
-.memMain{font-size:clamp(33px,4.05vw,75px);font-weight:900;line-height:1.03;color:var(--green);white-space:nowrap;text-shadow:0 0 12px rgba(125,255,43,.42)}
-.memSub{margin-top:2%;font-size:clamp(13px,1.38vw,26px);font-weight:800;color:var(--gold2)}
+.memMain{font-size:clamp(36px,4.35vw,82px);font-weight:900;line-height:1.03;color:var(--green);white-space:nowrap;text-shadow:0 0 12px rgba(125,255,43,.42)}
+
+.memScroll{width:100%;overflow:hidden;display:flex;align-items:center;min-height:58%}
+.memScroll .memMain{display:inline-block;white-space:nowrap;animation:memorialScroll 18s linear infinite}
+@keyframes memorialScroll{
+  from{transform:translateX(-115%)}
+  to{transform:translateX(115%)}
+}
+
+.memSub{margin-top:2%;font-size:clamp(14px,1.5vw,29px);font-weight:800;color:var(--gold2)}
 
 .gear{position:fixed;left:12px;bottom:12px;width:42px;height:42px;border-radius:50%;border:2px solid var(--gold);background:#071018;color:var(--gold2);font-size:22px;z-index:20}
 .modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.87);z-index:30;align-items:center;justify-content:center;padding:18px}
@@ -154,7 +162,7 @@ textarea{min-height:78px}
     </div>
     <div class="panel card parasha">
       <h2>📜 פרשת השבוע</h2>
-      <div class="big" id="parasha">בלק</div>
+      <div class="big" id="parasha">ואתחנן</div>
       <div class="label">מתעדכן לפי הלוח העברי</div>
     </div>
   </section>
@@ -209,7 +217,7 @@ textarea{min-height:78px}
     </div>
 
     <div class="panel events">
-      <h2 class="sectionTitle">🗓 אירועי היום</h2>
+      <h2 class="sectionTitle">🗓 אירוע היום</h2>
       <div class="big" id="eventTime">7:00 PM</div>
       <div class="eventText" id="todayEvent">ברביקיו קהילתי<br>בחצר בית הכנסת</div>
     </div>
@@ -218,7 +226,7 @@ textarea{min-height:78px}
   <section class="panel memorial">
     <div class="memArt"></div>
     <div>
-      <div class="memMain" id="dedication">לעילוי נשמת זהבה חלא בת דינה זצ״ל</div>
+      <div class="memScroll"><div class="memMain" id="dedication">לעילוי נשמת זהבה חלא בת דינה זצ״ל</div></div>
       <div class="memSub" id="memorialDate">נפטרה: כ״ה באייר תשפ״ו &nbsp; | &nbsp; 25 במאי 2026 &nbsp; | &nbsp; ת.נ.צ.ב.ה.</div>
     </div>
     <div class="memArt"></div>
@@ -232,6 +240,7 @@ textarea{min-height:78px}
     <div class="adminGrid">
       <label>שם בית הכנסת<input name="synagogueName"></label>
       <label>שם הרב<input name="rabbiName"></label>
+      <label>פרשת השבוע<input name="parasha" placeholder="ואתחנן"></label>
       <label>שחרית<input name="shacharit"></label>
       <label>מנחה<input name="mincha"></label>
       <label>ערבית<input name="maariv"></label>
@@ -242,8 +251,9 @@ textarea{min-height:78px}
       <label>סיום הצום<input name="fastEnd"></label>
       <label>שם המגילה<input name="megillahName"></label>
       <label>שעת הקריאה<input name="megillahTime"></label>
-      <label>אירוע היום<input name="todayEvent"></label>
-      <label>שעת האירוע<input name="eventTime"></label>
+      <div style="grid-column:1/-1;color:var(--yellow);font-size:20px;font-weight:900;border-top:1px solid var(--gold);padding-top:10px;margin-top:4px">אירוע היום</div>
+      <label>אירוע היום<input name="todayEvent" placeholder="לדוגמה: ברביקיו קהילתי"></label>
+      <label>שעת אירוע היום<input name="eventTime" placeholder="לדוגמה: 7:00 PM"></label>
       <label style="grid-column:1/-1">לעילוי נשמת<input name="dedication"></label>
       <label style="grid-column:1/-1">שורת זיכרון<input name="memorialDate"></label>
       <label style="grid-column:1/-1">תורמים — שם|סכום בכל שורה<textarea name="donors"></textarea></label>
@@ -255,6 +265,7 @@ textarea{min-height:78px}
 <script>
 const NY="America/New_York", IL="Asia/Jerusalem", KEY="beautifulSynagogueBoard";
 const defaults={
+ parasha:"ואתחנן",
  synagogueName:"בית הכנסת אליהו הנביא",rabbiName:"מנחם מענדל הכהן שליט״א",
  shacharit:"6:30 AM",mincha:"8:00 PM",maariv:"9:10 PM",morningLesson:"9:00 AM",eveningLesson:"9:15 PM",
  fastName:"תשעה באב",fastStart:"8:21 PM",fastEnd:"8:52 PM",megillahName:"מגילת איכה",megillahTime:"לאחר תפילת ערבית",
@@ -267,7 +278,7 @@ function getData(){try{return {...defaults,...JSON.parse(localStorage.getItem(KE
 function text(id,v){const el=document.getElementById(id);if(el)el.textContent=v}
 function render(){
  const d=getData();
- ["synagogueName","rabbiName","shacharit","mincha","maariv","morningLesson","eveningLesson","fastName","fastStart","fastEnd","megillahName","megillahTime","eventTime","dedication","memorialDate"].forEach(k=>text(k,d[k]));
+ ["parasha","synagogueName","rabbiName","shacharit","mincha","maariv","morningLesson","eveningLesson","fastName","fastStart","fastEnd","megillahName","megillahTime","eventTime","dedication","memorialDate"].forEach(k=>text(k,d[k]));
  text("fastStart2",d.fastStart);text("fastEnd2",d.fastEnd);text("fastName2",d.fastName);
  document.getElementById("todayEvent").innerHTML=d.todayEvent.replace(/\n/g,"<br>");
  const list=document.getElementById("donorsList");list.innerHTML="";
