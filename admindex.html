@@ -11,10 +11,13 @@
 body{padding:clamp(14px,3vw,38px)}
 .wrap{width:min(960px,100%);margin:auto}.head{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:18px}.head h1{margin:0;color:var(--cyan);font-size:clamp(27px,4vw,46px);text-shadow:0 0 10px currentColor}.back{display:inline-flex;align-items:center;justify-content:center;text-decoration:none;color:#000;background:var(--yellow);font-weight:900;border-radius:11px;padding:11px 17px}
 .card{background:rgba(8,8,8,.95);border:2px solid var(--line);border-radius:18px;padding:clamp(16px,3vw,28px);box-shadow:0 0 28px #000,inset 0 0 18px rgba(255,213,28,.05)}
+.section{grid-column:1/-1;color:var(--cyan);font-size:22px;font-weight:900;border-bottom:1px solid #4d4300;padding:14px 0 7px;margin-top:4px}
 .grid{display:grid;grid-template-columns:1fr 1fr;gap:15px}.full{grid-column:1/-1}label{display:block;color:var(--yellow);font-weight:800;font-size:16px;margin:0 0 7px}input,textarea,select{width:100%;padding:13px;border-radius:10px;border:1px solid #6a5a00;background:#121212;color:#fff;font:inherit;font-size:17px;outline:none}input:focus,textarea:focus,select:focus{border-color:var(--green);box-shadow:0 0 0 2px rgba(88,255,53,.15)}textarea{min-height:105px;resize:vertical}
 .actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:21px}.actions button{border:1px solid #666;background:#222;color:#fff;padding:11px 18px;border-radius:10px;font-weight:900;font-size:16px;cursor:pointer}.actions .save{background:var(--green);border-color:var(--green);color:#001500}.actions .danger{border-color:#8d2929;color:#ffb3b3}.status{min-height:24px;margin-top:14px;color:var(--green);font-weight:800}.hint{color:#aaa;font-size:14px;line-height:1.6;margin-top:10px}
 .preview{margin-top:18px;border:1px solid #4d4300;border-radius:12px;padding:14px;background:#050505}.preview b{color:var(--yellow)}#rabbiPreview{color:var(--yellow);font-size:24px;font-weight:950;text-shadow:0 0 8px currentColor}
-@media(max-width:700px){.grid{grid-template-columns:1fr}.full{grid-column:auto}.head{align-items:flex-start}.back{white-space:nowrap}}
+.manual-fields.disabled{opacity:.45;pointer-events:none}
+.checkrow{display:flex;align-items:center;gap:10px;background:#111;border:1px solid #6a5a00;border-radius:10px;padding:12px}.checkrow input{width:auto;transform:scale(1.35)}
+@media(max-width:700px){.grid{grid-template-columns:1fr}.full,.section{grid-column:auto}.head{align-items:flex-start}.back{white-space:nowrap}}
 </style>
 </head>
 <body>
@@ -22,17 +25,46 @@ body{padding:clamp(14px,3vw,38px)}
  <div class="head"><h1>⚙ ניהול לוח בית הכנסת</h1><a class="back" href="index.html">חזרה ללוח</a></div>
  <main class="card">
   <div class="grid">
+   <div class="section">הגדרות כלליות</div>
    <div><label for="sSynagogue">שם בית הכנסת</label><input id="sSynagogue"></div>
    <div><label for="sRabbi">שם הרב — יוצג מעל השעון</label><input id="sRabbi" placeholder="לדוגמה: משה כהן" autocomplete="off"></div>
    <div class="full"><label for="sDedication">הקדשה / לעילוי נשמת</label><input id="sDedication"></div>
    <div class="full"><label for="sAnnouncements">הודעות מתחלפות — כל הודעה בשורה נפרדת</label><textarea id="sAnnouncements"></textarea></div>
    <div><label for="sGeo">Geoname ID למיקום</label><input id="sGeo" inputmode="numeric"></div>
    <div><label for="sTimezone">אזור זמן</label><input id="sTimezone" placeholder="America/New_York"></div>
+
+   <div class="section">זמני תפילה</div>
    <div><label for="sShacharit">שחרית</label><input id="sShacharit" placeholder="07:00"></div>
    <div><label for="sMincha">מנחה</label><input id="sMincha" placeholder="לפני השקיעה"></div>
    <div><label for="sMaariv">ערבית</label><input id="sMaariv" placeholder="20:30"></div>
    <div><label for="sSpeed">מהירות הודעות</label><select id="sSpeed"><option value="22">מהירה</option><option value="32">רגילה</option><option value="45">איטית</option></select></div>
+
+   <div class="section">צום ומגילה — מילוי ידני</div>
+   <div class="full checkrow">
+    <input id="sManualHoliday" type="checkbox">
+    <label for="sManualHoliday" style="margin:0">הפעל מילוי ידני לצום ולמגילה</label>
+   </div>
+   <div id="manualFields" class="manual-fields full grid">
+    <div><label for="sFastName">שם הצום</label>
+      <select id="sFastName">
+       <option value="">ללא צום</option><option>יום כיפור</option><option>תשעה באב</option>
+       <option>צום גדליה</option><option>עשרה בטבת</option><option>תענית אסתר</option><option>שבעה עשר בתמוז</option>
+      </select>
+    </div>
+    <div><label for="sMegillah">המגילה הנקראת</label>
+      <select id="sMegillah">
+       <option value="">אין קריאת מגילה</option><option>מגילת אסתר</option><option>שיר השירים</option>
+       <option>מגילת רות</option><option>מגילת איכה</option><option>מגילת קהלת</option>
+      </select>
+    </div>
+    <div><label for="sFastStart">תחילת הצום — זמן ניו יורק</label><input id="sFastStart" type="time"></div>
+    <div><label for="sFastEnd">סיום הצום — זמן ניו יורק</label><input id="sFastEnd" type="time"></div>
+    <div><label for="sFastDate">תאריך הצום / תיאור</label><input id="sFastDate" placeholder="לדוגמה: שבת, ט׳ באב"></div>
+    <div><label for="sMegillahTime">שעת קריאת המגילה</label><input id="sMegillahTime" type="time"></div>
+    <div class="full"><label for="sHolidayNote">הודעה נוספת</label><input id="sHolidayNote" placeholder="לדוגמה: קריאת מגילת איכה לאחר ערבית"></div>
+   </div>
   </div>
+
   <div class="preview"><b>תצוגה מקדימה של שם הרב:</b><div id="rabbiPreview">שם הרב</div></div>
   <div class="actions">
    <button class="save" id="saveBtn">שמור ועדכן</button>
@@ -42,20 +74,44 @@ body{padding:clamp(14px,3vw,38px)}
    <input id="importFile" type="file" accept="application/json" hidden>
   </div>
   <div id="status" class="status"></div>
-  <div class="hint">ההגדרות נשמרות בדפדפן של המכשיר. לאחר השמירה, חזור ללוח כדי לראות את העדכון.</div>
+  <div class="hint">כאשר מילוי ידני כבוי, הלוח יכול להשתמש בחישוב האוטומטי. כאשר הוא מופעל, הערכים שמילאת כאן מקבלים עדיפות.</div>
  </main>
 </div>
 <script>
 (()=>{'use strict';
 const $=id=>document.getElementById(id),KEY='synagogueBoardProV3';
-const DEF={synagogue:'בית הכנסת אליהו הנביא',rabbi:'',dedication:'לעילוי נשמת זהבה חלא בת דינה',announcements:'שיעור גמרא במוצ״ש 21:15',geo:'5128581',timezone:'America/New_York',shacharit:'07:00',mincha:'לפני השקיעה',maariv:'20:30',speed:'32'};
+const DEF={
+ synagogue:'בית הכנסת אליהו הנביא',rabbi:'',dedication:'לעילוי נשמת זהבה חלא בת דינה',
+ announcements:'שיעור גמרא במוצ״ש 21:15',geo:'5128581',timezone:'America/New_York',
+ shacharit:'07:00',mincha:'לפני השקיעה',maariv:'20:30',speed:'32',
+ manualHoliday:false,fastName:'',fastStart:'',fastEnd:'',fastDate:'',
+ megillah:'',megillahTime:'',holidayNote:''
+};
 function get(){try{return{...DEF,...JSON.parse(localStorage.getItem(KEY)||localStorage.getItem('synagogueBoardProV2')||'{}')}}catch{return{...DEF}}}
 function set(v){localStorage.setItem(KEY,JSON.stringify(v))}
 function rabbi(v){v=String(v||'').trim();return v?(v.startsWith('הרב ')?v:`הרב ${v}`):'שם הרב'}
-function fill(){const s=get();$('sSynagogue').value=s.synagogue;$('sRabbi').value=s.rabbi;$('sDedication').value=s.dedication;$('sAnnouncements').value=s.announcements;$('sGeo').value=s.geo;$('sTimezone').value=s.timezone;$('sShacharit').value=s.shacharit;$('sMincha').value=s.mincha;$('sMaariv').value=s.maariv;$('sSpeed').value=s.speed;$('rabbiPreview').textContent=rabbi(s.rabbi)}
-function read(){return{synagogue:$('sSynagogue').value.trim()||DEF.synagogue,rabbi:$('sRabbi').value.trim(),dedication:$('sDedication').value.trim()||DEF.dedication,announcements:$('sAnnouncements').value.trim(),geo:$('sGeo').value.trim()||DEF.geo,timezone:$('sTimezone').value.trim()||DEF.timezone,shacharit:$('sShacharit').value.trim(),mincha:$('sMincha').value.trim(),maariv:$('sMaariv').value.trim(),speed:$('sSpeed').value}}
+function toggleManual(){const on=$('sManualHoliday').checked;$('manualFields').classList.toggle('disabled',!on)}
+function fill(){const s=get();
+ $('sSynagogue').value=s.synagogue;$('sRabbi').value=s.rabbi;$('sDedication').value=s.dedication;
+ $('sAnnouncements').value=s.announcements;$('sGeo').value=s.geo;$('sTimezone').value=s.timezone;
+ $('sShacharit').value=s.shacharit;$('sMincha').value=s.mincha;$('sMaariv').value=s.maariv;$('sSpeed').value=s.speed;
+ $('sManualHoliday').checked=!!s.manualHoliday;$('sFastName').value=s.fastName||'';$('sFastStart').value=s.fastStart||'';
+ $('sFastEnd').value=s.fastEnd||'';$('sFastDate').value=s.fastDate||'';$('sMegillah').value=s.megillah||'';
+ $('sMegillahTime').value=s.megillahTime||'';$('sHolidayNote').value=s.holidayNote||'';
+ $('rabbiPreview').textContent=rabbi(s.rabbi);toggleManual()
+}
+function read(){return{
+ synagogue:$('sSynagogue').value.trim()||DEF.synagogue,rabbi:$('sRabbi').value.trim(),
+ dedication:$('sDedication').value.trim()||DEF.dedication,announcements:$('sAnnouncements').value.trim(),
+ geo:$('sGeo').value.trim()||DEF.geo,timezone:$('sTimezone').value.trim()||'America/New_York',
+ shacharit:$('sShacharit').value.trim(),mincha:$('sMincha').value.trim(),maariv:$('sMaariv').value.trim(),speed:$('sSpeed').value,
+ manualHoliday:$('sManualHoliday').checked,fastName:$('sFastName').value,fastStart:$('sFastStart').value,
+ fastEnd:$('sFastEnd').value,fastDate:$('sFastDate').value.trim(),megillah:$('sMegillah').value,
+ megillahTime:$('sMegillahTime').value,holidayNote:$('sHolidayNote').value.trim()
+}}
 function msg(t){$('status').textContent=t;setTimeout(()=>$('status').textContent='',3500)}
 $('sRabbi').addEventListener('input',e=>$('rabbiPreview').textContent=rabbi(e.target.value));
+$('sManualHoliday').addEventListener('change',toggleManual);
 $('saveBtn').onclick=()=>{set(read());msg('ההגדרות נשמרו בהצלחה')};
 $('resetBtn').onclick=()=>{if(confirm('לאפס את כל ההגדרות?')){localStorage.removeItem(KEY);fill();msg('ההגדרות אופסו')}};
 $('exportBtn').onclick=()=>{const blob=new Blob([JSON.stringify(get(),null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='synagogue-board-settings.json';a.click();URL.revokeObjectURL(a.href)};
