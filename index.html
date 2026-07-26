@@ -4,7 +4,143 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
 <title>בית הכנסת אליהו הנביא — תצוגה אופקית</title>
-<link rel="stylesheet" href="style.css">
+<style>
+:root{
+  --gold:#d7a93c;--gold2:#ffe6a0;--yellow:#ffeb00;--green:#7dff2b;
+  --red:#ff4d43;--panel:rgba(1,6,10,.94)
+}
+*{box-sizing:border-box}
+html,body{margin:0;width:100%;height:100%;background:#000;color:#fff;font-family:Arial,"Noto Sans Hebrew",sans-serif;overflow:hidden}
+body{display:flex;align-items:center;justify-content:center}
+.board{
+ width:100vw;height:100vh;
+ display:grid;
+ grid-template-rows:16.5% 25.5% 37% 19%;
+ gap:.45%;padding:.38%;
+ background:
+   radial-gradient(circle at 50% 0%,rgba(27,62,92,.3),transparent 35%),
+   linear-gradient(rgba(0,0,0,.7),rgba(0,0,0,.82)),
+   url("biblical_5.jpeg") center/cover;
+ border:2px solid var(--gold);
+ box-shadow:inset 0 0 0 2px #211400,inset 0 0 26px rgba(215,169,60,.18);
+}
+.panel{
+ position:relative;overflow:hidden;background:var(--panel);
+ border:2px solid var(--gold);
+ box-shadow:inset 0 0 0 1px #271800,inset 0 0 14px rgba(215,169,60,.08)
+}
+.panel:before,.panel:after{content:"";position:absolute;width:17px;height:17px;border-color:var(--gold);z-index:3;pointer-events:none}
+.panel:before{top:3px;right:3px;border-top:2px solid;border-right:2px solid}
+.panel:after{left:3px;bottom:3px;border-left:2px solid;border-bottom:2px solid}
+
+.top{display:grid;grid-template-columns:16% 55% 29%;gap:.45%}
+.leftArt{background:linear-gradient(90deg,rgba(0,0,0,.05),rgba(0,0,0,.6)),url("biblical_1.jpeg") center/cover}
+.titleBox{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:1% 2%}
+.dateLine{width:100%;padding-bottom:1.2%;border-bottom:1px solid var(--gold);color:var(--yellow);font-size:clamp(12px,1.35vw,27px);font-weight:800;direction:ltr;white-space:nowrap}
+.title{font-size:clamp(32px,4.1vw,76px);line-height:1;color:var(--gold2);font-weight:900;margin-top:1.8%;white-space:nowrap;text-shadow:0 2px 0 #5b3800,0 0 12px rgba(255,230,160,.25)}
+.rabbi{font-size:clamp(14px,1.5vw,29px);font-weight:800;margin-top:1.2%}
+.clockPanel{display:grid;grid-template-columns:64% 36%}
+.clocks{display:flex;flex-direction:column;justify-content:center;text-align:center;padding:2% 3%}
+.clockLabel{font-size:clamp(9px,.8vw,15px)}
+.clock{font-size:clamp(26px,2.75vw,54px);font-weight:900;color:var(--gold2);direction:ltr;line-height:1}
+.clockCity{font-size:clamp(9px,.75vw,14px)}
+.sep{height:1px;background:var(--gold);margin:3.5% 0}
+.rightArt{background:url("biblical_6.jpeg") center/cover;filter:sepia(.25) brightness(.7)}
+
+.rowA{display:grid;grid-template-columns:1.15fr .95fr 1fr 1fr 1fr 1.08fr;gap:.45%}
+.card{text-align:center;padding:2.2% 4%;display:flex;flex-direction:column;min-height:0}
+.card h2,.sectionTitle{
+ margin:0 0 3.2%;padding-bottom:2.8%;border-bottom:1px solid var(--gold);
+ color:var(--gold2);font-size:clamp(13px,1.28vw,24px);white-space:nowrap;flex:0 0 auto
+}
+.cardBody{flex:1;min-height:0;overflow:hidden;position:relative}
+.scrollTrack{width:100%;will-change:transform}
+.label{font-size:clamp(10px,.92vw,18px)}
+.big{font-size:clamp(23px,2.25vw,43px);font-weight:900;color:var(--yellow);direction:ltr;line-height:1.03;margin:2.2% 0}
+.rule{height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);margin:4% 0}
+.info{display:flex;justify-content:space-between;gap:8px;font-size:clamp(10px,.9vw,18px);margin:3.3% 0}
+.info strong{direction:ltr}
+.parasha{background:linear-gradient(rgba(0,0,0,.42),rgba(0,0,0,.84)),url("biblical_4.jpeg") center/cover}
+.parasha .big{font-size:clamp(27px,2.75vw,52px)}
+
+.rowB{display:grid;grid-template-columns:18% 16% 32% 16% 18%;gap:.45%}
+.donors,.fast,.fastTimes,.events,.slides{
+ padding:1.7% 4%;text-align:center;display:flex;flex-direction:column;min-height:0
+}
+.donors>.sectionTitle,.slides>.sectionTitle,.fastTimes>.sectionTitle,.events>.sectionTitle{flex:0 0 auto}
+.middleBody{flex:1;min-height:0;overflow:hidden;position:relative}
+.donor{display:flex;justify-content:space-between;font-size:clamp(10px,.82vw,16px);margin:4.3% 0}
+.fastName{font-size:clamp(17px,1.7vw,32px);font-weight:900;color:var(--red)}
+.fastDate{font-size:clamp(9px,.82vw,16px)}
+.fastBlock{padding:3.2% 0;border-bottom:1px solid #7d1111}
+.fastBlock:last-child{border-bottom:0}
+.fastLabel{color:var(--red);font-size:clamp(10px,.95vw,18px);font-weight:900}
+.fast .big,.fastTimes .big{font-size:clamp(21px,1.9vw,36px)}
+.megillah{padding-top:2.5%;font-size:clamp(9px,.78vw,15px)}
+.slideshow{position:relative;flex:1;min-height:0;border:1px solid var(--gold);background:#000;overflow:hidden;margin-top:.7%}
+.slideshow img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity 1.5s ease}
+.slideshow img.active{opacity:1}
+.slideNote{color:var(--gold2);font-size:clamp(9px,.78vw,15px);margin-top:.8%;flex:0 0 auto}
+.events{background:linear-gradient(rgba(0,0,0,.55),rgba(0,0,0,.72)),url("biblical_3.jpeg") center/cover}
+.events .big{margin-top:8%}
+.eventText{font-size:clamp(12px,1.08vw,21px);line-height:1.25;margin-top:4%}
+
+.memorial{
+ display:grid;grid-template-columns:15% 70% 15%;align-items:center;text-align:center;padding:1%;
+ background:linear-gradient(90deg,rgba(14,7,0,.97),rgba(0,8,9,.98),rgba(14,7,0,.97))
+}
+.memArt{height:100%;background:url("biblical_1.jpeg") center/cover;filter:sepia(.35) brightness(.62);border:1px solid rgba(215,169,60,.65)}
+.memMain{font-size:clamp(34px,4vw,76px);font-weight:900;line-height:1.02;color:var(--green);white-space:nowrap;text-shadow:0 0 12px rgba(125,255,43,.42)}
+.memScroll{width:100%;overflow:hidden;display:flex;align-items:center;min-height:55%}
+.memScroll .memMain{display:inline-block;white-space:nowrap;animation:memorialScroll 18s linear infinite}
+@keyframes memorialScroll{from{transform:translateX(-115%)}to{transform:translateX(115%)}}
+.memSub{margin-top:1.2%;font-size:clamp(13px,1.35vw,26px);font-weight:800;color:var(--gold2)}
+
+.autoScroll .scrollTrack{animation:verticalCardScroll var(--scroll-duration,10s) ease-in-out infinite alternate}
+@keyframes verticalCardScroll{
+  from{transform:translateY(0)}
+  to{transform:translateY(calc(-1px * var(--scroll-distance,0)))}
+}
+
+.gear{position:fixed;left:12px;bottom:12px;width:38px;height:38px;border-radius:50%;border:2px solid var(--gold);background:#071018;color:var(--gold2);font-size:20px;z-index:20}
+.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.87);z-index:30;align-items:center;justify-content:center;padding:18px}
+.modal.open{display:flex}
+.admin{width:min(780px,96vw);max-height:92vh;overflow:auto;padding:20px}
+.admin h2{text-align:center;color:var(--gold2)}
+.adminGrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+label{display:flex;flex-direction:column;gap:4px;color:var(--gold2);font-weight:700}
+input,textarea{font:inherit;padding:9px;background:#061019;color:#fff;border:1px solid var(--gold)}
+textarea{min-height:78px}
+.actions{display:flex;gap:10px;justify-content:center;margin-top:14px}
+.actions button{padding:10px 17px;background:#102033;color:#fff;border:1px solid var(--gold);font-weight:800}
+@media(orientation:portrait){
+  body:before{
+    content:"סובב את המכשיר למצב אופקי";
+    position:fixed;inset:0;z-index:9999;
+    display:flex;align-items:center;justify-content:center;text-align:center;
+    padding:30px;background:#000;color:var(--gold2);
+    font-size:clamp(28px,8vw,54px);font-weight:900
+  }
+  .board,.gear{visibility:hidden}
+}
+@media(orientation:landscape) and (max-height:600px){
+  .board{grid-template-rows:16% 26% 38% 18%}
+  .dateLine{font-size:clamp(10px,1.2vw,21px)}
+  .title{font-size:clamp(28px,3.8vw,64px)}
+  .rabbi{font-size:clamp(11px,1.25vw,22px)}
+  .clock{font-size:clamp(22px,2.45vw,42px)}
+  .card h2,.sectionTitle{font-size:clamp(11px,1.12vw,20px)}
+  .big{font-size:clamp(20px,2vw,36px)}
+  .info{font-size:clamp(9px,.82vw,15px)}
+  .memMain{font-size:clamp(30px,3.65vw,64px)}
+  .memSub{font-size:clamp(11px,1.15vw,20px)}
+}
+@media(orientation:landscape) and (min-width:1400px){
+  .card h2,.sectionTitle{font-size:clamp(16px,1.22vw,26px)}
+  .info{font-size:clamp(13px,.92vw,19px)}
+  .label{font-size:clamp(13px,.95vw,20px)}
+}
+</style>
 </head>
 <body>
 <div class="board">
@@ -182,6 +318,83 @@
   </form>
 </div>
 
-<script src="script.js"></script>
+<script>
+const NY="America/New_York", IL="Asia/Jerusalem", KEY="beautifulSynagogueBoard";
+const defaults={
+ parasha:"ואתחנן",
+ synagogueName:"בית הכנסת אליהו הנביא",rabbiName:"מנחם מענדל הכהן שליט״א",
+ shacharit:"6:30 AM",mincha:"8:00 PM",maariv:"9:10 PM",morningLesson:"9:00 AM",eveningLesson:"9:15 PM",
+ fastName:"תשעה באב",fastStart:"8:21 PM",fastEnd:"8:52 PM",megillahName:"מגילת איכה",megillahTime:"לאחר תפילת ערבית",
+ todayEvent:"ברביקיו קהילתי\nבחצר בית הכנסת",eventTime:"7:00 PM",
+ dedication:"לעילוי נשמת זהבה חלא בת דינה זצ״ל",
+ memorialDate:"נפטרה: כ״ה באייר תשפ״ו | 25 במאי 2026 | ת.נ.צ.ב.ה.",
+ donors:"משפחת לוי|$1,000\nמשפחת כהן|$500\nמשפחת דוד|$360\nמשפחת ישראלי|$250\nידיד בית הכנסת|$180"
+};
+function getData(){try{return {...defaults,...JSON.parse(localStorage.getItem(KEY)||"{}")}}catch(e){return {...defaults}}}
+function text(id,v){const el=document.getElementById(id);if(el)el.textContent=v}
+
+function setupAutoScroll(){
+ document.querySelectorAll(".cardBody,.middleBody").forEach(view=>{
+   const track=view.querySelector(".scrollTrack");
+   if(!track)return;
+   view.classList.remove("autoScroll");
+   view.style.removeProperty("--scroll-distance");
+   view.style.removeProperty("--scroll-duration");
+   track.style.transform="translateY(0)";
+   const distance=Math.max(0,track.scrollHeight-view.clientHeight);
+   if(distance>3){
+     view.style.setProperty("--scroll-distance",distance);
+     view.style.setProperty("--scroll-duration",Math.max(7,Math.min(18,7+distance/18))+"s");
+     view.classList.add("autoScroll");
+   }
+ });
+}
+
+function render(){
+ const d=getData();
+ ["parasha","synagogueName","rabbiName","shacharit","mincha","maariv","morningLesson","eveningLesson","fastName","fastStart","fastEnd","megillahName","megillahTime","eventTime","dedication","memorialDate"].forEach(k=>text(k,d[k]));
+ text("fastStart2",d.fastStart);text("fastEnd2",d.fastEnd);text("fastName2",d.fastName);
+ document.getElementById("todayEvent").innerHTML=d.todayEvent.replace(/\n/g,"<br>");
+ const list=document.getElementById("donorsList");list.innerHTML="";
+ d.donors.split("\n").filter(Boolean).forEach(line=>{
+   const [n,a=""]=line.split("|");const div=document.createElement("div");div.className="donor";
+   div.innerHTML="<span>"+n+"</span><strong>"+a+"</strong>";list.appendChild(div);
+ });
+ requestAnimationFrame(()=>requestAnimationFrame(setupAutoScroll));
+}
+function clocks(){
+ const now=new Date();
+ text("nyClock",new Intl.DateTimeFormat("en-US",{timeZone:NY,hour:"2-digit",minute:"2-digit",second:"2-digit"}).format(now));
+ text("israelClock",new Intl.DateTimeFormat("en-US",{timeZone:IL,hour:"2-digit",minute:"2-digit",second:"2-digit"}).format(now));
+ text("civilDate",new Intl.DateTimeFormat("en-US",{timeZone:NY,weekday:"long",year:"numeric",month:"long",day:"numeric"}).format(now));
+ try{text("hebrewDate",new Intl.DateTimeFormat("he-u-ca-hebrew",{timeZone:NY,day:"numeric",month:"long",year:"numeric"}).format(now))}catch(e){}
+}
+async function jewish(){
+ try{
+   const ymd=new Intl.DateTimeFormat("en-CA",{timeZone:NY,year:"numeric",month:"2-digit",day:"2-digit"}).format(new Date());
+   const a=await fetch("https://www.hebcal.com/converter?cfg=json&date="+ymd+"&g2h=1&strict=1").then(r=>r.json());
+   if(a.hebrew)text("hebrewDate",a.hebrew);
+   const b=await fetch("https://www.hebcal.com/shabbat?cfg=json&geonameid=5128581&m=50").then(r=>r.json());
+   const p=(b.items||[]).find(x=>x.category==="parashat");if(p)text("parasha",p.hebrew||p.title.replace("Parashat ",""));
+   requestAnimationFrame(setupAutoScroll);
+ }catch(e){}
+}
+let slide=0;
+setInterval(()=>{const imgs=[...document.querySelectorAll("#slideshow img")];imgs[slide].classList.remove("active");slide=(slide+1)%imgs.length;imgs[slide].classList.add("active")},60000);
+document.getElementById("gear").onclick=()=>{
+ const d=getData(),f=document.getElementById("adminForm");
+ Object.keys(defaults).forEach(k=>{if(f.elements[k])f.elements[k].value=d[k]});
+ document.getElementById("modal").classList.add("open");
+};
+document.getElementById("close").onclick=()=>document.getElementById("modal").classList.remove("open");
+document.getElementById("reset").onclick=()=>{localStorage.removeItem(KEY);render();document.getElementById("modal").classList.remove("open")};
+document.getElementById("adminForm").onsubmit=e=>{
+ e.preventDefault();const d={};Object.keys(defaults).forEach(k=>d[k]=e.target.elements[k].value);
+ localStorage.setItem(KEY,JSON.stringify(d));render();document.getElementById("modal").classList.remove("open");
+};
+window.addEventListener("resize",()=>requestAnimationFrame(setupAutoScroll));
+window.addEventListener("load",()=>requestAnimationFrame(()=>requestAnimationFrame(setupAutoScroll)));
+render();clocks();jewish();setInterval(clocks,1000);setInterval(jewish,21600000);
+</script>
 </body>
 </html>
