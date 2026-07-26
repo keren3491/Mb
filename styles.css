@@ -1,26 +1,5 @@
-.card{
-    text-align:center;
-    padding:2% 3%;
-}
-
-.info{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    gap:6px;
-    font-size:clamp(10px,.82vw,17px);
-    margin:2% 0;
-}
-
-.info strong{
-    direction:ltr;
-    font-size:clamp(10px,.85vw,17px);
-}
-
-.card h2{
-    margin:0 0 3%;
-    padding-bottom:2.5%;
-    border-bottom:1px solid var(--gold);
-    color:var(--gold2);
-    font-size:clamp(13px,1.2vw,24px);
+.rowA{
+    display:grid;
+    grid-template-columns:1.08fr .88fr 1.18fr .95fr .88fr .98fr;
+    gap:.55%;
 }
