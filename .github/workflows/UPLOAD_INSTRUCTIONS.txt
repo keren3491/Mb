@@ -1,0 +1,22 @@
+BETH TORAH MESSAGE BOARD — 12 TRIBES FRAME V5
+
+Upload these files individually to the ROOT of the GitHub repository:
+- index.html
+- styles.css
+- tribes-frame.png
+- board.js
+- shared.js
+- config.js
+- sw.js
+- manifest.json
+
+Replace files with the same names. The new file tribes-frame.png must also be uploaded.
+
+Then:
+1. Commit the changes.
+2. Wait for GitHub Actions to finish successfully.
+3. Open:
+   https://keren3491.github.io/Mb/?v=5
+
+The ornate frame is a transparent PNG placed over the live board.
+The center remains fully dynamic and continues using the working calendar code.

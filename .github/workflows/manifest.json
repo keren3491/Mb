@@ -1,0 +1,11 @@
+{
+  "name": "Beth Torah Message Board",
+  "short_name": "Message Board",
+  "start_url": "./index.html?v=3",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#000000",
+  "lang": "he",
+  "dir": "rtl"
+}
