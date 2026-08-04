@@ -1,0 +1,22 @@
+BETH TORAH MESSAGE BOARD — VERSION 3
+
+Upload these files to the ROOT of the GitHub repository:
+- index.html
+- styles.css
+- config.js
+- shared.js
+- board.js
+- sw.js
+- manifest.json
+- .github/workflows/pages.yml
+
+Keep the existing admindex.html and admin files.
+
+IMPORTANT:
+1. GitHub repository Settings → Pages → Source must be "GitHub Actions".
+2. After uploading, open Actions and wait for "Deploy GitHub Pages" to show a green check.
+3. Then open:
+   https://keren3491.github.io/Mb/?v=3
+
+The workflow deploys the repository root on every push to main.
+The service worker never caches HTML, JavaScript, or CSS.

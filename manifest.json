@@ -1,17 +1,11 @@
 {
-  "name": "Synagogue Message Board",
-  "short_name": "Synagogue Board",
-  "start_url": "./index.html",
+  "name": "Beth Torah Message Board",
+  "short_name": "Message Board",
+  "start_url": "./index.html?v=3",
+  "scope": "./",
   "display": "standalone",
-  "orientation": "landscape",
   "background_color": "#000000",
   "theme_color": "#000000",
-  "icons": [
-    {
-      "src": "icon.svg",
-      "sizes": "any",
-      "type": "image/svg+xml",
-      "purpose": "any maskable"
-    }
-  ]
+  "lang": "he",
+  "dir": "rtl"
 }
