@@ -1,40 +1,335 @@
 <!doctype html>
 <html lang="he" dir="rtl">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>ניהול לוח בית הכנסת</title>
-  <link rel="stylesheet" href="admin.css">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="theme-color" content="#000000">
+<link rel="manifest" href="manifest.json">
+<title>×œ×•×— ×ž×•×“×¢×•×ª ×œ×‘×™×ª ×”×›× ×¡×ª</title>
+<style>
+:root{--gold:#c7a20b;--yellow:#ffe32b;--green:#62ff45;--cyan:#32edff;--white:#fff}
+*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#000;color:#fff;font-family:Arial,"Noto Sans Hebrew",sans-serif}
+body{padding:8px}
+.board{height:100%;border:3px solid var(--gold);border-radius:14px;background:radial-gradient(circle at center,#151515,#030303 68%);padding:10px;display:grid;grid-template-rows:24% 45% 21% 10%;gap:8px}
+.panel{border:1px solid #786400;border-radius:10px;background:rgba(0,0,0,.62);padding:8px;overflow:hidden}
+.led{font-weight:900;text-shadow:0 0 5px currentColor,0 0 12px currentColor}
+.top{display:grid;grid-template-columns:1fr 1.35fr 1fr;gap:8px;min-height:0}
+.center{text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.title{color:var(--cyan);font-size:clamp(19px,2.5vw,42px);white-space:nowrap}
+.rabbi{color:var(--yellow);font-size:clamp(15px,1.8vw,30px);white-space:nowrap}
+.clock{font:900 clamp(43px,6.5vw,105px)/1 Consolas,monospace;direction:ltr}
+.date{color:var(--yellow);font-size:clamp(15px,1.8vw,30px);white-space:nowrap}
+.subclock{color:var(--cyan);font-size:clamp(19px,2.5vw,40px);direction:ltr}
+.main{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;min-height:0}
+.heading{color:var(--yellow);font-size:clamp(17px,2vw,34px);text-align:center;border-bottom:1px dotted var(--gold);padding-bottom:5px}
+.rows{height:calc(100% - 38px);display:flex;flex-direction:column;justify-content:space-evenly}
+.row{display:flex;justify-content:space-between;gap:10px;border-bottom:1px dotted #4c4300;padding:3px 4px;font-size:clamp(15px,1.8vw,30px)}
+.value{color:var(--white);direction:ltr}.green{color:var(--green)}.cyan{color:var(--cyan)}
+.event{font-size:clamp(16px,1.8vw,30px);color:var(--green);text-align:center}
+.compact-rows{height:calc(100% - 34px);display:flex;flex-direction:column;justify-content:space-evenly}
+.compact-row{display:flex;justify-content:space-between;align-items:center;gap:8px;border-bottom:1px dotted #4c4300;padding:2px 3px;font-size:clamp(12px,1.35vw,23px)}
+.compact-value{color:var(--cyan);font-weight:900;text-align:left}
+.small-note{font-size:clamp(11px,1.15vw,19px);color:#ddd;text-align:center;margin-top:4px}
+.parasha{font-size:clamp(22px,2.8vw,47px);color:#fff;text-align:center;margin-top:5px}
+.seasonal-prayer{font-size:clamp(18px,2.2vw,36px);color:var(--cyan);text-align:center;margin:7px 0 3px}
+.daf-yomi{font-size:clamp(16px,1.9vw,31px);color:var(--green);text-align:center;margin:4px 0 2px}
+.footer{display:flex;align-items:center;overflow:hidden;border:1px solid #235800;border-radius:8px;background:#031000}
+.marquee{display:inline-block;min-width:max-content;white-space:nowrap;color:var(--green);font-size:clamp(18px,2.2vw,36px);animation:move 25s linear infinite}
+@keyframes move{from{transform:translateX(-105%)}to{transform:translateX(105%)}}
+.gear{position:fixed;left:13px;bottom:13px;width:44px;height:44px;border-radius:50%;display:grid;place-items:center;text-decoration:none;background:#050505;border:2px solid var(--gold);color:var(--yellow);font-size:23px;z-index:9}
+@media(max-width:750px){body{padding:3px}.board{padding:5px;gap:4px}.top,.main{gap:4px}.panel{padding:4px}.gear{width:37px;height:37px;font-size:20px}}
+</style>
 </head>
 <body>
-  <div class="wrap"><div class="card">
-    <h1 class="title">ניהול לוח בית הכנסת</h1>
-    <div id="mode" class="warning"></div>
-    <div class="grid">
-      <div><label for="synagogue">שם בית הכנסת</label><input id="synagogue"></div>
-      <div><label for="rabbi">שם הרב</label><input id="rabbi"></div>
-      <div class="full"><label for="dedication">הקדשה / לעילוי נשמת</label><input id="dedication"></div>
-      <div class="full"><label for="announcements">הודעות — כל הודעה בשורה חדשה</label><textarea id="announcements"></textarea></div>
-      <div><label for="geo">Geoname ID</label><input id="geo" inputmode="numeric"></div>
-      <div><label for="timezone">אזור זמן</label><input id="timezone" placeholder="America/New_York"></div>
-      <div><label for="shacharit">שחרית</label><input id="shacharit"></div>
-      <div><label for="mincha">מנחה</label><input id="mincha"></div>
-      <div><label for="maariv">ערבית</label><input id="maariv"></div>
-      <div><label for="tickerSpeed">מהירות הודעות בשניות</label><input id="tickerSpeed" type="number" min="15" max="90"></div>
-      <div class="full"><label for="musicUrl">קישור לקובץ מוזיקה MP3 (אפשר להשאיר ריק למנגינה מובנית)</label><input id="musicUrl" dir="ltr" placeholder="music.mp3 או https://..."></div>
-      <div><label for="musicVolume">עוצמת מוזיקה 0–100</label><input id="musicVolume" type="number" min="0" max="100"></div>
+<a class="gear" href="admindex.html" aria-label="× ×™×”×•×œ">âš™</a>
+<main class="board">
+<section class="top">
+  <div class="panel center">
+    <div class="date led" id="hebrewDate">×˜×•×¢×Ÿ...</div>
+    <div class="date led" id="civilDate">×˜×•×¢×Ÿ...</div>
+  </div>
+  <div class="panel center">
+    <div class="title led" id="synagogue">×‘×™×ª ×”×›× ×¡×ª ××œ×™×”×• ×”× ×‘×™×</div>
+    <div class="rabbi led" id="rabbi">×©× ×”×¨×‘</div>
+    <div class="clock led" id="nyClock">00:00:00</div>
+  </div>
+  <div class="panel center">
+    <div class="date led">×©×¢×ª ×™×©×¨××œ</div>
+    <div class="subclock led" id="israelClock">00:00:00</div>
+  </div>
+</section>
+
+<section class="main">
+  <div class="panel">
+    <div class="heading led">×–×ž× ×™ ×ª×¤×™×œ×•×ª</div>
+    <div class="rows">
+      <div class="row"><span>×©×—×¨×™×ª</span><span class="value led" id="shacharit">07:00</span></div>
+      <div class="row"><span>×ž× ×—×”</span><span class="value led" id="mincha">×œ×¤× ×™ ×”×©×§×™×¢×”</span></div>
+      <div class="row"><span>×¢×¨×‘×™×ª</span><span class="value led" id="maariv">20:30</span></div>
+      <div class="row"><span>×©×™×¢×•×¨ ×ª×•×¨×”</span><span class="value led" id="lesson">21:15</span></div>
     </div>
-    <div class="actions">
-      <button class="save" id="save">שמור ועדכן</button>
-      <a class="btn secondary" href="index.html">פתח את הלוח</a>
-      <button class="secondary" id="export">ייצא הגדרות</button>
-      <button class="secondary" id="import">ייבא הגדרות</button>
-      <input id="file" type="file" accept="application/json" hidden>
+  </div>
+  <div class="panel">
+    <div class="heading led">×–×ž× ×™ ×”×™×•× ×•×”×©×‘×ª</div>
+    <div class="rows">
+      <div class="row"><span>×–×¨×™×—×”</span><span class="value led" id="sunrise">--:--</span></div>
+      <div class="row"><span>×©×§×™×¢×”</span><span class="value led" id="sunset">--:--</span></div>
+      <div class="row"><span>×”×“×œ×§×ª × ×¨×•×ª</span><span class="value led" id="candles">--:--</span></div>
+      <div class="row"><span>×¦××ª ×©×‘×ª</span><span class="value led" id="havdalah">--:--</span></div>
     </div>
-    <div id="status" class="status" role="status"></div>
-  </div></div>
-  <script src="config.js"></script>
-  <script src="shared.js"></script>
-  <script src="admin.js"></script>
+  </div>
+  <div class="panel">
+    <div class="heading led">×¤×¨×©×ª ×”×©×‘×•×¢</div>
+    <div class="parasha led" id="parasha">×˜×•×¢×Ÿ...</div>
+    <div class="heading led" style="margin-top:7px">×”×“×£ ×”×™×•×ž×™</div>
+    <div class="daf-yomi led" id="dafYomi">×˜×•×¢×Ÿ...</div>
+    <div class="heading led" style="margin-top:7px">×”××™×¨×•×¢ ×”×§×¨×•×‘</div>
+    <div class="event led" id="upcomingHoliday">×˜×•×¢×Ÿ...</div>
+  </div>
+</section>
+
+<section class="main">
+  <div class="panel">
+    <div class="heading led">×ª×•×¡×¤×•×ª ×‘×ª×¤×™×œ×”</div>
+    <div class="compact-rows">
+      <div class="compact-row"><span>×’×‘×•×¨×•×ª</span><span class="compact-value led" id="seasonalPrayer">×˜×•×¢×Ÿ...</span></div>
+      <div class="compact-row"><span>×‘×¨×›×ª ×”×©× ×™×</span><span class="compact-value led" id="birkatHashanim">×˜×•×¢×Ÿ...</span></div>
+      <div class="compact-row"><span>×™×¢×œ×” ×•×™×‘×•×</span><span class="compact-value led" id="yaalehVeyavo">×˜×•×¢×Ÿ...</span></div>
+      <div class="compact-row"><span>×¢×œ ×”× ×™×¡×™×</span><span class="compact-value led" id="alHanissim">×˜×•×¢×Ÿ...</span></div>
+    </div>
+  </div>
+  <div class="panel">
+    <div class="heading led">×ž× ×”×’×™ ×”×™×•×</div>
+    <div class="compact-rows">
+      <div class="compact-row"><span>×ª×—× ×•×Ÿ</span><span class="compact-value led" id="tachanun">×˜×•×¢×Ÿ...</span></div>
+      <div class="compact-row"><span>×”×œ×œ</span><span class="compact-value led" id="hallel">×˜×•×¢×Ÿ...</span></div>
+      <div class="compact-row"><span>×¡×¤×™×¨×ª ×”×¢×•×ž×¨</span><span class="compact-value led" id="omer">×˜×•×¢×Ÿ...</span></div>
+      <div class="compact-row"><span>×¨××© ×—×•×“×©</span><span class="compact-value led" id="roshChodesh">×˜×•×¢×Ÿ...</span></div>
+    </div>
+  </div>
+  <div class="panel">
+    <div class="heading led">×©×‘×ª, ×¦×•× ×•××™×¨×•×¢×™×</div>
+    <div class="compact-rows">
+      <div class="compact-row"><span>××™×¨×•×¢ ×”×™×•×</span><span class="compact-value led" id="event">××™×Ÿ ××™×¨×•×¢ ×ž×™×•×—×“</span></div>
+      <div class="compact-row"><span>×¦×•×</span><span class="compact-value led" id="fastName">××™×Ÿ ×¦×•× ×”×™×•×</span></div>
+      <div class="compact-row"><span>××‘ ×”×¨×—×ž×™×</span><span class="compact-value led" id="avHarachamim">â€”</span></div>
+      <div class="compact-row"><span>×¦×“×§×ª×š / ×•×™×ª×Ÿ ×œ×š</span><span class="compact-value led" id="shabbatCustoms">â€”</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="footer"><div class="marquee led" id="ticker">×œ×¢×™×œ×•×™ × ×©×ž×ª ×–×”×‘×” ×—×œ× ×‘×ª ×“×™× ×” ×–×¦×´×œ</div></section>
+</main>
+
+<script>
+(()=>{'use strict';
+const KEY='synagogueBoardCleanV1';
+const DEF={
+ synagogue:'×‘×™×ª ×”×›× ×¡×ª ××œ×™×”×• ×”× ×‘×™×',rabbi:'',shacharit:'07:00',mincha:'×œ×¤× ×™ ×”×©×§×™×¢×”',
+ maariv:'20:30',lesson:'21:15',event:'××™×Ÿ ××™×¨×•×¢ ×ž×™×•×—×“',
+ fastName:'××™×Ÿ ×¦×•× ×”×™×•×',fastTime:'â€”',megillah:'××™×Ÿ ×§×¨×™××” ×”×™×•×',
+ dedication:'×œ×¢×™×œ×•×™ × ×©×ž×ª ×–×”×‘×” ×—×œ× ×‘×ª ×“×™× ×” ×–×¦×´×œ',
+ announcements:'×‘×¨×•×›×™× ×”×‘××™× ×œ×‘×™×ª ×”×›× ×¡×ª'
+};
+const $=id=>document.getElementById(id);
+function settings(){try{return {...DEF,...JSON.parse(localStorage.getItem(KEY)||'{}')}}catch{return {...DEF}}}
+function apply(){
+ const s=settings();
+ $('synagogue').textContent=s.synagogue;
+ $('rabbi').textContent=s.rabbi?('×”×¨×‘ '+s.rabbi.replace(/^×”×¨×‘\s+/,'')):'×©× ×”×¨×‘';
+ for(const id of ['shacharit','mincha','maariv','lesson']) $(id).textContent=s[id];
+ $('ticker').textContent=[s.announcements,s.dedication].filter(Boolean).join(' â€¢ ');
+}
+function timeAt(zone){return new Intl.DateTimeFormat('en-US',{timeZone:zone,hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false}).format(new Date())}
+
+function seasonalPrayer(now=new Date()){
+ const parts=new Intl.DateTimeFormat('en-u-ca-hebrew',{
+  timeZone:'America/New_York',
+  day:'numeric',
+  month:'long'
+ }).formatToParts(now);
+ const day=Number(parts.find(p=>p.type==='day')?.value);
+ const month=parts.find(p=>p.type==='month')?.value||'';
+
+ const winterMonths=new Set([
+  'Heshvan','Kislev','Tevet','Shevat','Adar','Adar I','Adar II'
+ ]);
+
+ const winter=
+  (month==='Tishri' && day>=22) ||
+  winterMonths.has(month) ||
+  (month==='Nisan' && day<15);
+
+ return winter
+  ? '×žÖ·×©Ö¼×Ö´×™×‘ ×”Ö¸×¨×•Ö¼×—Ö· ×•Ö¼×ž×•Ö¹×¨Ö´×™×“ ×”Ö·×’Ö¼Ö¶×©×Ö¶×'
+  : '×ž×•Ö¹×¨Ö´×™×“ ×”Ö·×˜Ö¼Ö¸×œ';
+}
+
+
+function hebrewParts(now=new Date()){
+ const parts=new Intl.DateTimeFormat('en-u-ca-hebrew',{
+  timeZone:'America/New_York',day:'numeric',month:'long',year:'numeric'
+ }).formatToParts(now);
+ const get=t=>parts.find(p=>p.type===t)?.value||'';
+ return {day:Number(get('day')),month:get('month'),year:Number(get('year'))};
+}
+function isGregorianLeapYear(year){return year%4===0&&(year%100!==0||year%400===0)}
+function birkatHashanim(now=new Date()){
+ const hp=hebrewParts(now);
+ if(hp.month==='Nisan' && hp.day>=15) return '×‘Ö¼Ö¸×¨Ö°×›Öµ× ×•Ö¼';
+ const ny=new Date(now.toLocaleString('en-US',{timeZone:'America/New_York'}));
+ const y=ny.getFullYear();
+ const startDay=isGregorianLeapYear(y+1)?6:5;
+ const start=new Date(y,11,startDay);
+ const afterStart=ny>=start;
+ const beforePesach=!(hp.month==='Nisan' && hp.day>=15);
+ return (afterStart||beforePesach&&['Tevet','Shevat','Adar','Adar I','Adar II'].includes(hp.month))
+  ? '×‘Ö¼Ö¸×¨Öµ×šÖ° ×¢Ö¸×œÖµ×™× ×•Ö¼'
+  : '×‘Ö¼Ö¸×¨Ö°×›Öµ× ×•Ö¼';
+}
+function titleText(item){return String(item?.hebrew||item?.title||'')}
+function hasEvent(items,patterns){
+ return items.some(item=>patterns.some(p=>p.test(titleText(item))));
+}
+function dailyGuidance(items,now=new Date()){
+ const hp=hebrewParts(now);
+ const weekday=Number(new Intl.DateTimeFormat('en-US',{
+  timeZone:'America/New_York',weekday:'short'
+ }).formatToParts(now).find(p=>p.type==='weekday') ? now.toLocaleString('en-US',{timeZone:'America/New_York',weekday:'short'})==='Sat' : false);
+ const isSat=new Intl.DateTimeFormat('en-US',{timeZone:'America/New_York',weekday:'short'}).format(now)==='Sat';
+
+ const rosh=hasEvent(items,[/×¨××© ×—×•×“×©|Rosh Chodesh/i]);
+ const chanukah=hasEvent(items,[/×—× ×•×›×”|Chanukah/i]);
+ const purim=hasEvent(items,[/×¤×•×¨×™×|Purim/i]);
+ const pesach=hasEvent(items,[/×¤×¡×—|Pesach/i]);
+ const shavuot=hasEvent(items,[/×©×‘×•×¢×•×ª|Shavuot/i]);
+ const sukkot=hasEvent(items,[/×¡×•×›×•×ª|Sukkot|×©×ž×™× ×™ ×¢×¦×¨×ª|Shemini Atzeret|×©×ž×—×ª ×ª×•×¨×”|Simchat Torah/i]);
+ const rh=hasEvent(items,[/×¨××© ×”×©× ×”|Rosh Hashana/i]);
+ const yomKippur=hasEvent(items,[/×™×•× ×›×™×¤×•×¨|Yom Kippur/i]);
+
+ $('yaalehVeyavo').textContent=(rosh||pesach||shavuot||sukkot||rh)?'××•×ž×¨×™×':'××™×Ÿ ××•×ž×¨×™×';
+ $('alHanissim').textContent=(chanukah||purim)?'××•×ž×¨×™×':'××™×Ÿ ××•×ž×¨×™×';
+ $('roshChodesh').textContent=rosh?'×”×™×•× ×¨××© ×—×•×“×©':'×œ× ×”×™×•×';
+
+ let hallel='××™×Ÿ ×”×œ×œ';
+ if(chanukah||shavuot||sukkot) hallel='×”×œ×œ ×©×œ×';
+ else if(rosh||pesach) hallel='×—×¦×™ ×”×œ×œ';
+ $('hallel').textContent=hallel;
+
+ const noTachanun=
+  isSat||rosh||chanukah||purim||pesach||shavuot||sukkot||rh||yomKippur||
+  hp.month==='Nisan'||
+  (hp.month==='Sivan'&&hp.day<=12)||
+  (hp.month==='Av'&&(hp.day===9||hp.day===15))||
+  (hp.month==='Tishri')||
+  (hp.month==='Shevat'&&hp.day===15)||
+  (hp.month==='Iyyar'&&(hp.day===14||hp.day===18));
+ $('tachanun').textContent=noTachanun?'××™×Ÿ ××•×ž×¨×™×':'××•×ž×¨×™×';
+
+ const joyousShabbat=rosh||chanukah||pesach||shavuot||sukkot||rh||yomKippur;
+ $('avHarachamim').textContent=isSat?(joyousShabbat?'××™×Ÿ ××•×ž×¨×™×':'××•×ž×¨×™×'):'×¨×§ ×‘×©×‘×ª';
+ $('shabbatCustoms').textContent=isSat
+  ? (noTachanun?'××™×Ÿ ×¦×“×§×ª×š â€¢ ×•×™×ª×Ÿ ×œ×š ×‘×ž×•×¦×´×©':'×¦×“×§×ª×š â€¢ ×•×™×ª×Ÿ ×œ×š ×‘×ž×•×¦×´×©')
+  : '×œ×©×‘×ª ×‘×œ×‘×“';
+}
+
+function tick(){
+ const now=new Date();
+ $('nyClock').textContent=timeAt('America/New_York');
+ $('israelClock').textContent=timeAt('Asia/Jerusalem');
+ $('civilDate').textContent=new Intl.DateTimeFormat('en-US',{timeZone:'America/New_York',weekday:'long',month:'long',day:'numeric',year:'numeric'}).format(now);
+ $('hebrewDate').textContent=new Intl.DateTimeFormat('he-u-ca-hebrew',{timeZone:'America/New_York',day:'numeric',month:'long',year:'numeric'}).format(now);
+ $('seasonalPrayer').textContent=seasonalPrayer(now);
+ $('birkatHashanim').textContent=birkatHashanim(now);
+}
+function fmtDate(d){return new Intl.DateTimeFormat('en-US',{timeZone:'America/New_York',hour:'numeric',minute:'2-digit'}).format(new Date(d))}
+function nyDateISO(){
+ const parts=new Intl.DateTimeFormat('en-CA',{
+  timeZone:'America/New_York',
+  year:'numeric',month:'2-digit',day:'2-digit'
+ }).formatToParts(new Date());
+ const get=type=>parts.find(p=>p.type===type)?.value;
+ return `${get('year')}-${get('month')}-${get('day')}`;
+}
+async function loadHebcal(){
+ const cacheBuster=Date.now();
+ try{
+  const res=await fetch(
+   `https://www.hebcal.com/shabbat?cfg=json&geonameid=5128581&M=on&leyning=off&lg=he&_=${cacheBuster}`,
+   {cache:'no-store'}
+  );
+  if(!res.ok) throw new Error(`Hebcal Shabbat HTTP ${res.status}`);
+  const data=await res.json(), items=data.items||[];
+  const p=items.find(x=>x.category==='parashat');
+  const c=items.find(x=>x.category==='candles');
+  const h=items.find(x=>x.category==='havdalah');
+  $('parasha').textContent=p?(p.hebrew||p.title).replace(/^×¤×¨×©×ª\s+/,''):'×©×‘×ª';
+  $('candles').textContent=c?fmtDate(c.date):'--:--';
+  $('havdalah').textContent=h?fmtDate(h.date):'--:--';
+ }catch(err){
+  console.error('Hebcal Shabbat error:',err);
+  $('parasha').textContent='×œ× ×–×ž×™×Ÿ ×œ×œ× ××™× ×˜×¨× ×˜';
+ }
+ try{
+  const today=nyDateISO();
+  const endDate=new Date();
+  endDate.setDate(endDate.getDate()+30);
+  const endParts=new Intl.DateTimeFormat('en-CA',{
+   timeZone:'America/New_York',year:'numeric',month:'2-digit',day:'2-digit'
+  }).formatToParts(endDate);
+  const ep=t=>endParts.find(p=>p.type===t)?.value;
+  const end=`${ep('year')}-${ep('month')}-${ep('day')}`;
+  const d=await fetch(
+   `https://www.hebcal.com/hebcal?cfg=json&v=1&F=on&o=on&maj=on&min=on&mod=on&nx=on&lg=he&start=${today}&end=${end}&geo=geoname&geonameid=5128581&M=on&_=${cacheBuster}`,
+   {cache:'no-store'}
+  );
+  if(!d.ok) throw new Error(`Hebcal calendar HTTP ${d.status}`);
+  const daily=await d.json();
+  const allItems=daily.items||[];
+  const todayItems=allItems.filter(x=>String(x.date||'').slice(0,10)===today);
+  const daf=todayItems.find(x=>x.category==='dafyomi');
+  const omer=todayItems.find(x=>x.category==='omer');
+  const holidays=todayItems.filter(x=>['holiday','roshchodesh','fast'].includes(x.category));
+  const fast=holidays.find(x=>/×¦×•×|×ª×¢× ×™×ª|Fast|Tish'a B'Av|Yom Kippur/i.test(titleText(x)));
+  const special=holidays.find(x=>x!==fast);
+
+  $('dafYomi').textContent=daf?titleText(daf):'×œ× ×–×ž×™×Ÿ';
+  $('omer').textContent=omer?titleText(omer).replace(/^×”×™×•×\s*/,''):'×œ× ×‘×ª×§×•×¤×ª ×”×¢×•×ž×¨';
+  $('event').textContent=special?titleText(special):'××™×Ÿ ××™×¨×•×¢ ×ž×™×•×—×“';
+  $('fastName').textContent=fast?titleText(fast):'××™×Ÿ ×¦×•× ×”×™×•×';
+
+  const upcoming=allItems.find(x=>
+   String(x.date||'').slice(0,10)>today &&
+   ['holiday','roshchodesh','fast'].includes(x.category)
+  );
+  $('upcomingHoliday').textContent=upcoming
+   ? `${titleText(upcoming)} â€¢ ${new Intl.DateTimeFormat('he-IL',{timeZone:'America/New_York',day:'numeric',month:'numeric'}).format(new Date(upcoming.date))}`
+   : '××™×Ÿ ××™×¨×•×¢ ×‘Ö¾30 ×”×™×ž×™× ×”×§×¨×•×‘×™×';
+
+  dailyGuidance(todayItems,new Date());
+ }catch(err){
+  console.error('Hebcal daily calendar error:',err);
+  for(const id of ['dafYomi','omer','event','fastName','upcomingHoliday','tachanun','hallel','roshChodesh','yaalehVeyavo','alHanissim','avHarachamim','shabbatCustoms']){
+   const el=$(id); if(el) el.textContent='×œ× ×–×ž×™×Ÿ';
+  }
+ }
+ try{
+  const r=await fetch(
+   `https://www.hebcal.com/zmanim?cfg=json&geonameid=5128581&_=${cacheBuster}`,
+   {cache:'no-store'}
+  );
+  if(!r.ok) throw new Error(`Hebcal Zmanim HTTP ${r.status}`);
+  const z=await r.json();
+  $('sunrise').textContent=z.times?.sunrise?fmtDate(z.times.sunrise):'--:--';
+  $('sunset').textContent=z.times?.sunset?fmtDate(z.times.sunset):'--:--';
+ }catch(err){
+  console.error('Hebcal Zmanim error:',err);
+ }
+}
+window.addEventListener('storage',apply);
+document.addEventListener('visibilitychange',()=>{if(!document.hidden)apply()});
+apply();tick();loadHebcal();setInterval(tick,1000);setInterval(loadHebcal,30*60*1000);
+})();
+</script>
 </body>
 </html>
