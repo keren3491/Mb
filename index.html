@@ -26,8 +26,14 @@ body{padding:8px}
 .rows{height:calc(100% - 38px);display:flex;flex-direction:column;justify-content:space-evenly}
 .row{display:flex;justify-content:space-between;gap:10px;border-bottom:1px dotted #4c4300;padding:3px 4px;font-size:clamp(15px,1.8vw,30px)}
 .value{color:var(--white);direction:ltr}.green{color:var(--green)}.cyan{color:var(--cyan)}
-.event{font-size:clamp(19px,2.5vw,43px);color:var(--green);text-align:center}
-.parasha{font-size:clamp(27px,3.4vw,57px);color:#fff;text-align:center;margin-top:8px}
+.event{font-size:clamp(16px,1.8vw,30px);color:var(--green);text-align:center}
+.compact-rows{height:calc(100% - 34px);display:flex;flex-direction:column;justify-content:space-evenly}
+.compact-row{display:flex;justify-content:space-between;align-items:center;gap:8px;border-bottom:1px dotted #4c4300;padding:2px 3px;font-size:clamp(12px,1.35vw,23px)}
+.compact-value{color:var(--cyan);font-weight:900;text-align:left}
+.small-note{font-size:clamp(11px,1.15vw,19px);color:#ddd;text-align:center;margin-top:4px}
+.parasha{font-size:clamp(22px,2.8vw,47px);color:#fff;text-align:center;margin-top:5px}
+.seasonal-prayer{font-size:clamp(18px,2.2vw,36px);color:var(--cyan);text-align:center;margin:7px 0 3px}
+.daf-yomi{font-size:clamp(16px,1.9vw,31px);color:var(--green);text-align:center;margin:4px 0 2px}
 .footer{display:flex;align-items:center;overflow:hidden;border:1px solid #235800;border-radius:8px;background:#031000}
 .marquee{display:inline-block;min-width:max-content;white-space:nowrap;color:var(--green);font-size:clamp(18px,2.2vw,36px);animation:move 25s linear infinite}
 @keyframes move{from{transform:translateX(-105%)}to{transform:translateX(105%)}}
@@ -76,15 +82,41 @@ body{padding:8px}
   <div class="panel">
     <div class="heading led">פרשת השבוע</div>
     <div class="parasha led" id="parasha">טוען...</div>
-    <div class="heading led" style="margin-top:12px">אירוע היום</div>
-    <div class="event led" id="event">אין אירוע מיוחד</div>
+    <div class="heading led" style="margin-top:7px">הדף היומי</div>
+    <div class="daf-yomi led" id="dafYomi">טוען...</div>
+    <div class="heading led" style="margin-top:7px">האירוע הקרוב</div>
+    <div class="event led" id="upcomingHoliday">טוען...</div>
   </div>
 </section>
 
 <section class="main">
-  <div class="panel center"><div class="heading led">שם הצום</div><div class="event led" id="fastName">אין צום היום</div></div>
-  <div class="panel center"><div class="heading led">זמן הצום</div><div class="event led" id="fastTime">—</div></div>
-  <div class="panel center"><div class="heading led">קריאת מגילה</div><div class="event led" id="megillah">אין קריאה היום</div></div>
+  <div class="panel">
+    <div class="heading led">תוספות בתפילה</div>
+    <div class="compact-rows">
+      <div class="compact-row"><span>גבורות</span><span class="compact-value led" id="seasonalPrayer">טוען...</span></div>
+      <div class="compact-row"><span>ברכת השנים</span><span class="compact-value led" id="birkatHashanim">טוען...</span></div>
+      <div class="compact-row"><span>יעלה ויבוא</span><span class="compact-value led" id="yaalehVeyavo">טוען...</span></div>
+      <div class="compact-row"><span>על הניסים</span><span class="compact-value led" id="alHanissim">טוען...</span></div>
+    </div>
+  </div>
+  <div class="panel">
+    <div class="heading led">מנהגי היום</div>
+    <div class="compact-rows">
+      <div class="compact-row"><span>תחנון</span><span class="compact-value led" id="tachanun">טוען...</span></div>
+      <div class="compact-row"><span>הלל</span><span class="compact-value led" id="hallel">טוען...</span></div>
+      <div class="compact-row"><span>ספירת העומר</span><span class="compact-value led" id="omer">טוען...</span></div>
+      <div class="compact-row"><span>ראש חודש</span><span class="compact-value led" id="roshChodesh">טוען...</span></div>
+    </div>
+  </div>
+  <div class="panel">
+    <div class="heading led">שבת, צום ואירועים</div>
+    <div class="compact-rows">
+      <div class="compact-row"><span>אירוע היום</span><span class="compact-value led" id="event">אין אירוע מיוחד</span></div>
+      <div class="compact-row"><span>צום</span><span class="compact-value led" id="fastName">אין צום היום</span></div>
+      <div class="compact-row"><span>אב הרחמים</span><span class="compact-value led" id="avHarachamim">—</span></div>
+      <div class="compact-row"><span>צדקתך / ויתן לך</span><span class="compact-value led" id="shabbatCustoms">—</span></div>
+    </div>
+  </div>
 </section>
 
 <section class="footer"><div class="marquee led" id="ticker">לעילוי נשמת זהבה חלא בת דינה זצ״ל</div></section>
@@ -106,18 +138,120 @@ function apply(){
  const s=settings();
  $('synagogue').textContent=s.synagogue;
  $('rabbi').textContent=s.rabbi?('הרב '+s.rabbi.replace(/^הרב\s+/,'')):'שם הרב';
- for(const id of ['shacharit','mincha','maariv','lesson','event','fastName','fastTime','megillah']) $(id).textContent=s[id];
+ for(const id of ['shacharit','mincha','maariv','lesson']) $(id).textContent=s[id];
  $('ticker').textContent=[s.announcements,s.dedication].filter(Boolean).join(' • ');
 }
 function timeAt(zone){return new Intl.DateTimeFormat('en-US',{timeZone:zone,hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false}).format(new Date())}
+
+function seasonalPrayer(now=new Date()){
+ const parts=new Intl.DateTimeFormat('en-u-ca-hebrew',{
+  timeZone:'America/New_York',
+  day:'numeric',
+  month:'long'
+ }).formatToParts(now);
+ const day=Number(parts.find(p=>p.type==='day')?.value);
+ const month=parts.find(p=>p.type==='month')?.value||'';
+
+ const winterMonths=new Set([
+  'Heshvan','Kislev','Tevet','Shevat','Adar','Adar I','Adar II'
+ ]);
+
+ const winter=
+  (month==='Tishri' && day>=22) ||
+  winterMonths.has(month) ||
+  (month==='Nisan' && day<15);
+
+ return winter
+  ? 'מַשִּׁיב הָרוּחַ וּמוֹרִיד הַגֶּשֶׁם'
+  : 'מוֹרִיד הַטָּל';
+}
+
+
+function hebrewParts(now=new Date()){
+ const parts=new Intl.DateTimeFormat('en-u-ca-hebrew',{
+  timeZone:'America/New_York',day:'numeric',month:'long',year:'numeric'
+ }).formatToParts(now);
+ const get=t=>parts.find(p=>p.type===t)?.value||'';
+ return {day:Number(get('day')),month:get('month'),year:Number(get('year'))};
+}
+function isGregorianLeapYear(year){return year%4===0&&(year%100!==0||year%400===0)}
+function birkatHashanim(now=new Date()){
+ const hp=hebrewParts(now);
+ if(hp.month==='Nisan' && hp.day>=15) return 'בָּרְכֵנוּ';
+ const ny=new Date(now.toLocaleString('en-US',{timeZone:'America/New_York'}));
+ const y=ny.getFullYear();
+ const startDay=isGregorianLeapYear(y+1)?6:5;
+ const start=new Date(y,11,startDay);
+ const afterStart=ny>=start;
+ const beforePesach=!(hp.month==='Nisan' && hp.day>=15);
+ return (afterStart||beforePesach&&['Tevet','Shevat','Adar','Adar I','Adar II'].includes(hp.month))
+  ? 'בָּרֵךְ עָלֵינוּ'
+  : 'בָּרְכֵנוּ';
+}
+function titleText(item){return String(item?.hebrew||item?.title||'')}
+function hasEvent(items,patterns){
+ return items.some(item=>patterns.some(p=>p.test(titleText(item))));
+}
+function dailyGuidance(items,now=new Date()){
+ const hp=hebrewParts(now);
+ const weekday=Number(new Intl.DateTimeFormat('en-US',{
+  timeZone:'America/New_York',weekday:'short'
+ }).formatToParts(now).find(p=>p.type==='weekday') ? now.toLocaleString('en-US',{timeZone:'America/New_York',weekday:'short'})==='Sat' : false);
+ const isSat=new Intl.DateTimeFormat('en-US',{timeZone:'America/New_York',weekday:'short'}).format(now)==='Sat';
+
+ const rosh=hasEvent(items,[/ראש חודש|Rosh Chodesh/i]);
+ const chanukah=hasEvent(items,[/חנוכה|Chanukah/i]);
+ const purim=hasEvent(items,[/פורים|Purim/i]);
+ const pesach=hasEvent(items,[/פסח|Pesach/i]);
+ const shavuot=hasEvent(items,[/שבועות|Shavuot/i]);
+ const sukkot=hasEvent(items,[/סוכות|Sukkot|שמיני עצרת|Shemini Atzeret|שמחת תורה|Simchat Torah/i]);
+ const rh=hasEvent(items,[/ראש השנה|Rosh Hashana/i]);
+ const yomKippur=hasEvent(items,[/יום כיפור|Yom Kippur/i]);
+
+ $('yaalehVeyavo').textContent=(rosh||pesach||shavuot||sukkot||rh)?'אומרים':'אין אומרים';
+ $('alHanissim').textContent=(chanukah||purim)?'אומרים':'אין אומרים';
+ $('roshChodesh').textContent=rosh?'היום ראש חודש':'לא היום';
+
+ let hallel='אין הלל';
+ if(chanukah||shavuot||sukkot) hallel='הלל שלם';
+ else if(rosh||pesach) hallel='חצי הלל';
+ $('hallel').textContent=hallel;
+
+ const noTachanun=
+  isSat||rosh||chanukah||purim||pesach||shavuot||sukkot||rh||yomKippur||
+  hp.month==='Nisan'||
+  (hp.month==='Sivan'&&hp.day<=12)||
+  (hp.month==='Av'&&(hp.day===9||hp.day===15))||
+  (hp.month==='Tishri')||
+  (hp.month==='Shevat'&&hp.day===15)||
+  (hp.month==='Iyyar'&&(hp.day===14||hp.day===18));
+ $('tachanun').textContent=noTachanun?'אין אומרים':'אומרים';
+
+ const joyousShabbat=rosh||chanukah||pesach||shavuot||sukkot||rh||yomKippur;
+ $('avHarachamim').textContent=isSat?(joyousShabbat?'אין אומרים':'אומרים'):'רק בשבת';
+ $('shabbatCustoms').textContent=isSat
+  ? (noTachanun?'אין צדקתך • ויתן לך במוצ״ש':'צדקתך • ויתן לך במוצ״ש')
+  : 'לשבת בלבד';
+}
+
 function tick(){
  const now=new Date();
  $('nyClock').textContent=timeAt('America/New_York');
  $('israelClock').textContent=timeAt('Asia/Jerusalem');
  $('civilDate').textContent=new Intl.DateTimeFormat('en-US',{timeZone:'America/New_York',weekday:'long',month:'long',day:'numeric',year:'numeric'}).format(now);
  $('hebrewDate').textContent=new Intl.DateTimeFormat('he-u-ca-hebrew',{timeZone:'America/New_York',day:'numeric',month:'long',year:'numeric'}).format(now);
+ $('seasonalPrayer').textContent=seasonalPrayer(now);
+ $('birkatHashanim').textContent=birkatHashanim(now);
 }
 function fmtDate(d){return new Intl.DateTimeFormat('en-US',{timeZone:'America/New_York',hour:'numeric',minute:'2-digit'}).format(new Date(d))}
+function nyDateISO(){
+ const parts=new Intl.DateTimeFormat('en-CA',{
+  timeZone:'America/New_York',
+  year:'numeric',month:'2-digit',day:'2-digit'
+ }).formatToParts(new Date());
+ const get=type=>parts.find(p=>p.type===type)?.value;
+ return `${get('year')}-${get('month')}-${get('day')}`;
+}
 async function loadHebcal(){
  const cacheBuster=Date.now();
  try{
@@ -136,6 +270,49 @@ async function loadHebcal(){
  }catch(err){
   console.error('Hebcal Shabbat error:',err);
   $('parasha').textContent='לא זמין ללא אינטרנט';
+ }
+ try{
+  const today=nyDateISO();
+  const endDate=new Date();
+  endDate.setDate(endDate.getDate()+30);
+  const endParts=new Intl.DateTimeFormat('en-CA',{
+   timeZone:'America/New_York',year:'numeric',month:'2-digit',day:'2-digit'
+  }).formatToParts(endDate);
+  const ep=t=>endParts.find(p=>p.type===t)?.value;
+  const end=`${ep('year')}-${ep('month')}-${ep('day')}`;
+  const d=await fetch(
+   `https://www.hebcal.com/hebcal?cfg=json&v=1&F=on&o=on&maj=on&min=on&mod=on&nx=on&lg=he&start=${today}&end=${end}&geo=geoname&geonameid=5128581&M=on&_=${cacheBuster}`,
+   {cache:'no-store'}
+  );
+  if(!d.ok) throw new Error(`Hebcal calendar HTTP ${d.status}`);
+  const daily=await d.json();
+  const allItems=daily.items||[];
+  const todayItems=allItems.filter(x=>String(x.date||'').slice(0,10)===today);
+  const daf=todayItems.find(x=>x.category==='dafyomi');
+  const omer=todayItems.find(x=>x.category==='omer');
+  const holidays=todayItems.filter(x=>['holiday','roshchodesh','fast'].includes(x.category));
+  const fast=holidays.find(x=>/צום|תענית|Fast|Tish'a B'Av|Yom Kippur/i.test(titleText(x)));
+  const special=holidays.find(x=>x!==fast);
+
+  $('dafYomi').textContent=daf?titleText(daf):'לא זמין';
+  $('omer').textContent=omer?titleText(omer).replace(/^היום\s*/,''):'לא בתקופת העומר';
+  $('event').textContent=special?titleText(special):'אין אירוע מיוחד';
+  $('fastName').textContent=fast?titleText(fast):'אין צום היום';
+
+  const upcoming=allItems.find(x=>
+   String(x.date||'').slice(0,10)>today &&
+   ['holiday','roshchodesh','fast'].includes(x.category)
+  );
+  $('upcomingHoliday').textContent=upcoming
+   ? `${titleText(upcoming)} • ${new Intl.DateTimeFormat('he-IL',{timeZone:'America/New_York',day:'numeric',month:'numeric'}).format(new Date(upcoming.date))}`
+   : 'אין אירוע ב־30 הימים הקרובים';
+
+  dailyGuidance(todayItems,new Date());
+ }catch(err){
+  console.error('Hebcal daily calendar error:',err);
+  for(const id of ['dafYomi','omer','event','fastName','upcomingHoliday','tachanun','hallel','roshChodesh','yaalehVeyavo','alHanissim','avHarachamim','shabbatCustoms']){
+   const el=$(id); if(el) el.textContent='לא זמין';
+  }
  }
  try{
   const r=await fetch(
