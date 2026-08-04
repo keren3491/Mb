@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#050505">
+<title>ניהול לוח בית הכנסת</title>
+<style>
+:root{--bg:#050505;--panel:#0b0b0b;--line:#b89b00;--yellow:#ffd51c;--green:#58ff35;--cyan:#16efff;--white:#f8fbff}
+*{box-sizing:border-box}
+html,body{min-height:100%;margin:0;background:radial-gradient(circle at 50% 20%,#171717,#050505 58%,#000);color:var(--white);font-family:Arial,"Noto Sans Hebrew",sans-serif}
+body{padding:clamp(14px,3vw,38px)}
+.wrap{width:min(960px,100%);margin:auto}
+.head{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:18px}
+.head h1{margin:0;color:var(--cyan);font-size:clamp(27px,4vw,46px);text-shadow:0 0 10px currentColor}
+.back{display:inline-flex;align-items:center;justify-content:center;text-decoration:none;color:#000;background:var(--yellow);font-weight:900;border-radius:11px;padding:11px 17px}
+.card{background:rgba(8,8,8,.95);border:2px solid var(--line);border-radius:18px;padding:clamp(16px,3vw,28px);box-shadow:0 0 28px #000,inset 0 0 18px rgba(255,213,28,.05)}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:15px}
+.full{grid-column:1/-1}
+.section{grid-column:1/-1;color:var(--cyan);font-size:22px;font-weight:900;border-bottom:1px solid #4d4300;padding:14px 0 7px;margin-top:4px}
+label{display:block;color:var(--yellow);font-weight:800;font-size:16px;margin:0 0 7px}
+input,textarea{width:100%;padding:13px;border-radius:10px;border:1px solid #6a5a00;background:#121212;color:#fff;font:inherit;font-size:17px;outline:none}
+input:focus,textarea:focus{border-color:var(--green);box-shadow:0 0 0 2px rgba(88,255,53,.15)}
+textarea{min-height:105px;resize:vertical}
+.actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:21px}
+button{border:1px solid #666;background:#222;color:#fff;padding:11px 18px;border-radius:10px;font-weight:900;font-size:16px;cursor:pointer}
+.save{background:var(--green);border-color:var(--green);color:#001500}
+.danger{border-color:#8d2929;color:#ffb3b3}
+.status{min-height:26px;margin-top:14px;color:var(--green);font-weight:900}
+.preview{margin-top:18px;border:1px solid #4d4300;border-radius:12px;padding:14px;background:#050505}
+.preview b{color:var(--yellow)}
+#previewSynagogue{color:var(--cyan);font-size:26px;font-weight:950;text-shadow:0 0 8px currentColor}
+#previewRabbi{color:var(--yellow);font-size:22px;font-weight:950;text-shadow:0 0 8px currentColor}
+.hint{color:#aaa;font-size:14px;line-height:1.6;margin-top:10px}
+@media(max-width:700px){.grid{grid-template-columns:1fr}.full,.section{grid-column:auto}.head{align-items:flex-start}.back{white-space:nowrap}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="head">
+    <h1>⚙ ניהול לוח בית הכנסת</h1>
+    <a class="back" href="index.html?v=5">חזרה ללוח</a>
+  </div>
+
+  <main class="card">
+    <div class="grid">
+      <div class="section">הגדרות כלליות</div>
+
+      <div>
+        <label for="synagogue">שם בית הכנסת</label>
+        <input id="synagogue" autocomplete="off">
+      </div>
+
+      <div>
+        <label for="rabbi">שם הרב</label>
+        <input id="rabbi" placeholder="לדוגמה: דוד מהרי" autocomplete="off">
+      </div>
+
+      <div class="full">
+        <label for="announcements">הודעות מתחלפות</label>
+        <textarea id="announcements"></textarea>
+      </div>
+
+      <div class="full">
+        <label for="dedication">הקדשה / לעילוי נשמת</label>
+        <input id="dedication">
+      </div>
+
+      <div class="section">זמני תפילה</div>
+
+      <div><label for="shacharit">שחרית</label><input id="shacharit"></div>
+      <div><label for="mincha">מנחה</label><input id="mincha"></div>
+      <div><label for="maariv">ערבית</label><input id="maariv"></div>
+      <div><label for="lesson">שיעור תורה</label><input id="lesson"></div>
+    </div>
+
+    <div class="preview">
+      <b>תצוגה מקדימה:</b>
+      <div id="previewSynagogue"></div>
+      <div id="previewRabbi"></div>
+    </div>
+
+    <div class="actions">
+      <button class="save" id="save">שמור ועדכן</button>
+      <button class="danger" id="reset">איפוס</button>
+    </div>
+
+    <div id="status" class="status"></div>
+    <div class="hint">לאחר השמירה לחץ על “חזרה ללוח”. השם החדש של בית הכנסת ושם הרב יוצגו מיד.</div>
+  </main>
+</div>
+
+<script src="./config.js?v=5.0.1"></script>
+<script>
+(()=>{'use strict';
+const C=window.BOARD_CONFIG||{};
+const KEY=C.storageKey||'synagogueBoardCleanV1';
+const DEF={
+  synagogue:'בית הכנסת אליהו הנביא',
+  rabbi:'',
+  shacharit:'07:00',
+  mincha:'לפני השקיעה',
+  maariv:'20:30',
+  lesson:'21:15',
+  dedication:'לעילוי נשמת זהבה חלא בת דינה זצ״ל',
+  announcements:'ברוכים הבאים לבית הכנסת',
+  ...(C.defaults||{})
+};
+const $=id=>document.getElementById(id);
+
+function get(){
+  try{
+    return {...DEF,...JSON.parse(localStorage.getItem(KEY)||'{}')};
+  }catch{
+    return {...DEF};
+  }
+}
+function rabbiText(value){
+  const v=String(value||'').trim();
+  return v?(v.startsWith('הרב ')?v:`הרב ${v}`):'שם הרב';
+}
+function preview(){
+  $('previewSynagogue').textContent=$('synagogue').value.trim()||DEF.synagogue;
+  $('previewRabbi').textContent=rabbiText($('rabbi').value);
+}
+function fill(){
+  const s=get();
+  ['synagogue','rabbi','shacharit','mincha','maariv','lesson','dedication','announcements']
+    .forEach(id=>$(id).value=s[id]??'');
+  preview();
+}
+function read(){
+  return {
+    ...get(),
+    synagogue:$('synagogue').value.trim()||DEF.synagogue,
+    rabbi:$('rabbi').value.trim(),
+    shacharit:$('shacharit').value.trim()||DEF.shacharit,
+    mincha:$('mincha').value.trim()||DEF.mincha,
+    maariv:$('maariv').value.trim()||DEF.maariv,
+    lesson:$('lesson').value.trim()||DEF.lesson,
+    dedication:$('dedication').value.trim(),
+    announcements:$('announcements').value.trim()
+  };
+}
+function message(text){
+  $('status').textContent=text;
+}
+['synagogue','rabbi'].forEach(id=>$(id).addEventListener('input',preview));
+
+$('save').onclick=()=>{
+  localStorage.setItem(KEY,JSON.stringify(read()));
+  message('ההגדרות נשמרו בהצלחה. לחץ חזרה ללוח.');
+};
+$('reset').onclick=()=>{
+  if(confirm('לאפס את כל ההגדרות?')){
+    localStorage.removeItem(KEY);
+    fill();
+    message('ההגדרות אופסו.');
+  }
+};
+fill();
+})();
+</script>
+</body>
+</html>
