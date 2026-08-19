@@ -675,5 +675,28 @@ function refreshMemorialHeading(){
 
 setInterval(updateSelectedCountryClock,1000);updateSelectedCountryClock();refreshMemorialHeading();
 </script>
+
+<script id="light-a-candle-rotation">
+(function () {
+  const LIGHT_PAGE = "Lightacandle.html";
+  const BOARD_SHOW_MS = 60000; // show the main board for 60 seconds
+  let timer = null;
+
+  function goToLightPage() {
+    try {
+      if (!document.hidden && !document.querySelector("dialog[open]")) {
+        window.location.href = LIGHT_PAGE;
+      } else {
+        timer = setTimeout(goToLightPage, 10000);
+      }
+    } catch (e) {
+      window.location.href = LIGHT_PAGE;
+    }
+  }
+
+  timer = setTimeout(goToLightPage, BOARD_SHOW_MS);
+})();
+</script>
+
 </body>
 </html>
