@@ -59,7 +59,7 @@ button{border:2px solid #e5b340;border-radius:999px;background:linear-gradient(#
 
     <main class="main">
       <section class="card wide"><h3>📖 פרשת השבוע</h3><div class="hebrew" id="parashaHe">טוען אוטומטית…</div><div class="eng" id="parashaEn">Weekly Torah portion updates automatically.</div></section>
-      <section class="card"><h3>📜 תהילים של היום</h3><div class="hebrew" id="tehillim">מחשב לפי היום בחודש העברי…</div><div class="eng">חלוקה חודשית של ספר תהילים.</div></section>
+      <section class="card"><h3>📜 תהילים של היום</h3><div class="hebrew" id="tehillim">מחשב לפי היום בחודש העברי…</div><div class="eng">חלוקה חודשית של ספר תהילים.</div></section><section class="card"><h3>📚 הדף היומי</h3><div class="hebrew" id="dafYomi">טוען את הדף היומי…</div><div class="eng" id="dafYomiEn">Daf Yomi updates automatically every day.</div></section>
       <section class="card"><h3>🕯 הלכה יומית</h3><div class="hebrew" id="halacha"></div><div class="eng" id="halachaEn"></div></section>
       <section class="card"><h3>💡 מוסר יומי</h3><div class="hebrew" id="mussar"></div><div class="eng" id="mussarEn"></div></section>
       <section class="card"><h3>🔥 חסידות יומית</h3><div class="hebrew" id="chassidut"></div><div class="eng" id="chassidutEn"></div></section>
@@ -98,9 +98,35 @@ function setDaily(){
  pasuk.textContent=item.p;pasukEn.textContent=item.pe;halacha.textContent=item.h;halachaEn.textContent=item.he;
  mussar.textContent=item.m;mussarEn.textContent=item.me;chassidut.textContent=item.c;chassidutEn.textContent=item.ce;
 }
+
+async function updateDafYomi(now){
+  const ds = [
+    now.getFullYear(),
+    String(now.getMonth()+1).padStart(2,"0"),
+    String(now.getDate()).padStart(2,"0")
+  ].join("-");
+  try{
+    const url = `https://www.hebcal.com/hebcal?cfg=json&v=1&F=on&start=${ds}&end=${ds}`;
+    const r = await fetch(url,{cache:"no-store"});
+    const j = await r.json();
+    const daf = (j.items||[]).find(x=>x.category==="dafyomi");
+    if(daf){
+      dafYomi.textContent = daf.hebrew || daf.title || "הדף היומי";
+      dafYomiEn.textContent = daf.title || "Daf Yomi";
+    }else{
+      dafYomi.textContent = "הדף היומי אינו זמין כרגע";
+      dafYomiEn.textContent = "Daf Yomi data is temporarily unavailable.";
+    }
+  }catch(e){
+    dafYomi.textContent = "לא ניתן לטעון את הדף היומי כרגע";
+    dafYomiEn.textContent = "Could not load Daf Yomi. Check internet connection.";
+  }
+}
+
 async function updateJewishData(){
  const now=new Date();
  todayDate.textContent=new Intl.DateTimeFormat("he-IL",{weekday:"long",year:"numeric",month:"long",day:"numeric"}).format(now);
+ await updateDafYomi(now);
  try{
    const ds=now.toISOString().slice(0,10);
    const r=await fetch(`https://www.hebcal.com/converter?cfg=json&date=${ds}&g2h=1&strict=1`,{cache:"no-store"});

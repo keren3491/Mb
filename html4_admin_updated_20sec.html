@@ -250,7 +250,7 @@
       <h2>פרשת השבוע</h2>
       <div id="parasha" class="center big">טוען...</div>
       <div class="row"><span>הדף היומי</span><span id="dafYomi" class="value greenText">טוען...</span></div>
-      <div class="row"><span>האירוע הקרוב</span><span id="nextHoliday" class="value goldText">טוען...</span></div>
+      <div class="row"><span><div class="label" style="margin-top:8px">הדף היומי</div><div id="dafYomiMain" style="font-weight:900;color:#7CFF66;font-size:clamp(18px,2vw,30px);margin-bottom:8px">טוען...</div>האירוע הקרוב</span><span id="nextHoliday" class="value goldText">טוען...</span></div>
       <div class="row"><span>סליחות</span><span class="value greenText selichot-lines"><small id="selichotSef">ספרד: מחשב...</small><small id="selichotAsh">אשכנז: מחשב...</small></span></div>
     </div>
 
@@ -693,6 +693,33 @@ setInterval(updateSelectedCountryClock,1000);updateSelectedCountryClock();refres
     }
   }
   timer = setTimeout(goNext, SHOW_MS);
+})();
+</script>
+
+
+<script id="daf-yomi-main-loader">
+(async function(){
+  const el = document.getElementById("dafYomiMain");
+  if(!el) return;
+  const now = new Date();
+  const ds = [
+    now.getFullYear(),
+    String(now.getMonth()+1).padStart(2,"0"),
+    String(now.getDate()).padStart(2,"0")
+  ].join("-");
+  try{
+    const url = `https://www.hebcal.com/hebcal?cfg=json&v=1&F=on&start=${ds}&end=${ds}`;
+    const r = await fetch(url,{cache:"no-store"});
+    const j = await r.json();
+    const daf = (j.items||[]).find(x => x.category === "dafyomi");
+    if(daf){
+      el.textContent = daf.hebrew || daf.title || "הדף היומי";
+    } else {
+      el.textContent = "לא זמין כרגע";
+    }
+  }catch(e){
+    el.textContent = "לא ניתן לטעון כרגע";
+  }
 })();
 </script>
 
