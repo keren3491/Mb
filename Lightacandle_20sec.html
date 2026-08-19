@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Light a Candle • נר נשמה</title>
+<style>
+:root{
+  --gold:#f6c94b; --gold2:#d69b21; --wood:#6b3519; --wood2:#32170c;
+  --cream:#ffe7a6; --brown:#130a06; --panel:#0b0705; --blue:#29a9ff;
+}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;background:
+  radial-gradient(circle at 50% 8%,rgba(255,203,78,.20),transparent 28%),
+  radial-gradient(circle at 50% 100%,rgba(22,121,255,.13),transparent 36%),
+  #050302;color:#fff;font-family:Arial,"Noto Sans Hebrew",sans-serif}
+body{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:18px}
+.frame{
+  width:min(1500px,98vw); min-height:94vh; position:relative; overflow:hidden;
+  border:20px solid transparent; border-radius:26px;
+  background:
+    linear-gradient(#100704,#100704) padding-box,
+    linear-gradient(135deg,#3b1909,#a86422,#f4cf6a,#6a3517,#e5ad45,#2a1007) border-box;
+  box-shadow:0 0 35px #000,0 0 30px rgba(31,161,255,.65),inset 0 0 25px rgba(255,192,63,.24);
+}
+.frame:before,.frame:after{
+  content:"";position:absolute;inset:8px;border:3px solid rgba(246,201,75,.75);
+  border-radius:14px;pointer-events:none;box-shadow:0 0 15px rgba(40,164,255,.6)
+}
+.frame:after{inset:14px;border-color:rgba(45,164,255,.85)}
+.inner{padding:26px 32px 34px;position:relative;z-index:1}
+.top-plaque{
+  margin:0 auto 12px;max-width:900px;text-align:center;color:#2b1409;
+  background:linear-gradient(#ffe8a8,#eebf53);
+  border:5px ridge #e2a934;border-radius:15px;padding:12px 22px;
+  box-shadow:0 8px 22px #000, inset 0 0 18px rgba(120,57,6,.32)
+}
+.top-plaque .small{font-size:clamp(15px,1.4vw,22px);font-weight:700;line-height:1.35}
+h1{margin:8px 0 1px;text-align:center;color:#ffd45d;font-size:clamp(34px,4vw,70px);
+  text-shadow:0 0 8px #000,0 0 18px rgba(255,187,31,.45)}
+.subtitle{text-align:center;font-weight:900;color:#fff1bf;font-size:clamp(20px,2.2vw,34px);margin-bottom:18px}
+.grid{
+  display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;
+  background:linear-gradient(180deg,#efc458,#b57924);padding:8px;border-radius:13px;
+  border:4px solid #f2cf70;box-shadow:0 0 24px rgba(245,190,61,.35)
+}
+.cell{
+  min-height:145px;background:linear-gradient(180deg,#100a06,#050302);
+  border:2px solid #f0bd3e;border-radius:7px;display:flex;align-items:center;gap:12px;
+  justify-content:center;padding:10px;position:relative;overflow:hidden;
+  box-shadow:inset 0 0 16px rgba(255,179,29,.08)
+}
+.candle{width:42px;min-width:42px;height:96px;position:relative;display:flex;justify-content:center;align-items:flex-end}
+.wax{width:22px;height:62px;border-radius:4px 4px 7px 7px;background:linear-gradient(90deg,#e7d5a8,#fff9d9,#c9b783);
+  box-shadow:0 0 9px rgba(255,250,198,.45);position:relative}
+.wick{position:absolute;width:3px;height:12px;background:#1f140d;top:-10px;left:50%;transform:translateX(-50%)}
+.flame{position:absolute;top:2px;width:25px;height:38px;border-radius:55% 45% 55% 45%;
+  background:radial-gradient(circle at 50% 65%,#fff 0 11%,#ffe66f 12% 33%,#ff9e14 34% 62%,#ff5a00 63% 78%,transparent 80%);
+  filter:drop-shadow(0 0 8px #ff9a00);animation:flicker .9s infinite alternate ease-in-out;transform-origin:50% 90%}
+@keyframes flicker{0%{transform:rotate(-4deg) scale(.94,1.04)}50%{transform:rotate(3deg) scale(1.04,.96)}100%{transform:rotate(-1deg) scale(.98,1.08)}}
+.name{flex:1;text-align:center;color:#fff4d0;font-weight:900;font-size:clamp(15px,1.35vw,23px);
+  line-height:1.25;text-shadow:0 0 7px #000;overflow-wrap:anywhere}
+.name small{display:block;color:#e3b64e;font-size:.7em;margin-top:5px}
+.footer{display:flex;justify-content:center;gap:10px;align-items:center;margin-top:16px;flex-wrap:wrap}
+button{
+  border:2px solid #efc755;border-radius:999px;background:linear-gradient(#8b501d,#4c250d);
+  color:#fff7d6;font-weight:900;padding:10px 18px;font-size:16px;box-shadow:0 0 10px rgba(255,187,34,.28);cursor:pointer
+}
+button:hover{filter:brightness(1.12)}
+.status{font-size:14px;color:#c9dfff;text-align:center}
+dialog{
+  width:min(760px,94vw);max-height:90vh;border:4px solid #d8a233;border-radius:18px;
+  background:#120904;color:#fff;padding:0;box-shadow:0 0 55px #000
+}
+dialog::backdrop{background:rgba(0,0,0,.78)}
+.admin-head{padding:18px 20px;background:linear-gradient(#754017,#351708);border-bottom:2px solid #d8a233}
+.admin-head h2{margin:0;color:#ffd768}
+.admin-body{padding:18px 20px}
+.admin-body p{margin-top:0;color:#ffeab2}
+.names-editor{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.names-editor label{font-weight:700;color:#e8c76d}
+.names-editor input{
+ width:100%;margin-top:5px;border:1px solid #9a6e25;border-radius:8px;padding:10px;
+ background:#070504;color:white;font-size:16px
+}
+.actions{display:flex;justify-content:flex-start;gap:10px;margin-top:18px;flex-wrap:wrap}
+.countdown{color:#7ecaff;font-weight:800}
+@media(max-width:900px){
+ .grid{grid-template-columns:repeat(4,minmax(0,1fr))}
+ .cell{min-height:125px}.inner{padding:22px 18px 30px}
+}
+@media(max-width:620px){
+ body{padding:6px}.frame{border-width:12px}.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}
+ .cell{min-height:116px}.names-editor{grid-template-columns:1fr}.top-plaque{padding:9px 12px}
+}
+</style>
+</head>
+<body>
+<div class="frame">
+  <div class="inner">
+    <div class="top-plaque">
+      <div class="small">לוח זיכרון • נרות נשמה • לעילוי נשמת יקירינו</div>
+      <div class="small">“נֵר ה׳ נִשְׁמַת אָדָם”</div>
+    </div>
+
+    <h1>🕯 קודש למזכרת 🕯</h1>
+    <div class="subtitle">מאור החכמה יאיר לעד • שמות יקירינו לצד נרות הנשמה</div>
+
+    <div id="candlesGrid" class="grid" aria-label="נרות זיכרון"></div>
+
+    <div class="footer">
+      <button id="adminBtn" type="button">⚙️ Admin • עריכת שמות</button>
+      <button id="boardBtn" type="button">המשך לשיעור היומי</button>
+      <div class="status">מעבר אוטומטי ללוח בעוד <span id="countdown" class="countdown">20</span> שניות</div>
+    </div>
+  </div>
+</div>
+
+<dialog id="adminDialog">
+  <div class="admin-head"><h2>Admin • שמות ליד 20 הנרות</h2></div>
+  <div class="admin-body">
+    <p>כתוב שם ליד כל נר. השמות נשמרים באותו Local Storage של לוח בית הכנסת.</p>
+    <div id="namesEditor" class="names-editor"></div>
+    <div class="actions">
+      <button type="button" id="saveBtn">שמור ועדכן</button>
+      <button type="button" id="closeBtn">סגור</button>
+      <button type="button" id="resetBtn">איפוס</button>
+    </div>
+  </div>
+</dialog>
+
+<script>
+const STORE = "synagogueBoardSettings";
+const BOARD_PAGE = "ShiurYomi.html";
+const LIGHT_SHOW_SECONDS = 20;
+const defaultNames = [
+  "זהבה חלא זצ״ל","","","","","","","","","","","","","","","","","","",""
+];
+
+function getSettings(){
+  try { return JSON.parse(localStorage.getItem(STORE)||"{}"); }
+  catch(e){ return {}; }
+}
+function getNames(){
+  const s=getSettings();
+  let list=[];
+  if(Array.isArray(s.memorialNames)){
+    list=s.memorialNames;
+  }else if(typeof s.memorialNames==="string"){
+    list=s.memorialNames.split(/\n+/);
+  }
+  list=list.map(x=>String(x||"").trim()).slice(0,20);
+  while(list.length<20) list.push(defaultNames[list.length]||"");
+  return list;
+}
+function saveNames(list){
+  const s=getSettings();
+  s.memorialNames=list.map(x=>String(x||"").trim()).join("\n");
+  localStorage.setItem(STORE,JSON.stringify(s));
+}
+function escapeHtml(v){
+  return String(v||"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]));
+}
+function renderCandles(){
+  const grid=document.getElementById("candlesGrid");
+  grid.innerHTML="";
+  getNames().forEach((name,i)=>{
+    const shown=name || "שם יקיר/ה";
+    const cell=document.createElement("div");
+    cell.className="cell";
+    cell.innerHTML=`
+      <div class="candle" aria-hidden="true">
+        <div class="flame"></div>
+        <div class="wax"><div class="wick"></div></div>
+      </div>
+      <div class="name">${escapeHtml(shown)}<small>ת.נ.צ.ב.ה.</small></div>`;
+    grid.appendChild(cell);
+  });
+}
+function buildEditor(){
+  const box=document.getElementById("namesEditor");
+  box.innerHTML="";
+  getNames().forEach((name,i)=>{
+    const label=document.createElement("label");
+    label.innerHTML=`נר ${i+1}<input id="name_${i}" type="text" value="${escapeHtml(name)}" placeholder="שם יקיר/ה">`;
+    box.appendChild(label);
+  });
+}
+function goBoard(){ window.location.href=BOARD_PAGE; }
+
+document.getElementById("adminBtn").addEventListener("click",()=>{
+  buildEditor(); document.getElementById("adminDialog").showModal();
+});
+document.getElementById("boardBtn").addEventListener("click",goBoard);
+document.getElementById("closeBtn").addEventListener("click",()=>document.getElementById("adminDialog").close());
+document.getElementById("saveBtn").addEventListener("click",()=>{
+  const list=Array.from({length:20},(_,i)=>document.getElementById("name_"+i).value);
+  saveNames(list); renderCandles(); document.getElementById("adminDialog").close();
+});
+document.getElementById("resetBtn").addEventListener("click",()=>{
+  saveNames(defaultNames); buildEditor(); renderCandles();
+});
+
+let remaining=LIGHT_SHOW_SECONDS;
+const cd=document.getElementById("countdown");
+cd.textContent=remaining;
+setInterval(()=>{
+  if(document.getElementById("adminDialog").open) return;
+  remaining--;
+  cd.textContent=Math.max(remaining,0);
+  if(remaining<=0) goBoard();
+},1000);
+
+renderCandles();
+</script>
+</body>
+</html>
