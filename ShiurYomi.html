@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>שיעור יומי • Daily Torah Study</title>
+<style>
+:root{--gold:#f7ca50;--gold2:#c98b24;--blue:#28a9ff}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;background:#040302;color:#fff;font-family:Arial,"Noto Sans Hebrew",sans-serif}
+body{min-height:100vh;padding:14px;background:radial-gradient(circle at 50% 0%,rgba(245,187,57,.22),transparent 30%),radial-gradient(circle at 50% 100%,rgba(27,143,255,.17),transparent 35%),#050302}
+.wood-frame{min-height:calc(100vh - 28px);border:22px solid transparent;border-radius:28px;background:linear-gradient(#0a0604,#0a0604) padding-box,linear-gradient(135deg,#2b1207,#74401c,#d49a3b,#f7d473,#9d5725,#361508) border-box;box-shadow:0 0 40px #000,0 0 28px rgba(32,157,255,.62),inset 0 0 30px rgba(255,194,50,.15);position:relative;overflow:hidden}
+.wood-frame:before,.wood-frame:after{content:"";position:absolute;pointer-events:none;border-radius:16px}
+.wood-frame:before{inset:7px;border:3px solid #dca739;box-shadow:0 0 12px #ffc44d}
+.wood-frame:after{inset:14px;border:3px solid #2ba9ff;box-shadow:0 0 20px #159fff}
+.wrap{position:relative;z-index:1;padding:20px 24px 26px;max-width:1500px;margin:auto}
+.header{display:grid;grid-template-columns:150px 1fr 150px;gap:14px;align-items:center;margin-bottom:14px}
+.badge{height:112px;border:3px solid var(--gold2);border-radius:18px;background:linear-gradient(145deg,#6c3518,#2d1309);display:flex;align-items:center;justify-content:center;flex-direction:column;box-shadow:inset 0 0 18px rgba(255,200,83,.22)}
+.badge .icon{font-size:42px}.badge b{color:#ffd660;font-size:20px}
+.title{text-align:center}.title h1{margin:0;color:#ffd65f;font-size:clamp(44px,6vw,84px);line-height:1;text-shadow:0 0 8px #000,0 0 22px rgba(255,189,39,.45)}
+.title h2{margin:7px 0 0;color:#eaf7ff;font-size:clamp(18px,2vw,30px)}
+.date{margin-top:7px;color:#7bc8ff;font-weight:900;font-size:clamp(15px,1.5vw,22px)}
+.content{display:grid;grid-template-columns:150px 1fr 150px;gap:14px}
+.side{display:grid;grid-template-rows:repeat(6,1fr);gap:8px}
+.tribe{min-height:84px;border:2px solid #dca438;border-radius:13px;background:linear-gradient(#46220f,#1b0c06);display:flex;align-items:center;justify-content:center;flex-direction:column;box-shadow:inset 0 0 14px rgba(255,208,84,.13)}
+.tribe i{font-style:normal;font-size:28px}.tribe b{color:#ffd367;font-size:18px}
+.main{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.card{border:2px solid #d49b30;border-radius:16px;background:linear-gradient(180deg,#17100b,#090604);padding:14px 17px;box-shadow:inset 0 0 22px rgba(255,195,50,.08),0 7px 18px rgba(0,0,0,.45)}
+.card h3{margin:0 0 8px;color:#ffd45b;font-size:clamp(21px,2vw,30px)}
+.hebrew{font-size:clamp(18px,1.7vw,26px);line-height:1.5;font-weight:800;color:#fff8dd}
+.eng{font-size:clamp(14px,1.1vw,18px);line-height:1.4;color:#d7eaff;margin-top:8px}
+.wide{grid-column:1/-1}
+.memorial{margin-top:12px;padding:11px;border:2px solid #c9922b;border-radius:15px;text-align:center;background:linear-gradient(90deg,#150a05,#2c160a,#150a05);color:#ffe8a1;font-size:clamp(18px,1.8vw,26px);font-weight:900}
+.controls{display:flex;justify-content:center;gap:10px;align-items:center;flex-wrap:wrap;margin-top:11px}
+button{border:2px solid #e5b340;border-radius:999px;background:linear-gradient(#744019,#3a1a0a);color:#fff2c5;font-weight:900;padding:9px 17px;font-size:15px;cursor:pointer}
+#countdown{color:#71c5ff;font-weight:900}
+@media(max-width:900px){.header,.content{grid-template-columns:110px 1fr 110px}.badge{height:95px}.tribe{min-height:74px}}
+@media(max-width:700px){body{padding:4px}.wood-frame{border-width:12px}.wrap{padding:17px 10px 22px}.header{grid-template-columns:1fr}.badge,.side{display:none}.content{grid-template-columns:1fr}.main{grid-template-columns:1fr}.wide{grid-column:auto}}
+</style>
+</head>
+<body>
+<div class="wood-frame"><div class="wrap">
+  <div class="header">
+    <div class="badge"><div class="icon">🕎</div><b>י״ב שבטים</b></div>
+    <div class="title">
+      <h1>שיעור יומי</h1>
+      <h2>תורה • תהילים • הלכה • מוסר • חסידות</h2>
+      <div class="date" id="todayDate">טוען תאריך…</div>
+    </div>
+    <div class="badge"><div class="icon">✡️</div><b>עם ישראל חי</b></div>
+  </div>
+
+  <div class="content">
+    <aside class="side">
+      <div class="tribe"><i>🌊</i><b>ראובן</b></div><div class="tribe"><i>⚔️</i><b>שמעון</b></div>
+      <div class="tribe"><i>🕎</i><b>לוי</b></div><div class="tribe"><i>🦁</i><b>יהודה</b></div>
+      <div class="tribe"><i>⚖️</i><b>דן</b></div><div class="tribe"><i>🦌</i><b>נפתלי</b></div>
+    </aside>
+
+    <main class="main">
+      <section class="card wide"><h3>📖 פרשת השבוע</h3><div class="hebrew" id="parashaHe">טוען אוטומטית…</div><div class="eng" id="parashaEn">Weekly Torah portion updates automatically.</div></section>
+      <section class="card"><h3>📜 תהילים של היום</h3><div class="hebrew" id="tehillim">מחשב לפי היום בחודש העברי…</div><div class="eng">חלוקה חודשית של ספר תהילים.</div></section>
+      <section class="card"><h3>🕯 הלכה יומית</h3><div class="hebrew" id="halacha"></div><div class="eng" id="halachaEn"></div></section>
+      <section class="card"><h3>💡 מוסר יומי</h3><div class="hebrew" id="mussar"></div><div class="eng" id="mussarEn"></div></section>
+      <section class="card"><h3>🔥 חסידות יומית</h3><div class="hebrew" id="chassidut"></div><div class="eng" id="chassidutEn"></div></section>
+      <section class="card wide"><h3>✨ פסוק יומי</h3><div class="hebrew" id="pasuk"></div><div class="eng" id="pasukEn"></div></section>
+    </main>
+
+    <aside class="side">
+      <div class="tribe"><i>⛺</i><b>גד</b></div><div class="tribe"><i>🫒</i><b>אשר</b></div>
+      <div class="tribe"><i>📚</i><b>יששכר</b></div><div class="tribe"><i>⛵</i><b>זבולון</b></div>
+      <div class="tribe"><i>🌾</i><b>יוסף</b></div><div class="tribe"><i>🐺</i><b>בנימין</b></div>
+    </aside>
+  </div>
+
+  <div class="memorial">לעילוי נשמת זהבה חלא בת דינה זצ״ל</div>
+  <div class="controls"><button onclick="location.href='html4_admin_updated_20sec.html'">ללוח המודעות</button><span>מעבר אוטומטי בעוד <span id="countdown">20</span> שניות</span></div>
+</div></div>
+
+<script>
+const NEXT_PAGE="html4_admin_updated_20sec.html";
+const SHOW_SECONDS=20;
+
+const daily=[
+{p:"טוֹב ה׳ לַכֹּל וְרַחֲמָיו עַל כָּל מַעֲשָׂיו.",pe:"The Lord is good to all, and His mercy is upon all His works.",h:"לפני אכילה מברכים את הברכה הראויה בכוונה.",he:"Before eating, say the appropriate blessing with intention.",m:"מעט אור דוחה הרבה מן החושך.",me:"A little light can push away much darkness.",c:"עבודת היום היא להוסיף אור במקום שבו אנחנו נמצאים.",ce:"Today's service is to add light wherever we are."},
+{p:"שִׁוִּיתִי ה׳ לְנֶגְדִּי תָמִיד.",pe:"I have set the Lord before me always.",h:"יש להשתדל לדבר בנחת ובכבוד עם כל אדם.",he:"Try to speak calmly and respectfully to every person.",m:"איזהו מכובד? המכבד את הבריות.",me:"Who is honored? One who honors others.",c:"כל יהודי הוא עולם מלא ונשמה אלוקית.",ce:"Every Jew is a complete world and a Divine soul."},
+{p:"עִבְדוּ אֶת ה׳ בְּשִׂמְחָה.",pe:"Serve the Lord with joy.",h:"צדקה ראוי לתת בסבר פנים יפות.",he:"Charity should be given graciously.",m:"שמחה פותחת את הלב לעבודת ה׳.",me:"Joy opens the heart to the service of God.",c:"שמחה פורצת גדר ומרוממת את האדם.",ce:"Joy breaks barriers and lifts a person."},
+{p:"דְּרָכֶיהָ דַרְכֵי נֹעַם וְכָל נְתִיבוֹתֶיהָ שָׁלוֹם.",pe:"Her ways are ways of pleasantness and all her paths are peace.",h:"מצווה לכבד אב ואם בדיבור ובמעשה.",he:"It is a mitzvah to honor one's parents in speech and deed.",m:"הסבלנות היא כוח של גבורה פנימית.",me:"Patience is a form of inner strength.",c:"אהבת ישראל היא יסוד גדול בעבודת ה׳.",ce:"Love of a fellow Jew is a great foundation of Divine service."},
+{p:"בְּטַח אֶל ה׳ בְּכָל לִבֶּךָ.",pe:"Trust in the Lord with all your heart.",h:"יש לשמור על כבוד בית הכנסת ולהימנע משיחה בטלה.",he:"Preserve the sanctity of the synagogue and avoid idle conversation there.",m:"הבוטח בה׳ מוצא מנוחה גם בתוך הקושי.",me:"One who trusts in God can find calm even amid difficulty.",c:"המחשבה הטובה והביטחון בה׳ פועלים טוב בעולם.",ce:"Positive thought and trust in God bring goodness into the world."},
+{p:"זֶה הַיּוֹם עָשָׂה ה׳ נָגִילָה וְנִשְׂמְחָה בוֹ.",pe:"This is the day the Lord has made; let us rejoice in it.",h:"בערב שבת מכינים את צורכי השבת מבעוד יום.",he:"Prepare for Shabbat before it begins.",m:"הכנה טובה לקדושה מתחילה עוד לפני זמן המצווה.",me:"Good preparation for holiness begins before the mitzvah itself.",c:"שבת מגלה את הנשמה היתרה ואת המנוחה הפנימית.",ce:"Shabbat reveals the additional soul and inner rest."},
+{p:"וְשָׁמְרוּ בְנֵי יִשְׂרָאֵל אֶת הַשַּׁבָּת.",pe:"The children of Israel shall keep the Shabbat.",h:"בשבת נמנעים ממלאכה ושומרים את קדושת היום.",he:"On Shabbat we refrain from melachah and preserve the holiness of the day.",m:"מנוחת שבת היא גם מנוחת הנפש.",me:"Shabbat rest is also rest for the soul.",c:"השבת היא מקור הברכה לכל ימות השבוע.",ce:"Shabbat is a source of blessing for the entire week."}
+];
+
+const tehillimSchedule={1:"א–ט",2:"י–יז",3:"יח–כב",4:"כג–כח",5:"כט–לד",6:"לה–לח",7:"לט–מג",8:"מד–מח",9:"מט–נד",10:"נה–נט",11:"ס–סה",12:"סו–סח",13:"סט–עא",14:"עב–עו",15:"עז–עח",16:"עט–פב",17:"פג–פז",18:"פח–פט",19:"צ–צו",20:"צז–קג",21:"קד–קה",22:"קו–קז",23:"קח–קיב",24:"קיג–קיח",25:"קיט א–צו",26:"קיט צז–קעו",27:"קכ–קלד",28:"קלה–קלט",29:"קמ–קמד",30:"קמה–קנ"};
+
+function setDaily(){
+ const item=daily[new Date().getDay()];
+ pasuk.textContent=item.p;pasukEn.textContent=item.pe;halacha.textContent=item.h;halachaEn.textContent=item.he;
+ mussar.textContent=item.m;mussarEn.textContent=item.me;chassidut.textContent=item.c;chassidutEn.textContent=item.ce;
+}
+async function updateJewishData(){
+ const now=new Date();
+ todayDate.textContent=new Intl.DateTimeFormat("he-IL",{weekday:"long",year:"numeric",month:"long",day:"numeric"}).format(now);
+ try{
+   const ds=now.toISOString().slice(0,10);
+   const r=await fetch(`https://www.hebcal.com/converter?cfg=json&date=${ds}&g2h=1&strict=1`,{cache:"no-store"});
+   const j=await r.json();
+   if(j.hebrew){todayDate.textContent+=" • "+j.hebrew;const hd=Math.min(30,Math.max(1,Number(j.hd)||1));tehillim.textContent="פרקים "+(tehillimSchedule[hd]||"א–ט");}
+ }catch(e){const hd=((now.getDate()-1)%30)+1;tehillim.textContent="פרקים "+(tehillimSchedule[hd]||"א–ט");}
+ try{
+   const r=await fetch("https://www.hebcal.com/hebcal?v=1&cfg=json&year=now&month=x&s=on",{cache:"no-store"});
+   const j=await r.json();const p=(j.items||[]).find(x=>x.category==="parashat");
+   if(p){parashaHe.textContent=p.hebrew||p.title;parashaEn.textContent=p.title||"Weekly Torah portion";}
+   else{parashaHe.textContent="פרשת השבוע מתעדכנת אוטומטית";}
+ }catch(e){parashaHe.textContent="פרשת השבוע מתעדכנת אוטומטית כאשר יש חיבור לאינטרנט";parashaEn.textContent="Automatic update available when online.";}
+}
+setDaily();updateJewishData();
+let remaining=SHOW_SECONDS;countdown.textContent=remaining;
+setInterval(()=>{if(document.hidden)return;remaining--;countdown.textContent=Math.max(remaining,0);if(remaining<=0)location.href=NEXT_PAGE;},1000);
+</script>
+</body>
+</html>
