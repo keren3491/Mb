@@ -128,6 +128,23 @@
     .settings{grid-template-columns:1fr}
   }
 
+  /* Feature pages must ignore the three-column dashboard layout. */
+  #dailyShiurView,#dailyShiurView>section,#dailyShiurView .daily-shiur,
+  #dafYomiView,#dafYomiView .daily-shiur,#memorialView,#memorialView .memorial-candles{
+    width:100%!important;max-width:none!important
+  }
+  #dailyShiurView>section.grid{display:block!important;margin:0!important}
+  #dailyShiurView .daily-shiur{min-height:520px;padding:34px!important}
+  #dailyShiurView .daily-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+  @media(max-width:850px){
+    #featureRotator.feature-mode{padding:118px 112px 145px!important}
+    #dailyShiurView .daily-shiur{min-height:650px;padding:20px 14px!important}
+    #dailyShiurView .daily-grid{grid-template-columns:1fr!important}
+    .daily-item{padding:14px 8px}.daily-item b,.daily-item span{font-size:20px}
+    .rotation-status{display:none}
+    .candle-row{grid-template-columns:repeat(5,1fr)}
+  }
+
   /* Rich carved wooden frame */
   body{padding:110px 150px 145px; position:relative;}
   .frame-piece{position:fixed;z-index:1000;pointer-events:none;background-repeat:no-repeat}
@@ -410,9 +427,11 @@
             <div class="daily-item"><b>פרשת השבוע</b><span id="dailyParasha">טוען...</span></div>
             <div class="daily-item"><b>דף יומי</b><span id="dailyDaf">טוען...</span></div>
             <div class="daily-item"><b>תהילים יומי</b><span id="dailyTehillim">טוען...</span></div>
-            <div class="daily-item"><b>לימוד נוסף</b><span id="dailyExtra">טוען...</span></div>
+            <div class="daily-item"><b>פסוק יומי</b><span id="dailyPasuk">עִבְדוּ אֶת ה׳ בְּשִׂמְחָה</span></div>
+            <div class="daily-item"><b>הלכה יומית</b><span id="dailyHalacha">טוב להוסיף בכל יום בלימוד התורה, אפילו מעט, בקביעות ובשמחה.</span></div>
+            <div class="daily-item"><b>מוסר וחסידות</b><span id="dailyExtra">כל יום הוא התחלה חדשה לעבודת ה׳, לתפילה ולמעשה חסד.</span></div>
           </div>
-          <div class="daily-note" id="dailyNote">התוכן משתנה לפי התאריך העברי ולוחות הלימוד היומיים.</div>
+          <div class="daily-note" id="dailyNote">תורה • תהילים • הלכה • מוסר • חסידות — לעילוי נשמת זהבה חלא בת דינה זצ״ל</div>
         </div>
       </section>
     </div>
@@ -453,23 +472,27 @@
 <dialog id="settingsDialog">
   <form method="dialog">
     <h2 class="center goldText">ניהול לוח בית הכנסת</h2>
+    <div style="position:sticky;top:0;z-index:20;background:#0a0a0a;padding:8px;border:2px solid #71ff24;border-radius:10px;text-align:center">
+      <button type="button" class="action" onclick="saveSettings();return false">💾 שמור את כל הזמנים</button>
+      <div id="saveStatus" style="color:#71ff24;font-weight:900;margin-top:5px"></div>
+    </div>
     <div class="settings">
       <label>שם בית הכנסת<input id="sSynagogue" value="בית הכנסת בית תורה"></label>
       <label>שם הרב<input id="sRabbi" value="הרב"></label>
       <label>מיקוד ארה״ב לזמנים<input id="sZip" value="11795" inputmode="numeric"></label>
       <label>אזור זמן מקומי<input id="sTimezone" value="America/New_York"></label>
-      <label>שחרית<input id="sShacharit" value="07:00"></label>
+      <label>שחרית<input id="sShacharit" type="time" value="07:00"></label>
       <label>מנחה<input id="sMincha" value="לפני השקיעה"></label>
-      <label>ערבית<input id="sMaariv" value="20:30"></label>
-      <label>שיעור תורה<input id="sShiur" value="21:15"></label>
+      <label>ערבית<input id="sMaariv" type="time" value="20:30"></label>
+      <label>שיעור תורה<input id="sShiur" type="time" value="21:15"></label>
 
       <label>משך שחרית (דקות)<input id="sShacharitDuration" type="number" min="5" max="180" value="60"></label>
       <label>משך מנחה (דקות)<input id="sMinchaDuration" type="number" min="5" max="120" value="30"></label>
       <label>משך ערבית (דקות)<input id="sMaarivDuration" type="number" min="5" max="120" value="45"></label>
-      <label>שחרית לשבת<input id="sShabbatShacharit" value="09:00"></label>
-      <label>מנחה לשבת<input id="sShabbatMincha" value="18:30"></label>
-      <label>ערבית לשבת (ליל שבת)<input id="sShabbatMaariv" value="19:30"></label>
-      <label>טקס הבדלה<input id="sShabbatHavdalah" value="21:00"></label>
+      <label>שחרית לשבת<input id="sShabbatShacharit" type="time" value="09:00"></label>
+      <label>מנחה לשבת<input id="sShabbatMincha" type="time" value="18:30"></label>
+      <label>ערבית לשבת (ליל שבת)<input id="sShabbatMaariv" type="time" value="19:30"></label>
+      <label>טקס הבדלה<input id="sShabbatHavdalah" type="time" value="21:00"></label>
       <label>משך שחרית לשבת (דקות)<input id="sShabbatShacharitDuration" type="number" min="5" max="240" value="120"></label>
       <label>משך מנחה לשבת (דקות)<input id="sShabbatMinchaDuration" type="number" min="5" max="180" value="45"></label>
       <label>משך ערבית לשבת (דקות)<input id="sShabbatMaarivDuration" type="number" min="5" max="180" value="60"></label>
@@ -837,8 +860,17 @@ function saveSettings(){
     speed:$("sSpeed").value,
     ticker:$("sTicker").value.trim()||DEFAULTS.ticker
   };
-  localStorage.setItem("synagogueBoardSettings",JSON.stringify(settings));
-  applySettings(); refreshJewishData(); $("settingsDialog").close();
+  try{
+    localStorage.setItem("synagogueBoardSettings",JSON.stringify(settings));
+    applySettings();
+    const status=$("saveStatus");
+    if(status) status.textContent="✓ כל זמני התפילות נשמרו בהצלחה";
+    setTimeout(()=>{ const s=$("saveStatus"); if(s) s.textContent=""; },5000);
+    refreshJewishData();
+  }catch(err){
+    const status=$("saveStatus");
+    if(status) status.textContent="לא ניתן לשמור: "+err.message;
+  }
 }
 function resetSettings(){ localStorage.removeItem("synagogueBoardSettings"); settings={...DEFAULTS}; applySettings(); refreshJewishData(); }
 
@@ -1113,7 +1145,7 @@ async function refreshJewishData(){
     if($("dailyParasha")) $("dailyParasha").textContent=parsha ? eventTitle(parsha) : "—";
     if($("dailyDaf")) $("dailyDaf").textContent=daf ? eventTitle(daf) : "—";
     if($("permanentDafYomi")) $("permanentDafYomi").textContent=daf ? eventTitle(daf) : "—";
-    if($("dailyExtra")) $("dailyExtra").textContent=todayHoliday ? eventTitle(todayHoliday) : "הלכה / מוסר יומי";
+    if(todayHoliday && $("dailyExtra")) $("dailyExtra").textContent=eventTitle(todayHoliday);
     setDailyTehillim(conv.hd);
     updateSelichot(conv,date);
     loadExtraDailyLearning();
@@ -1154,11 +1186,11 @@ document.addEventListener("visibilitychange",()=>{ if(!document.hidden){tick();r
 
 const FEATURE_SEQUENCE = [
   {mode:"main", duration:30000},
-  {mode:"daf", duration:30000},
+  {mode:"memorial", duration:30000},
   {mode:"main", duration:30000},
   {mode:"shiur", duration:30000},
   {mode:"main", duration:30000},
-  {mode:"memorial", duration:30000}
+  {mode:"daf", duration:30000}
 ];
 let featureSequenceIndex=0;
 let featureDeadline=0;
