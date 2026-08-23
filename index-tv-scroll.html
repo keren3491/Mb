@@ -342,6 +342,41 @@ html{scroll-behavior:auto!important;}
 html,body{margin:0!important;width:100%!important;overflow-x:hidden!important;}
 body{overscroll-behavior:none;}
 </style>
+
+<style id="ornate-target-design">
+  :root{--deepblue:#031323;--deepblue2:#061d35;--ornategold:#d9a63a;--cream:#f5ead0}
+  body{background:#02070d!important}
+  .ornate-board{background:radial-gradient(circle at 50% 20%,#132a41 0,#07131f 40%,#01060c 100%)!important;border:3px solid #b97b16!important;padding:10px!important}
+  .ornate-header{direction:ltr;display:grid;grid-template-columns:250px 1fr 250px;gap:16px;align-items:stretch;margin-bottom:12px}
+  .city-clock,.board-title-wrap{border:2px solid #c78d29;border-radius:14px;background:linear-gradient(180deg,#0b2743,#071725);box-shadow:inset 0 0 18px rgba(245,200,66,.08),0 0 14px #000;padding:10px 16px;text-align:center}
+  .board-title-wrap{background:linear-gradient(180deg,#090909,#020202);border-radius:0;border-left:0;border-right:0;display:flex;flex-direction:column;justify-content:center}
+  .board-title-he{font-size:clamp(38px,4.8vw,76px);font-family:Georgia,"Times New Roman",serif;font-weight:900;color:#e6b84e;line-height:1.05;text-shadow:0 2px 0 #5d3600,0 0 12px rgba(230,184,78,.35)}
+  .board-title-en{font-size:clamp(20px,2.5vw,38px);font-family:Georgia,"Times New Roman",serif;font-weight:900;color:#e5bc62;letter-spacing:1px}
+  .synagogue-subtitle{font-size:16px;color:#fff;margin-top:4px}.rabbi-subtitle{font-size:13px;color:#d9a63a;margin-top:2px}
+  .city-name{font-size:20px;font-weight:1000}.city-time{font-size:clamp(32px,3.2vw,54px);font-weight:1000}.city-date,.city-hebrew{font-size:16px;margin-top:2px}
+  .ornate-grid{direction:ltr;display:grid;grid-template-columns:minmax(230px,1fr) minmax(530px,2.7fr) minmax(230px,1fr);gap:12px;align-items:stretch}
+  .ornate-left,.ornate-right{direction:rtl;display:flex;flex-direction:column;gap:10px}
+  .ornate-card{border:2px solid #c78d29;border-radius:14px;background:linear-gradient(180deg,#071b2d,#030b13);box-shadow:inset 0 0 18px rgba(255,190,0,.055),0 0 13px #000;padding:12px}
+  .ornate-card h2{margin:0 0 8px;color:#e7bd62;border-bottom:1px solid rgba(231,189,98,.55);padding-bottom:7px;text-align:center;font-size:clamp(16px,1.5vw,24px)}
+  .ornate-row{display:flex;justify-content:space-between;gap:10px;border-bottom:1px solid rgba(255,255,255,.1);padding:8px 2px;font-size:clamp(14px,1.15vw,18px)}
+  .ornate-row strong{color:#fff}.ornate-row.special strong{color:#f5c842}.ornate-big{text-align:center;color:#fff;font-size:clamp(21px,2vw,32px);font-weight:1000}.mini-note{text-align:center;color:#ddd;margin-top:4px;font-size:14px}
+  .lesson-stage{direction:ltr;display:grid;grid-template-columns:82px 1fr 82px;align-items:stretch;border:9px ridge #8d5514;border-radius:15px;background:linear-gradient(90deg,#2b1604,#5e3410 8%,#2c1606 92%,#5e3410);box-shadow:0 0 22px rgba(220,160,45,.36),inset 0 0 25px #000;padding:9px;min-height:680px}
+  .lesson-parchment{direction:rtl;border:4px double #a87726;background:radial-gradient(circle at 50% 15%,#fffdf5,#f4ead1 64%,#dfc995);color:#17120c;padding:24px 28px;text-align:center;box-shadow:inset 0 0 35px rgba(87,49,10,.18);display:flex;flex-direction:column;justify-content:center}
+  .lesson-heading{font-size:clamp(36px,4vw,64px);font-family:Georgia,"Times New Roman",serif;font-weight:900}.lesson-date{font-size:clamp(16px,1.5vw,24px);font-weight:900;color:#20324a;margin-bottom:16px}
+  .lesson-block{font-family:Georgia,"Times New Roman",serif;font-size:clamp(18px,1.7vw,28px);line-height:1.45;margin:7px 0}.lesson-block b{display:block;color:#59380c;font-size:.85em;margin-bottom:3px}.verse-block span{font-size:1.12em;font-weight:900}.gold-divider{color:#a26b16;font-size:26px;margin:4px}.lesson-memorial{margin-top:18px;border:2px solid #a36b17;border-radius:10px;padding:9px;color:#425c00;background:rgba(255,245,205,.66);font-size:clamp(16px,1.4vw,23px);font-weight:1000}
+  .tribe-rail{display:flex;flex-direction:column;justify-content:space-around;gap:5px;padding:3px}.tribe-medal{direction:rtl;aspect-ratio:1;border-radius:50%;border:4px ridge #c79a45;background:radial-gradient(circle,#f8e7bb,#d7bb76);color:#211509;font-size:12px;font-weight:1000;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;box-shadow:0 0 8px #000}
+  .events-card{flex:1}.announcements-card{min-height:180px}.memory-card{text-align:center;min-height:210px}.memory-candle{font-size:58px;filter:drop-shadow(0 0 10px #ffcc68)}.memory-text{font-size:20px;line-height:1.35;color:#e6bf68}.memory-text strong{font-size:28px;color:#f2d377}
+  .announcement-window{height:105px;position:relative;overflow:hidden;background:#020609;border:1px solid #25435b;border-radius:10px;direction:ltr}.announcement-window .announcement-scroll{font-size:clamp(17px,1.5vw,23px);color:#ccff58;animation-duration:18s!important}
+  .support-data{display:none!important}
+  .tribes{display:none!important}.biblical-showcase{display:none!important}
+  .ticker-wrap{margin-top:10px;height:84px;border-color:#438cd6;box-shadow:0 0 14px rgba(37,234,255,.4),inset 0 0 18px rgba(113,255,36,.1)}
+  .ticker{font-size:clamp(28px,3vw,48px)}
+  #featureRotator.main-mode{display:none!important}
+  #featureRotator.feature-mode{background:radial-gradient(circle at 50% 20%,#132a41,#03070b 65%)!important}
+  .gear{left:auto!important;right:12px!important;top:12px!important}
+  @media(max-width:1100px){.ornate-header{grid-template-columns:190px 1fr 190px}.ornate-grid{grid-template-columns:210px minmax(430px,1fr) 210px}.lesson-stage{grid-template-columns:68px 1fr 68px;min-height:620px}.tribe-medal{font-size:10px}}
+  @media(max-width:850px){.ornate-header{grid-template-columns:1fr}.ornate-grid{grid-template-columns:1fr}.lesson-stage{grid-template-columns:56px 1fr 56px;min-height:620px}.ornate-left,.ornate-right{display:grid;grid-template-columns:1fr 1fr}.zmanim-card,.events-card{grid-column:1/-1}.board-title-wrap{order:-1}.tribe-rail{gap:2px}.tribe-medal{font-size:9px}}
+</style>
 </head>
 <body>
 
@@ -350,88 +385,118 @@ body{overscroll-behavior:none;}
 <div class="frame-piece frame-left"></div>
 <div class="frame-piece frame-right"></div>
 
-<main class="board">
-  <div class="announcement-wrap" aria-label="הודעות בית הכנסת">
-    <div id="topAnnouncement" class="announcement-scroll">This week’s donor is Isik Goldman • This week’s donor is Erick Hala</div>
+<main class="board ornate-board">
+  <header class="ornate-header">
+    <div class="city-clock city-left">
+      <div class="city-name">NEW YORK</div>
+      <div id="nyClock" class="city-time">--:--</div>
+      <div id="gregDate" class="city-date">--</div>
+      <div id="hebrewDate" class="city-hebrew">טוען תאריך עברי...</div>
+    </div>
+
+    <div class="board-title-wrap">
+      <div class="board-title-he">לוח מודעות דיגיטלי</div>
+      <div class="board-title-en">SYNAGOGUE MESSAGE BOARD</div>
+      <div id="synagogueName" class="synagogue-subtitle">בית הכנסת בית תורה</div>
+      <div class="rabbi-subtitle">הרב: <span id="rabbiName">הרב</span></div>
+    </div>
+
+    <div class="city-clock city-right">
+      <div class="city-name">JERUSALEM</div>
+      <div id="israelClock" class="city-time">--:--</div>
+      <div class="city-date">שעון ישראל</div>
+      <div class="city-hebrew">ירושלים</div>
+    </div>
+  </header>
+
+  <div class="ornate-grid">
+    <aside class="ornate-left">
+      <section class="ornate-card zmanim-card">
+        <h2>🕘 זמני תפילות</h2>
+        <div class="ornate-row"><span>שחרית</span><strong id="shacharit">07:00</strong></div>
+        <div class="ornate-row"><span>מנחה</span><strong id="mincha">16:00</strong></div>
+        <div class="ornate-row"><span>ערבית</span><strong id="maariv">20:30</strong></div>
+        <div class="ornate-row"><span>שיעור תורה</span><strong id="shiur">21:15</strong></div>
+        <div class="ornate-row special"><span>🕯 הדלקת נרות</span><strong id="candles">--:--</strong></div>
+        <div class="ornate-row special"><span>צאת שבת</span><strong id="havdalah">--:--</strong></div>
+      </section>
+
+      <section class="ornate-card mini-card">
+        <h2>📜 פרשת השבוע</h2>
+        <div id="parasha" class="ornate-big">טוען...</div>
+      </section>
+
+      <section class="ornate-card mini-card">
+        <h2>📖 הדף היומי</h2>
+        <div id="dafYomi" class="ornate-big">טוען...</div>
+      </section>
+
+      <section class="ornate-card mini-card">
+        <h2>📚 השיעור היום</h2>
+        <div class="ornate-big">8:00 AM</div>
+        <div class="mini-note">Daily Torah Lesson</div>
+      </section>
+    </aside>
+
+    <section class="lesson-stage" aria-label="שיעור יומי">
+      <div class="tribe-rail tribe-left" aria-hidden="true">
+        <div class="tribe-medal">ראובן<br>🌳</div><div class="tribe-medal">שמעון<br>⚔️</div><div class="tribe-medal">לוי<br>🕎</div><div class="tribe-medal">יהודה<br>🦁</div><div class="tribe-medal">דן<br>⚖️</div><div class="tribe-medal">נפתלי<br>🦌</div>
+      </div>
+      <div class="lesson-parchment">
+        <div class="lesson-heading">שיעור יומי</div>
+        <div class="lesson-date"><span id="mainHebDate">היום</span> | <span id="mainGregDate">Today</span></div>
+        <div class="lesson-block">
+          <b>פרשת השבוע</b>
+          <span id="mainDailyParasha">טוען...</span>
+        </div>
+        <div class="gold-divider">◆</div>
+        <div class="lesson-block verse-block">
+          <b>פסוק יומי</b>
+          <span id="mainDailyPasuk">עִבְדוּ אֶת ה׳ בְּשִׂמְחָה</span>
+        </div>
+        <div class="lesson-block">
+          <b>הלכה יומית</b>
+          <span id="mainDailyHalacha">טוב להוסיף בכל יום בלימוד התורה, אפילו מעט, בקביעות ובשמחה.</span>
+        </div>
+        <div class="lesson-block">
+          <b>מוסר וחסידות</b>
+          <span id="mainDailyExtra">כל יום הוא התחלה חדשה לעבודת ה׳, לתפילה ולמעשה חסד.</span>
+        </div>
+        <div class="lesson-memorial">לעילוי נשמת זהבה חלא בת דינה זצ״ל</div>
+      </div>
+      <div class="tribe-rail tribe-right" aria-hidden="true">
+        <div class="tribe-medal">גד<br>⛺</div><div class="tribe-medal">אשר<br>🌴</div><div class="tribe-medal">יוסף<br>🌾</div><div class="tribe-medal">בנימין<br>🐺</div><div class="tribe-medal">זבולון<br>⛵</div><div class="tribe-medal">יששכר<br>🐴</div>
+      </div>
+    </section>
+
+    <aside class="ornate-right">
+      <section class="ornate-card events-card">
+        <h2>📅 אירועים קרובים</h2>
+        <div class="ornate-row"><span>האירוע הקרוב</span><strong id="nextHoliday">טוען...</strong></div>
+        <div class="ornate-row"><span>אירוע היום</span><strong id="todayEvent">אין אירוע מיוחד</strong></div>
+        <div class="ornate-row"><span>צום</span><strong id="fastToday">אין צום היום</strong></div>
+        <div class="ornate-row"><span>החודש העברי</span><strong id="hebrewMonth">--</strong></div>
+      </section>
+
+      <section class="ornate-card announcements-card">
+        <h2>📣 הודעות</h2>
+        <div class="announcement-window"><div id="topAnnouncement" class="announcement-scroll">This week’s donor is Isik Goldman • This week’s donor is Erick Hala</div></div>
+      </section>
+
+      <section class="ornate-card memory-card">
+        <h2>🕯 לזכר עולם</h2>
+        <div class="memory-candle">🕯️</div>
+        <div class="memory-text">לעילוי נשמת<br><strong>זהבה חלא</strong><br>בת דינה זצ״ל</div>
+      </section>
+    </aside>
   </div>
 
-  <section class="top">
-    <div class="card">
-      <div class="label">שעון ישראל</div>
-      <div id="israelClock" class="clock cyan">--:--:--</div>
-    </div>
-
-    <div class="card">
-      <div id="synagogueName" class="synagogue">בית הכנסת בית תורה</div>
-      <div class="rabbi">שם הרב: <span id="rabbiName">הרב</span></div>
-      <div id="nyClock" class="clock">--:--:--</div>
-    </div>
-
-    <div class="card">
-      <div id="hebrewDate" class="label">טוען תאריך עברי...</div>
-      <div id="gregDate" class="dateText">--</div>
-    </div>
+  <section class="support-data" aria-hidden="true">
+    <span id="alot">--:--</span><span id="sunrise">--:--</span><span id="shema">--:--</span><span id="chatzot">--:--</span><span id="minchaGedola">--:--</span><span id="sunset">--:--</span><span id="tzeit">--:--</span>
+    <span id="selichotSef">ספרד: מחשב...</span><span id="selichotAsh">אשכנז: מחשב...</span>
+    <span id="tachanun">אומרים</span><span id="hallel">אין הלל</span><span id="omer">לא בתקופת העומר</span><span id="gevurot">מוריד הטל</span><span id="birkatHashanim">ברכנו</span><span id="yaaleVeyavo">אין אומרים</span><span id="minhag">אשכנז / ספרד</span>
+    <span id="shabbatShacharit">09:00</span><span id="shabbatMincha">18:30</span><span id="shabbatMaariv">19:30</span><span id="shabbatHavdalah">21:00</span>
   </section>
-
-  <section class="grid">
-    <div class="card panel">
-      <h2>פרשת השבוע</h2>
-      <div id="parasha" class="center big">טוען...</div>
-      <div class="row"><span>הדף היומי</span><span id="dafYomi" class="value greenText">טוען...</span></div>
-      <div class="row"><span>האירוע הקרוב</span><span id="nextHoliday" class="value goldText">טוען...</span></div>
-      <div class="row"><span>סליחות</span><span class="value greenText selichot-lines"><small id="selichotSef">ספרד: מחשב...</small><small id="selichotAsh">אשכנז: מחשב...</small></span></div>
-    </div>
-
-    <div class="card panel">
-      <h2>זמני היום והשבת</h2>
-      <div class="row"><span>עלות השחר</span><span id="alot" class="value">--:--</span></div>
-      <div class="row"><span>זריחה</span><span id="sunrise" class="value">--:--</span></div>
-      <div class="row"><span>סוף זמן קריאת שמע</span><span id="shema" class="value">--:--</span></div>
-      <div class="row"><span>חצות</span><span id="chatzot" class="value">--:--</span></div>
-      <div class="row"><span>מנחה גדולה</span><span id="minchaGedola" class="value">--:--</span></div>
-      <div class="row"><span>שקיעה</span><span id="sunset" class="value">--:--</span></div>
-      <div class="row"><span>צאת הכוכבים</span><span id="tzeit" class="value">--:--</span></div>
-      <div class="row"><span>הדלקת נרות</span><span id="candles" class="value">--:--</span></div>
-      <div class="row"><span>צאת שבת</span><span id="havdalah" class="value">--:--</span></div>
-    </div>
-
-    <div class="card panel">
-      <h2>זמני תפילות</h2>
-      <div class="row"><span>שחרית</span><span id="shacharit" class="value">07:00</span></div>
-      <div class="row"><span>מנחה</span><span id="mincha" class="value">16:00</span></div>
-      <div class="row"><span>ערבית</span><span id="maariv" class="value">20:30</span></div>
-      <div class="row"><span>שיעור תורה</span><span id="shiur" class="value">21:15</span></div>
-      <div class="row"><span>שחרית לשבת</span><span id="shabbatShacharit" class="value goldText">09:00</span></div>
-      <div class="row"><span>מנחה לשבת</span><span id="shabbatMincha" class="value goldText">18:30</span></div>
-      <div class="row"><span>ערבית לשבת</span><span id="shabbatMaariv" class="value goldText">19:30</span></div>
-      <div class="row"><span>הבדלה</span><span id="shabbatHavdalah" class="value goldText">21:00</span></div>
-    </div>
-  </section>
-
-  <section class="grid">
-    <div class="card panel">
-      <h2>שבת, צום ואירועים</h2>
-      <div class="row"><span>אירוע היום</span><span id="todayEvent" class="value cyanText">אין אירוע מיוחד</span></div>
-      <div class="row"><span>צום</span><span id="fastToday" class="value cyanText">אין צום היום</span></div>
-      <div class="row"><span>החודש העברי</span><span id="hebrewMonth" class="value greenText">--</span></div>
-    </div>
-
-    <div class="card panel">
-      <h2>מנהגי היום</h2>
-      <div class="row"><span>תחנון</span><span id="tachanun" class="value cyanText">אומרים</span></div>
-      <div class="row"><span>הלל</span><span id="hallel" class="value cyanText">אין הלל</span></div>
-      <div class="row"><span>ספירת העומר</span><span id="omer" class="value cyanText">לא בתקופת העומר</span></div>
-    </div>
-
-    <div class="card panel">
-      <h2>תוספות בתפילה</h2>
-      <div class="row"><span>גבורות</span><span id="gevurot" class="value cyanText">מוריד הטל</span></div>
-      <div class="row"><span>ברכת השנים</span><span id="birkatHashanim" class="value cyanText">ברכנו</span></div>
-      <div class="row"><span>יעלה ויבוא</span><span id="yaaleVeyavo" class="value cyanText">אין אומרים</span></div>
-      <div class="row"><span>מנהג</span><span id="minhag" class="value goldText">אשכנז / ספרד</span></div>
-    </div>
-  </section>
-
 
   <section class="feature-rotator" id="featureRotator" aria-label="תצוגה מתחלפת">
     <div id="dafYomiView" class="feature-view">
@@ -474,7 +539,6 @@ body{overscroll-behavior:none;}
         </div>
       </section>
     </div>
-    <div class="rotation-status">דף יומי: 30 שניות • שיעור יומי: 30 שניות • נרות: 30 שניות • וביניהם חזרה לעמוד הראשי</div>
   </section>
 
 <dialog id="memorialAdminDialog">
@@ -1415,6 +1479,15 @@ setInterval(rotateBiblicalScenes,8000);
     requestAnimationFrame(tick);
   });
   window.addEventListener('resize',function(){y=Math.min(y,maxScroll());});
+})();
+</script>
+
+<script id="mirror-main-daily-lesson">
+(function(){
+  const pairs=[['hebrewDate','mainHebDate'],['gregDate','mainGregDate'],['dailyParasha','mainDailyParasha'],['dailyPasuk','mainDailyPasuk'],['dailyHalacha','mainDailyHalacha'],['dailyExtra','mainDailyExtra']];
+  function sync(){pairs.forEach(([a,b])=>{const src=document.getElementById(a),dst=document.getElementById(b);if(src&&dst&&src.textContent.trim())dst.textContent=src.textContent.trim();});}
+  function watch(){pairs.forEach(([a])=>{const src=document.getElementById(a);if(src)new MutationObserver(sync).observe(src,{childList:true,subtree:true,characterData:true});});sync();}
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',watch);else watch();
 })();
 </script>
 </body>
