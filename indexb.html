@@ -377,360 +377,6 @@ body{overscroll-behavior:none;}
   @media(max-width:1100px){.ornate-header{grid-template-columns:190px 1fr 190px}.ornate-grid{grid-template-columns:210px minmax(430px,1fr) 210px}.lesson-stage{grid-template-columns:68px 1fr 68px;min-height:620px}.tribe-medal{font-size:10px}}
   @media(max-width:850px){.ornate-header{grid-template-columns:1fr}.ornate-grid{grid-template-columns:1fr}.lesson-stage{grid-template-columns:56px 1fr 56px;min-height:620px}.ornate-left,.ornate-right{display:grid;grid-template-columns:1fr 1fr}.zmanim-card,.events-card{grid-column:1/-1}.board-title-wrap{order:-1}.tribe-rail{gap:2px}.tribe-medal{font-size:9px}}
 </style>
-
-<style id="tv-large-text-compact-20260823">
-/* TV readability upgrade: larger text, tighter spacing, less empty space */
-html,body{overflow:hidden!important}
-body{padding:92px 118px 118px!important}
-.board,.dashboard,.main-board,#app,.app-shell{max-width:none!important}
-.panel,.card,.box,.section{padding-top:8px!important;padding-bottom:8px!important}
-.panel-title,.card-title,.section-title{font-size:clamp(22px,2vw,36px)!important;font-weight:1000!important;line-height:1.05!important}
-body,button,input,select,textarea{font-weight:800}
-.grid{gap:7px!important}
-.left-col,.right-col{gap:7px!important}
-.prayer-row,.info-row,.event-row,.daily-item{min-height:0!important;padding:6px 10px!important}
-.prayer-row,.info-row,.event-row,.daily-item,.prayer-row *, .info-row *, .event-row *{font-size:clamp(18px,1.55vw,28px)!important;line-height:1.15!important}
-#featureRotator.feature-mode{padding:98px 118px 122px!important}
-#featureRotator .feature-view{height:calc(100vh - 220px)!important;overflow:hidden!important}
-#dailyShiurView .daily-shiur,#dailyShiurView .daily-lesson-window{height:100%!important;min-height:0!important;padding:18px 22px!important}
-#dailyShiurView .daily-grid{gap:8px!important}
-#dailyShiurView .daily-item{padding:10px 12px!important}
-#dailyShiurView .daily-item b,#dailyShiurView .daily-item span{font-size:clamp(23px,2.15vw,38px)!important;line-height:1.28!important}
-.daily-lesson-scroll{left:18px!important;right:18px!important;font-size:clamp(28px,2.8vw,46px)!important;line-height:1.42!important}
-.daily-lesson-scroll h2{font-size:clamp(44px,4.7vw,72px)!important;margin-bottom:10px!important}
-.daily-lesson-scroll .lesson-head{font-size:1.12em!important;margin-top:12px!important}
-.daf-card{padding:12px!important;min-height:0!important}
-.daf-card,.daf-card *{font-size:clamp(23px,2.15vw,38px)!important;line-height:1.25!important}
-.daf-card h1,.daf-card h2,.daf-title{font-size:clamp(42px,4vw,68px)!important;line-height:1.05!important;margin:5px 0 10px!important}
-.memorial-candles{height:100%!important;padding:12px!important}
-.memorial-title{font-size:clamp(38px,3.8vw,64px)!important;margin:4px!important}
-.candle-row{gap:6px!important}
-.candle-card,.candle-cell{padding:8px!important}
-.memorial-name,.candle-name{font-size:clamp(28px,2.7vw,46px)!important;line-height:1.15!important}
-.memorial-sub{font-size:clamp(20px,1.8vw,32px)!important}
-.rotation-status{display:none!important}
-.ticker,.marquee,.bottom-ticker{font-size:clamp(28px,2.6vw,44px)!important;font-weight:1000!important}
-@media(max-width:1200px){body{padding:82px 96px 108px!important}#featureRotator.feature-mode{padding:88px 96px 112px!important}}
-</style>
-
-<style id="american-tv-template-safe-fit-20260823">
-/* American-flag template + strict TV safe area. Keeps ALL live board functions. */
-:root{--safeTop:58px;--safeSide:66px;--safeBottom:72px;--patriotRed:#a30f1b;--patriotBlue:#071a3b;--gold:#f5c842}
-html,body{width:100vw!important;height:100vh!important;min-height:0!important;overflow:hidden!important;background:#01050b!important}
-body{box-sizing:border-box!important;padding:var(--safeTop) var(--safeSide) var(--safeBottom)!important}
-*,*:before,*:after{box-sizing:border-box}
-
-/* Thinner frame so content never hides beneath it */
-.frame-top{height:58px!important}
-.frame-bottom{height:72px!important}
-.frame-left,.frame-right{width:66px!important;top:48px!important;bottom:62px!important;background-size:100% 100%!important}
-
-/* Patriotic ribbon behind the header, like the selected template */
-.ornate-board:before{
-  content:"";position:absolute;left:0;right:0;top:0;height:92px;z-index:0;pointer-events:none;opacity:.95;
-  background:
-    linear-gradient(90deg,rgba(7,26,59,.96) 0 27%,transparent 42% 58%,rgba(7,26,59,.96) 73% 100%),
-    repeating-linear-gradient(0deg,#b11625 0 9px,#fff 9px 18px);
-  border-bottom:2px solid #d9a63a;
-}
-.ornate-board{position:relative!important;width:100%!important;height:100%!important;max-width:none!important;margin:0!important;padding:6px!important;border-radius:10px!important;display:flex!important;flex-direction:column!important;overflow:hidden!important;background:radial-gradient(circle at 50% 15%,#112947,#061323 48%,#01060c 100%)!important}
-.ornate-board>*{position:relative;z-index:1}
-
-/* Header: compact and bold */
-.ornate-header{height:104px!important;min-height:104px!important;margin:0 0 5px!important;grid-template-columns:22% 56% 22%!important;gap:5px!important}
-.city-clock,.board-title-wrap{padding:5px 8px!important;border-width:2px!important;border-radius:9px!important}
-.city-clock{background:linear-gradient(180deg,#0b2e62,#07162d)!important}
-.city-name{font-size:clamp(16px,1.35vw,24px)!important;font-weight:1000!important;line-height:1!important}.flag-icon{font-size:1.15em}
-.city-time{font-size:clamp(30px,3.35vw,51px)!important;line-height:.95!important}
-.city-date,.city-hebrew{font-size:clamp(12px,1.05vw,17px)!important;line-height:1.05!important;margin-top:2px!important}
-.board-title-wrap{background:linear-gradient(180deg,rgba(2,8,18,.96),rgba(0,0,0,.98))!important}
-.board-title-he{font-size:clamp(34px,4vw,59px)!important;line-height:.98!important;color:#ffcf39!important}
-.board-title-en{font-size:clamp(18px,2vw,29px)!important;line-height:1!important;color:#fff!important}
-.synagogue-subtitle{font-size:clamp(12px,.95vw,15px)!important;margin-top:2px!important}.rabbi-subtitle{display:none!important}
-
-/* Main grid gets every remaining pixel, never exceeds it */
-.ornate-grid{flex:1 1 auto!important;min-height:0!important;height:auto!important;grid-template-columns:23% 54% 23%!important;gap:5px!important;overflow:hidden!important}
-.ornate-left,.ornate-right{height:100%!important;min-height:0!important;gap:5px!important;overflow:hidden!important}
-.ornate-card{min-height:0!important;padding:5px 7px!important;border-radius:9px!important;overflow:hidden!important}
-.ornate-card h2{font-size:clamp(16px,1.45vw,22px)!important;line-height:1!important;margin:0 0 3px!important;padding-bottom:3px!important}
-.ornate-row{padding:3px 1px!important;font-size:clamp(15px,1.22vw,20px)!important;line-height:1.05!important;min-height:0!important}
-.ornate-big{font-size:clamp(19px,1.75vw,27px)!important;line-height:1.05!important}.mini-note{font-size:clamp(11px,.9vw,14px)!important;margin-top:1px!important}
-.zmanim-card{flex:1.65 1 0!important}.ornate-left .mini-card{flex:.58 1 0!important}
-.events-card{flex:1.45 1 0!important}.announcements-card{flex:.72 1 0!important;min-height:0!important}.memory-card{flex:.9 1 0!important;min-height:0!important}
-.announcement-window{height:calc(100% - 25px)!important;min-height:35px!important}.announcement-window .announcement-scroll{font-size:clamp(15px,1.25vw,20px)!important;line-height:1.2!important}
-.memory-candle{font-size:clamp(28px,3.3vh,44px)!important;line-height:1!important}.memory-text{font-size:clamp(14px,1.15vw,19px)!important;line-height:1.12!important}.memory-text strong{font-size:clamp(20px,1.75vw,27px)!important}
-
-/* Central parchment enlarged, but compressed vertically to fit TV */
-.lesson-stage{height:100%!important;min-height:0!important;grid-template-columns:52px 1fr 52px!important;padding:5px!important;border-width:5px!important;border-radius:10px!important;overflow:hidden!important}
-.lesson-parchment{height:100%!important;min-height:0!important;padding:7px 14px!important;justify-content:space-evenly!important;overflow:hidden!important}
-.lesson-heading{font-size:clamp(35px,4vw,58px)!important;line-height:.95!important}
-.lesson-date{font-size:clamp(13px,1.18vw,18px)!important;line-height:1!important;margin:0!important}
-.lesson-block{font-size:clamp(16px,1.45vw,23px)!important;line-height:1.12!important;margin:1px 0!important}
-.lesson-block b{font-size:.82em!important;margin:0!important;color:#72500d!important}.verse-block span{font-size:1.05em!important}.gold-divider{font-size:16px!important;line-height:.7!important;margin:0!important}
-.lesson-memorial{margin:2px 0 0!important;padding:4px 7px!important;font-size:clamp(14px,1.18vw,19px)!important;line-height:1!important}
-.tribe-rail{gap:1px!important;padding:1px!important}.tribe-medal{border-width:2px!important;font-size:clamp(8px,.62vw,10px)!important;line-height:1!important;aspect-ratio:auto!important;flex:1!important;min-height:0!important;border-radius:18px!important}
-
-/* Bottom ticker is inside the safe area and never goes behind the frame */
-.ticker-wrap{flex:0 0 56px!important;height:56px!important;margin:5px 0 0!important;border-width:2px!important;overflow:hidden!important}
-.ticker{font-size:clamp(27px,2.85vw,43px)!important;line-height:52px!important;white-space:nowrap!important}
-.footer{display:none!important}
-
-/* Feature pages: use the same safe area and fill it completely */
-#featureRotator.feature-mode{position:fixed!important;inset:var(--safeTop) var(--safeSide) var(--safeBottom)!important;width:auto!important;height:auto!important;padding:6px!important;overflow:hidden!important;z-index:120!important}
-#featureRotator .feature-view{height:100%!important;max-height:100%!important;overflow:hidden!important}
-#featureRotator .feature-view>*,#dailyShiurView>section{height:100%!important;min-height:0!important;margin:0!important}
-#dailyShiurView .daily-shiur{height:100%!important;min-height:0!important;padding:10px 14px!important}
-#dailyShiurView .daily-title{font-size:clamp(31px,3.3vw,52px)!important;margin:0 0 6px!important}
-#dailyShiurView .daily-grid{height:calc(100% - 70px)!important;grid-template-columns:repeat(2,1fr)!important;gap:5px!important}
-#dailyShiurView .daily-item{padding:5px 7px!important;display:flex!important;flex-direction:column!important;justify-content:center!important}
-#dailyShiurView .daily-item b,#dailyShiurView .daily-item span{font-size:clamp(20px,2.05vw,32px)!important;line-height:1.12!important}
-#dailyShiurView .daily-note{font-size:clamp(15px,1.35vw,21px)!important;margin-top:4px!important}
-.daf-media-grid{height:calc(100% - 60px)!important;margin-top:5px!important;gap:8px!important}.daf-card,.daf-video-shell{min-height:0!important;height:100%!important;border-radius:12px!important;padding:8px!important}.daf-video-empty{font-size:clamp(18px,1.8vw,28px)!important}
-.memorial-plaque{height:100%!important;min-height:0!important;padding:7px!important;overflow:hidden!important}.memorial-plaque-head{font-size:clamp(18px,1.6vw,25px)!important;line-height:1.05!important}.memorial-plaque h2{font-size:clamp(27px,2.7vw,42px)!important;margin:4px!important}.memorial-plaque-grid{gap:4px!important;height:calc(100% - 105px)!important}.memorial-edit-button{font-size:14px!important;padding:5px 9px!important}
-
-/* Browser/TV fallback for shorter viewports */
-@media(max-height:680px){
-  :root{--safeTop:50px;--safeSide:58px;--safeBottom:61px}
-  .frame-top{height:50px!important}.frame-bottom{height:61px!important}.frame-left,.frame-right{width:58px!important;top:43px!important;bottom:54px!important}
-  .ornate-header{height:88px!important;min-height:88px!important}.city-time{font-size:clamp(27px,3vw,42px)!important}.board-title-he{font-size:clamp(30px,3.6vw,49px)!important}
-  .ticker-wrap{flex-basis:48px!important;height:48px!important}.ticker{line-height:45px!important}
-  .lesson-stage{grid-template-columns:44px 1fr 44px!important}.lesson-heading{font-size:clamp(31px,3.5vw,48px)!important}.lesson-block{font-size:clamp(14px,1.25vw,19px)!important}
-}
-</style>
-
-<style id="readable-bottom-cards-v2">
-/* Readability update: move the small information boxes below the main lesson and enlarge them. */
-.ornate-grid.readable-layout-v2{
-  grid-template-columns:minmax(250px,20%) minmax(0,1fr) minmax(250px,20%)!important;
-  gap:8px!important;
-  min-height:0!important;
-}
-.center-stack{display:flex;flex-direction:column;gap:7px;min-width:0;min-height:0;height:100%;overflow:hidden}
-.center-stack .lesson-stage{flex:1 1 auto!important;height:auto!important;min-height:0!important}
-.main-info-row{
-  flex:0 0 152px;
-  display:grid;
-  grid-template-columns:1.05fr 1.18fr 1.15fr 1.35fr 1.05fr;
-  gap:7px;
-  direction:ltr;
-  min-height:0;
-}
-.main-info-row .bottom-info-card{
-  direction:rtl;
-  min-width:0;
-  min-height:0;
-  padding:8px 9px!important;
-  border-width:2px!important;
-  border-radius:11px!important;
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  overflow:hidden;
-}
-.main-info-row .bottom-info-card h2{
-  margin:0 0 5px!important;
-  padding:0 0 5px!important;
-  font-size:clamp(20px,1.45vw,28px)!important;
-  line-height:1.05!important;
-  white-space:normal!important;
-}
-.main-info-row .ornate-big{
-  font-size:clamp(23px,1.8vw,34px)!important;
-  line-height:1.08!important;
-  overflow-wrap:anywhere;
-}
-.main-info-row .mini-note{font-size:clamp(15px,1vw,20px)!important;line-height:1.1!important;margin-top:4px!important}
-.main-info-row .memory-text{font-size:clamp(18px,1.25vw,24px)!important;line-height:1.08!important}
-.main-info-row .memory-text strong{font-size:clamp(24px,1.65vw,32px)!important;color:#f2d377}
-.main-info-row .announcement-window{height:76px!important;min-height:76px!important;border-radius:7px!important}
-.main-info-row .announcement-window .announcement-scroll{
-  font-size:clamp(18px,1.18vw,23px)!important;
-  line-height:1.25!important;
-  font-weight:900!important;
-}
-.ornate-left .zmanim-card,.ornate-right .events-card{height:100%!important;min-height:0!important;display:flex!important;flex-direction:column!important;justify-content:center!important}
-.ornate-left .ornate-row,.ornate-right .ornate-row{font-size:clamp(18px,1.28vw,25px)!important;padding:10px 3px!important;line-height:1.12!important}
-.ornate-left .ornate-card h2,.ornate-right .ornate-card h2{font-size:clamp(22px,1.65vw,30px)!important}
-@media(max-height:760px){
-  .main-info-row{flex-basis:128px!important}
-  .main-info-row .bottom-info-card h2{font-size:clamp(18px,1.3vw,24px)!important}
-  .main-info-row .ornate-big{font-size:clamp(20px,1.55vw,28px)!important}
-  .main-info-row .announcement-window{height:58px!important;min-height:58px!important}
-}
-@media(max-width:1100px){
-  .ornate-grid.readable-layout-v2{grid-template-columns:22% minmax(0,1fr) 22%!important}
-  .main-info-row{grid-template-columns:repeat(5,minmax(0,1fr))!important;gap:4px!important}
-}
-</style>
-
-<style id="screenshot-layout-final">
-/* Final TV layout — large center lesson with a full-width readable information row beneath it. */
-.ornate-board{
-  gap:6px!important;
-}
-.ornate-header{
-  flex:0 0 112px!important;
-  min-height:112px!important;
-  grid-template-columns:1fr 1.25fr 1fr!important;
-}
-.city-name{font-size:clamp(22px,1.7vw,34px)!important}
-.city-time{font-size:clamp(42px,3.7vw,64px)!important;line-height:.95!important}
-.city-date,.city-hebrew{font-size:clamp(16px,1.1vw,22px)!important}
-.board-title-he{font-size:clamp(34px,3vw,52px)!important;line-height:1!important}
-.board-title-en{font-size:clamp(15px,1.1vw,22px)!important}
-
-.ornate-grid.readable-layout-v2{
-  grid-template-columns:minmax(245px,20%) minmax(0,1fr) minmax(245px,20%)!important;
-  gap:7px!important;
-  overflow:hidden!important;
-}
-.center-stack{gap:6px!important}
-.center-stack .lesson-stage{
-  flex:1 1 auto!important;
-  min-height:0!important;
-}
-.lesson-parchment{padding:12px 18px!important}
-.lesson-heading{font-size:clamp(42px,4.1vw,70px)!important;line-height:.98!important}
-.lesson-date{font-size:clamp(17px,1.3vw,24px)!important;margin:3px 0 8px!important}
-.lesson-block{font-size:clamp(18px,1.35vw,26px)!important;line-height:1.08!important;margin:4px 0!important}
-.lesson-block b{font-size:1.02em!important}
-.gold-divider{margin:0!important}
-.lesson-memorial{font-size:clamp(16px,1.12vw,22px)!important;margin-top:5px!important}
-
-.main-info-row.large-info-row{
-  flex:0 0 220px!important;
-  height:220px!important;
-  min-height:220px!important;
-  display:grid!important;
-  grid-template-columns:repeat(5,minmax(0,1fr))!important;
-  gap:7px!important;
-  overflow:visible!important;
-}
-.main-info-row.large-info-row .bottom-info-card{
-  height:220px!important;
-  min-height:220px!important;
-  padding:10px 11px!important;
-  display:flex!important;
-  flex-direction:column!important;
-  justify-content:flex-start!important;
-  align-items:stretch!important;
-  overflow:hidden!important;
-  text-align:center!important;
-}
-.main-info-row.large-info-row .bottom-info-card h2{
-  min-height:48px!important;
-  margin:0 0 5px!important;
-  padding:0 0 6px!important;
-  font-size:clamp(21px,1.55vw,30px)!important;
-  line-height:1.05!important;
-  display:flex!important;
-  justify-content:center!important;
-  align-items:center!important;
-}
-.main-info-row.large-info-row .ornate-big{
-  font-size:clamp(24px,1.8vw,35px)!important;
-  line-height:1.05!important;
-  min-height:42px!important;
-  display:flex!important;
-  align-items:center!important;
-  justify-content:center!important;
-  white-space:normal!important;
-  overflow:visible!important;
-}
-.main-info-row.large-info-row .memory-text{
-  font-size:clamp(20px,1.4vw,28px)!important;
-  line-height:1.05!important;
-  min-height:58px!important;
-}
-.main-info-row.large-info-row .memory-text strong{
-  font-size:clamp(24px,1.72vw,34px)!important;
-}
-.info-detail{
-  flex:1 1 auto!important;
-  min-height:44px!important;
-  margin:4px 0 5px!important;
-  font-size:clamp(15px,1.02vw,20px)!important;
-  line-height:1.13!important;
-  font-weight:800!important;
-  color:#f4f7fb!important;
-  display:flex!important;
-  align-items:center!important;
-  justify-content:center!important;
-  white-space:normal!important;
-  overflow-wrap:anywhere!important;
-}
-.info-action{
-  width:82%!important;
-  min-height:34px!important;
-  margin:0 auto!important;
-  border:2px solid #d69b21!important;
-  border-radius:7px!important;
-  background:linear-gradient(#14263b,#06111d)!important;
-  color:#fff!important;
-  font-size:clamp(15px,1vw,20px)!important;
-  font-weight:900!important;
-  cursor:pointer!important;
-  flex:0 0 34px!important;
-}
-.info-action:active{transform:scale(.98)}
-.main-info-row.large-info-row .announcement-window{
-  height:72px!important;
-  min-height:72px!important;
-  overflow:hidden!important;
-  display:flex!important;
-  align-items:center!important;
-}
-.main-info-row.large-info-row .announcement-window .announcement-scroll{
-  position:static!important;
-  transform:none!important;
-  animation:none!important;
-  width:100%!important;
-  white-space:normal!important;
-  font-size:clamp(16px,1.06vw,21px)!important;
-  line-height:1.16!important;
-  text-align:center!important;
-}
-
-/* Side boxes: large, clear and balanced like the reference image. */
-.ornate-left .zmanim-card,.ornate-right .events-card{
-  padding:12px!important;
-}
-.ornate-left .ornate-card h2,.ornate-right .ornate-card h2{
-  font-size:clamp(23px,1.7vw,32px)!important;
-  margin-bottom:8px!important;
-}
-.ornate-left .ornate-row,.ornate-right .ornate-row{
-  font-size:clamp(19px,1.35vw,27px)!important;
-  padding:11px 3px!important;
-}
-
-/* Keep the entire design inside a 16:9 TV without browser scrolling. */
-html,body{width:100%;height:100%;overflow:hidden!important}
-@media(max-height:760px){
-  .ornate-header{flex-basis:94px!important;min-height:94px!important}
-  .main-info-row.large-info-row{
-    flex-basis:185px!important;
-    height:185px!important;
-    min-height:185px!important;
-  }
-  .main-info-row.large-info-row .bottom-info-card{
-    height:185px!important;
-    min-height:185px!important;
-    padding:7px!important;
-  }
-  .main-info-row.large-info-row .bottom-info-card h2{
-    min-height:38px!important;
-    font-size:clamp(18px,1.3vw,24px)!important;
-  }
-  .main-info-row.large-info-row .ornate-big{font-size:clamp(20px,1.55vw,29px)!important}
-  .info-detail{font-size:clamp(13px,.9vw,17px)!important;min-height:32px!important;margin:2px 0!important}
-  .info-action{min-height:29px!important;flex-basis:29px!important;font-size:14px!important}
-  .main-info-row.large-info-row .announcement-window{height:53px!important;min-height:53px!important}
-  .lesson-heading{font-size:clamp(34px,3.5vw,52px)!important}
-  .lesson-block{font-size:clamp(15px,1.12vw,20px)!important}
-}
-</style>
-
 </head>
 <body>
 
@@ -742,7 +388,7 @@ html,body{width:100%;height:100%;overflow:hidden!important}
 <main class="board ornate-board">
   <header class="ornate-header">
     <div class="city-clock city-left">
-      <div class="city-name"><span class="flag-icon">🇺🇸</span> NEW YORK</div>
+      <div class="city-name">NEW YORK</div>
       <div id="nyClock" class="city-time">--:--</div>
       <div id="gregDate" class="city-date">--</div>
       <div id="hebrewDate" class="city-hebrew">טוען תאריך עברי...</div>
@@ -756,14 +402,14 @@ html,body{width:100%;height:100%;overflow:hidden!important}
     </div>
 
     <div class="city-clock city-right">
-      <div class="city-name"><span class="flag-icon">🇮🇱</span> JERUSALEM</div>
+      <div class="city-name">JERUSALEM</div>
       <div id="israelClock" class="city-time">--:--</div>
       <div class="city-date">שעון ישראל</div>
       <div class="city-hebrew">ירושלים</div>
     </div>
   </header>
 
-  <div class="ornate-grid readable-layout-v2">
+  <div class="ornate-grid">
     <aside class="ornate-left">
       <section class="ornate-card zmanim-card">
         <h2>🕘 זמני תפילות</h2>
@@ -774,67 +420,54 @@ html,body{width:100%;height:100%;overflow:hidden!important}
         <div class="ornate-row special"><span>🕯 הדלקת נרות</span><strong id="candles">--:--</strong></div>
         <div class="ornate-row special"><span>צאת שבת</span><strong id="havdalah">--:--</strong></div>
       </section>
-    </aside>
 
-    <div class="center-stack">
-      <section class="lesson-stage" aria-label="שיעור יומי">
-        <div class="tribe-rail tribe-left" aria-hidden="true">
-          <div class="tribe-medal">ראובן<br>🌳</div><div class="tribe-medal">שמעון<br>⚔️</div><div class="tribe-medal">לוי<br>🕎</div><div class="tribe-medal">יהודה<br>🦁</div><div class="tribe-medal">דן<br>⚖️</div><div class="tribe-medal">נפתלי<br>🦌</div>
-        </div>
-        <div class="lesson-parchment">
-          <div class="lesson-heading">שיעור יומי</div>
-          <div class="lesson-date"><span id="mainHebDate">היום</span> | <span id="mainGregDate">Today</span></div>
-          <div class="lesson-block"><b>פרשת השבוע</b><span id="mainDailyParasha">טוען...</span></div>
-          <div class="gold-divider">◆</div>
-          <div class="lesson-block verse-block"><b>פסוק יומי</b><span id="mainDailyPasuk">עִבְדוּ אֶת ה׳ בְּשִׂמְחָה</span></div>
-          <div class="lesson-block"><b>הלכה יומית</b><span id="mainDailyHalacha">טוב להוסיף בכל יום בלימוד התורה, אפילו מעט, בקביעות ובשמחה.</span></div>
-          <div class="lesson-block"><b>מוסר וחסידות</b><span id="mainDailyExtra">כל יום הוא התחלה חדשה לעבודת ה׳, לתפילה ולמעשה חסד.</span></div>
-          <div class="lesson-memorial">לעילוי נשמת זהבה חלא בת דינה זצ״ל</div>
-        </div>
-        <div class="tribe-rail tribe-right" aria-hidden="true">
-          <div class="tribe-medal">גד<br>⛺</div><div class="tribe-medal">אשר<br>🌴</div><div class="tribe-medal">יוסף<br>🌾</div><div class="tribe-medal">בנימין<br>🐺</div><div class="tribe-medal">זבולון<br>⛵</div><div class="tribe-medal">יששכר<br>🐴</div>
-        </div>
+      <section class="ornate-card mini-card">
+        <h2>📜 פרשת השבוע</h2>
+        <div id="parasha" class="ornate-big">טוען...</div>
       </section>
 
-      <div class="main-info-row large-info-row" aria-label="Quick information">
-        <section class="ornate-card bottom-info-card">
-          <h2>📖 Daily Daf Yomi</h2>
-          <div id="dafYomi" class="ornate-big">Loading...</div>
-          <div class="info-detail" id="dafDetail">Today’s Gemara page</div>
-          <button class="info-action" type="button" onclick="showFeature('dafYomiView')">View Daf</button>
-        </section>
+      <section class="ornate-card mini-card">
+        <h2>📖 הדף היומי</h2>
+        <div id="dafYomi" class="ornate-big">טוען...</div>
+      </section>
 
-        <section class="ornate-card bottom-info-card">
-          <h2>📜 This week’s Torah portion</h2>
-          <div id="parasha" class="ornate-big">Loading...</div>
-          <div class="info-detail" id="parashaDetail">Weekly Torah reading</div>
-          <button class="info-action" type="button" onclick="showFeature('dailyShiurView')">View Parsha</button>
-        </section>
+      <section class="ornate-card mini-card">
+        <h2>📚 השיעור היום</h2>
+        <div class="ornate-big">8:00 AM</div>
+        <div class="mini-note">Daily Torah Lesson</div>
+      </section>
+    </aside>
 
-        <section class="ornate-card bottom-info-card memory-bottom-card">
-          <h2>🕯 In memory of</h2>
-          <div class="memory-text"><strong>זהבה חלא</strong><br>בת דינה זצ״ל</div>
-          <div class="info-detail">May her neshama have an aliyah</div>
-          <button class="info-action" type="button" onclick="showFeature('memorialView')">Light a candle</button>
-        </section>
-
-        <section class="ornate-card bottom-info-card announcement-bottom-card">
-          <h2>📣 Announcements</h2>
-          <div class="announcement-window">
-            <div id="topAnnouncement" class="announcement-scroll">This week’s donor is Isik Goldman • This week’s donor is Erick Hala</div>
-          </div>
-          <div class="info-detail">Community announcements</div>
-          <button class="info-action" type="button" onclick="openAdmin()">View all</button>
-        </section>
-
-        <section class="ornate-card bottom-info-card">
-          <h2>🎓 Daily shiur</h2>
-          <div class="ornate-big">8:00 AM</div>
-          <div class="info-detail">Join us for a daily Torah shiur with inspiring insights.</div>
-          <button class="info-action" type="button" onclick="showFeature('dailyShiurView')">View shiur</button>
-        </section>
+    <section class="lesson-stage" aria-label="שיעור יומי">
+      <div class="tribe-rail tribe-left" aria-hidden="true">
+        <div class="tribe-medal">ראובן<br>🌳</div><div class="tribe-medal">שמעון<br>⚔️</div><div class="tribe-medal">לוי<br>🕎</div><div class="tribe-medal">יהודה<br>🦁</div><div class="tribe-medal">דן<br>⚖️</div><div class="tribe-medal">נפתלי<br>🦌</div>
       </div>
-    </div>
+      <div class="lesson-parchment">
+        <div class="lesson-heading">שיעור יומי</div>
+        <div class="lesson-date"><span id="mainHebDate">היום</span> | <span id="mainGregDate">Today</span></div>
+        <div class="lesson-block">
+          <b>פרשת השבוע</b>
+          <span id="mainDailyParasha">טוען...</span>
+        </div>
+        <div class="gold-divider">◆</div>
+        <div class="lesson-block verse-block">
+          <b>פסוק יומי</b>
+          <span id="mainDailyPasuk">עִבְדוּ אֶת ה׳ בְּשִׂמְחָה</span>
+        </div>
+        <div class="lesson-block">
+          <b>הלכה יומית</b>
+          <span id="mainDailyHalacha">טוב להוסיף בכל יום בלימוד התורה, אפילו מעט, בקביעות ובשמחה.</span>
+        </div>
+        <div class="lesson-block">
+          <b>מוסר וחסידות</b>
+          <span id="mainDailyExtra">כל יום הוא התחלה חדשה לעבודת ה׳, לתפילה ולמעשה חסד.</span>
+        </div>
+        <div class="lesson-memorial">לעילוי נשמת זהבה חלא בת דינה זצ״ל</div>
+      </div>
+      <div class="tribe-rail tribe-right" aria-hidden="true">
+        <div class="tribe-medal">גד<br>⛺</div><div class="tribe-medal">אשר<br>🌴</div><div class="tribe-medal">יוסף<br>🌾</div><div class="tribe-medal">בנימין<br>🐺</div><div class="tribe-medal">זבולון<br>⛵</div><div class="tribe-medal">יששכר<br>🐴</div>
+      </div>
+    </section>
 
     <aside class="ornate-right">
       <section class="ornate-card events-card">
@@ -843,6 +476,17 @@ html,body{width:100%;height:100%;overflow:hidden!important}
         <div class="ornate-row"><span>אירוע היום</span><strong id="todayEvent">אין אירוע מיוחד</strong></div>
         <div class="ornate-row"><span>צום</span><strong id="fastToday">אין צום היום</strong></div>
         <div class="ornate-row"><span>החודש העברי</span><strong id="hebrewMonth">--</strong></div>
+      </section>
+
+      <section class="ornate-card announcements-card">
+        <h2>📣 הודעות</h2>
+        <div class="announcement-window"><div id="topAnnouncement" class="announcement-scroll">This week’s donor is Isik Goldman • This week’s donor is Erick Hala</div></div>
+      </section>
+
+      <section class="ornate-card memory-card">
+        <h2>🕯 לזכר עולם</h2>
+        <div class="memory-candle">🕯️</div>
+        <div class="memory-text">לעילוי נשמת<br><strong>זהבה חלא</strong><br>בת דינה זצ״ל</div>
       </section>
     </aside>
   </div>
@@ -1846,27 +1490,5 @@ setInterval(rotateBiblicalScenes,8000);
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',watch);else watch();
 })();
 </script>
-
-<script id="quick-card-helpers">
-(function(){
-  window.showFeature = window.showFeature || function(id){
-    var r=document.getElementById('featureRotator');
-    if(!r) return;
-    var views=r.querySelectorAll('.feature-view');
-    views.forEach(function(v){v.classList.remove('active');});
-    var target=document.getElementById(id);
-    if(target){
-      target.classList.add('active');
-      r.classList.remove('main-mode');
-      r.classList.add('feature-mode');
-    }
-  };
-  window.openAdmin = window.openAdmin || function(){
-    var gear=document.querySelector('.admin-gear,.settings-gear,[data-admin],#adminGear');
-    if(gear && typeof gear.click==='function') gear.click();
-  };
-})();
-</script>
-
 </body>
 </html>
