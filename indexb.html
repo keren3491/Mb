@@ -756,7 +756,226 @@ html,body{width:100%;height:100%;overflow:hidden!important}
   .ornate-grid.readable-layout-v2{grid-template-columns:1fr!important;}
   .ornate-grid.readable-layout-v2>.ornate-left,.ornate-grid.readable-layout-v2>.ornate-right{display:block!important;}
 }
-</style></head>
+</style>
+<style id="shiur-own-page-fix">
+#middleSectionView .large-info-row{grid-template-columns:repeat(3,minmax(0,1fr))!important;}
+#dailyShiurView .lesson-stage{width:100%!important;min-height:min(74vh,760px)!important;margin:0 auto!important;}
+#dailyShiurView .lesson-parchment{min-height:560px!important;display:flex!important;flex-direction:column!important;justify-content:center!important;}
+#dailyShiurView .lesson-heading{font-size:clamp(42px,5vw,76px)!important;}
+#dailyShiurView .lesson-block b,#dailyShiurView .lesson-block span{font-size:clamp(25px,2.5vw,40px)!important;}
+@media(max-width:900px){#middleSectionView .large-info-row{grid-template-columns:repeat(2,minmax(0,1fr))!important;}}
+</style>
+
+<style id="memorial-own-page-20260823">
+/* Memorial board is a dedicated 10-second rotation page; keep it off the main/middle page. */
+#middleSectionView .memory-bottom-card{display:none!important;}
+#middleSectionView .large-info-row{grid-template-columns:repeat(3,minmax(0,1fr))!important;}
+</style>
+
+<style id="professional-clean-tv-layout-20260823">
+/* Professional uncluttered TV layout:
+   fixed header + prayer panel + rotating center + events panel. */
+html,body{width:100%;height:100%;overflow:hidden!important}
+body{font-weight:800}
+.board.ornate-board{
+  height:100vh!important;
+  min-height:100vh!important;
+  max-height:100vh!important;
+  overflow:hidden!important;
+  display:flex!important;
+  flex-direction:column!important;
+}
+.ornate-header{
+  flex:0 0 16vh!important;
+  min-height:105px!important;
+  padding:10px 28px!important;
+}
+.board-title-he{font-size:clamp(34px,3.1vw,58px)!important;font-weight:1000!important}
+.board-title-en{font-size:clamp(16px,1.25vw,25px)!important;font-weight:1000!important;letter-spacing:.06em}
+.synagogue-subtitle,.rabbi-subtitle{font-weight:900!important}
+.city-name{font-size:clamp(18px,1.3vw,28px)!important;font-weight:1000!important}
+.city-time{font-size:clamp(34px,3vw,58px)!important;font-weight:1000!important}
+.city-date,.city-hebrew{font-size:clamp(14px,1vw,20px)!important;font-weight:900!important}
+
+.ornate-grid.readable-layout-v2{
+  flex:1 1 auto!important;
+  min-height:0!important;
+  width:100%!important;
+  display:grid!important;
+  grid-template-columns:minmax(245px,24%) minmax(0,52%) minmax(245px,24%)!important;
+  gap:14px!important;
+  align-items:stretch!important;
+  padding:12px 18px 10px!important;
+  overflow:hidden!important;
+}
+.ornate-grid.readable-layout-v2>.ornate-left,
+.ornate-grid.readable-layout-v2>.ornate-right{
+  display:block!important;
+  width:auto!important;
+  min-width:0!important;
+  height:100%!important;
+}
+.ornate-grid.readable-layout-v2 .zmanim-card,
+.ornate-grid.readable-layout-v2 .events-card{
+  height:100%!important;
+  min-height:0!important;
+  padding:15px 18px!important;
+  display:flex!important;
+  flex-direction:column!important;
+  justify-content:center!important;
+}
+.ornate-grid.readable-layout-v2 .ornate-card h2{
+  font-size:clamp(25px,1.9vw,38px)!important;
+  font-weight:1000!important;
+  margin:0 0 8px!important;
+}
+.ornate-grid.readable-layout-v2 .ornate-row{
+  font-size:clamp(22px,1.65vw,34px)!important;
+  font-weight:1000!important;
+  padding:12px 4px!important;
+  line-height:1.08!important;
+}
+.ornate-grid.readable-layout-v2 .ornate-row strong,
+.ornate-grid.readable-layout-v2 .ornate-row span{font-weight:1000!important}
+
+/* Center rotator: never covers the fixed board. */
+#featureRotator,
+#featureRotator.main-mode,
+#featureRotator.feature-mode{
+  display:block!important;
+  position:relative!important;
+  inset:auto!important;
+  z-index:3!important;
+  margin:0!important;
+  padding:0!important;
+  width:100%!important;
+  height:100%!important;
+  min-width:0!important;
+  min-height:0!important;
+  overflow:hidden!important;
+  border-radius:22px!important;
+  background:
+    radial-gradient(circle at 50% 18%,rgba(30,74,135,.35),transparent 46%),
+    linear-gradient(180deg,#061326,#020710)!important;
+  border:2px solid rgba(220,171,56,.9)!important;
+  box-shadow:inset 0 0 28px rgba(0,0,0,.75),0 0 18px rgba(220,171,56,.2)!important;
+}
+#featureRotator .feature-view,
+#featureRotator .feature-view.active{
+  width:100%!important;
+  height:100%!important;
+  max-height:none!important;
+  overflow:hidden!important;
+  padding:12px!important;
+  box-sizing:border-box!important;
+}
+#featureRotator .feature-view.active{
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+}
+#featureRotator .feature-view:not(.active){display:none!important}
+
+/* Quick-info slide — large, simple, readable. */
+#middleSectionView .center-stack{
+  width:100%!important;height:100%!important;
+  display:flex!important;align-items:stretch!important;justify-content:center!important;
+}
+#middleSectionView .main-info-row.large-info-row{
+  width:100%!important;height:100%!important;min-height:0!important;
+  display:grid!important;grid-template-columns:1fr!important;
+  grid-template-rows:repeat(3,minmax(0,1fr))!important;gap:10px!important;
+}
+#middleSectionView .bottom-info-card{
+  min-height:0!important;height:auto!important;
+  padding:10px 18px!important;
+  display:grid!important;
+  grid-template-columns:minmax(0,1fr) auto!important;
+  grid-template-areas:"title value" "detail value"!important;
+  align-items:center!important;
+}
+#middleSectionView .bottom-info-card h2{
+  grid-area:title!important;
+  font-size:clamp(23px,1.7vw,34px)!important;font-weight:1000!important;margin:0!important;
+}
+#middleSectionView .ornate-big{
+  grid-area:value!important;font-size:clamp(28px,2.2vw,45px)!important;font-weight:1000!important;
+  padding-inline-start:14px!important;
+}
+#middleSectionView .info-detail{
+  grid-area:detail!important;font-size:clamp(16px,1.15vw,23px)!important;font-weight:900!important;
+  min-height:0!important;margin:0!important;
+}
+#middleSectionView .info-action{display:none!important}
+#middleSectionView .announcement-window{
+  grid-area:value!important;
+  width:min(370px,32vw)!important;height:76px!important;min-height:76px!important;
+}
+#middleSectionView .announcement-scroll{
+  font-size:clamp(20px,1.4vw,28px)!important;font-weight:1000!important;
+}
+
+/* Memorial/candles slide. */
+#memorialView .memorial-plaque{
+  width:100%!important;height:100%!important;max-height:100%!important;
+  min-height:0!important;margin:0!important;padding:13px 20px!important;
+  box-sizing:border-box!important;
+}
+#memorialView .memorial-plaque-head{
+  font-size:clamp(21px,1.55vw,31px)!important;font-weight:1000!important;
+  padding:8px 48px!important;line-height:1.1!important;
+}
+#memorialView .memorial-plaque h2{
+  font-size:clamp(25px,1.8vw,36px)!important;margin:8px 0!important;font-weight:1000!important
+}
+#memorialView .memorial-plaque-grid{
+  grid-template-columns:repeat(5,minmax(0,1fr))!important;
+  gap:7px!important;
+}
+#memorialView .memorial-plaque-cell{min-height:70px!important;padding:5px!important}
+#memorialView .memorial-flame{font-size:clamp(24px,2vw,38px)!important}
+#memorialView .memorial-plaque-name{font-size:clamp(13px,.92vw,18px)!important;font-weight:1000!important}
+#memorialView .memorial-edit-button{font-size:14px!important;padding:6px 12px!important;margin-top:7px!important}
+
+/* Daily lesson slide. */
+#dailyShiurView .lesson-stage{
+  width:100%!important;height:100%!important;min-height:0!important;margin:0!important;
+}
+#dailyShiurView .lesson-parchment{
+  height:100%!important;min-height:0!important;
+  padding:13px 20px!important;overflow:hidden!important;
+}
+#dailyShiurView .lesson-heading{font-size:clamp(34px,2.8vw,50px)!important;font-weight:1000!important}
+#dailyShiurView .lesson-date{font-size:clamp(16px,1vw,21px)!important;font-weight:900!important;margin-bottom:5px!important}
+#dailyShiurView .lesson-block{margin:4px 0!important;padding:4px 8px!important}
+#dailyShiurView .lesson-block b,
+#dailyShiurView .lesson-block span{font-size:clamp(18px,1.25vw,26px)!important;font-weight:1000!important;line-height:1.18!important}
+#dailyShiurView .lesson-memorial{font-size:clamp(16px,1.05vw,22px)!important;font-weight:1000!important}
+#dailyShiurView .tribe-medal{font-size:clamp(11px,.7vw,14px)!important}
+
+/* Daf Yomi slide. */
+#dafYomiView .daily-shiur{
+  width:100%!important;height:100%!important;min-height:0!important;padding:14px!important;
+}
+#dafYomiView .daily-title{font-size:clamp(30px,2.6vw,48px)!important;font-weight:1000!important}
+#dafYomiView .daf-media-grid{width:100%!important;min-height:0!important;gap:12px!important}
+#dafYomiView #permanentDafYomi{font-size:clamp(38px,3.2vw,60px)!important;font-weight:1000!important}
+
+/* Keep only the useful permanent footer/ticker; suppress extra visual clutter. */
+.biblical-showcase,.tribes{display:none!important}
+.rotation-status{display:none!important}
+
+/* Disable legacy page auto-scroll. */
+body{scroll-behavior:auto!important}
+@media(max-width:1050px){
+  .ornate-grid.readable-layout-v2{
+    grid-template-columns:minmax(190px,24%) minmax(0,52%) minmax(190px,24%)!important;
+    gap:8px!important;padding-inline:8px!important;
+  }
+}
+</style>
+
+</head>
 <body>
 <div class="frame-piece frame-top"></div>
 <div class="frame-piece frame-bottom"></div>
@@ -813,24 +1032,7 @@ html,body{width:100%;height:100%;overflow:hidden!important}
 <span id="shabbatShacharit">09:00</span><span id="shabbatMincha">18:30</span><span id="shabbatMaariv">19:30</span><span id="shabbatHavdalah">21:00</span>
 </section>
 <section aria-label="תצוגה מתחלפת" class="feature-rotator" id="featureRotator"><div aria-label="Central information page" class="feature-view middle-section-view" id="middleSectionView"><div class="center-stack">
-<section aria-label="שיעור יומי" class="lesson-stage">
-<div aria-hidden="true" class="tribe-rail tribe-left">
-<div class="tribe-medal">ראובן<br/>🌳</div><div class="tribe-medal">שמעון<br/>⚔️</div><div class="tribe-medal">לוי<br/>🕎</div><div class="tribe-medal">יהודה<br/>🦁</div><div class="tribe-medal">דן<br/>⚖️</div><div class="tribe-medal">נפתלי<br/>🦌</div>
-</div>
-<div class="lesson-parchment">
-<div class="lesson-heading">שיעור יומי</div>
-<div class="lesson-date"><span id="mainHebDate">היום</span> | <span id="mainGregDate">Today</span></div>
-<div class="lesson-block"><b>פרשת השבוע</b><span id="mainDailyParasha">טוען...</span></div>
-<div class="gold-divider">◆</div>
-<div class="lesson-block verse-block"><b>פסוק יומי</b><span id="mainDailyPasuk">עִבְדוּ אֶת ה׳ בְּשִׂמְחָה</span></div>
-<div class="lesson-block"><b>הלכה יומית</b><span id="mainDailyHalacha">טוב להוסיף בכל יום בלימוד התורה, אפילו מעט, בקביעות ובשמחה.</span></div>
-<div class="lesson-block"><b>מוסר וחסידות</b><span id="mainDailyExtra">כל יום הוא התחלה חדשה לעבודת ה׳, לתפילה ולמעשה חסד.</span></div>
-<div class="lesson-memorial">לעילוי נשמת זהבה חלא בת דינה זצ״ל</div>
-</div>
-<div aria-hidden="true" class="tribe-rail tribe-right">
-<div class="tribe-medal">גד<br/>⛺</div><div class="tribe-medal">אשר<br/>🌴</div><div class="tribe-medal">יוסף<br/>🌾</div><div class="tribe-medal">בנימין<br/>🐺</div><div class="tribe-medal">זבולון<br/>⛵</div><div class="tribe-medal">יששכר<br/>🐴</div>
-</div>
-</section>
+
 <div aria-label="Quick information" class="main-info-row large-info-row">
 <section class="ornate-card bottom-info-card">
 <h2>📖 Daily Daf Yomi</h2>
@@ -844,12 +1046,6 @@ html,body{width:100%;height:100%;overflow:hidden!important}
 <div class="info-detail" id="parashaDetail">Weekly Torah reading</div>
 <button class="info-action" onclick="showFeature('dailyShiurView')" type="button">View Parsha</button>
 </section>
-<section class="ornate-card bottom-info-card memory-bottom-card">
-<h2>🕯 In memory of</h2>
-<div class="memory-text"><strong>זהבה חלא</strong><br/>בת דינה זצ״ל</div>
-<div class="info-detail">May her neshama have an aliyah</div>
-<button class="info-action" onclick="showFeature('memorialView')" type="button">Light a candle</button>
-</section>
 <section class="ornate-card bottom-info-card announcement-bottom-card">
 <h2>📣 Announcements</h2>
 <div class="announcement-window">
@@ -858,12 +1054,7 @@ html,body{width:100%;height:100%;overflow:hidden!important}
 <div class="info-detail">Community announcements</div>
 <button class="info-action" onclick="openAdmin()" type="button">View all</button>
 </section>
-<section class="ornate-card bottom-info-card">
-<h2>🎓 Daily shiur</h2>
-<div class="ornate-big">8:00 AM</div>
-<div class="info-detail">Join us for a daily Torah shiur with inspiring insights.</div>
-<button class="info-action" onclick="showFeature('dailyShiurView')" type="button">View shiur</button>
-</section>
+
 </div>
 </div></div>
 <div class="feature-view" id="dafYomiView">
@@ -890,18 +1081,22 @@ html,body{width:100%;height:100%;overflow:hidden!important}
 </div>
 </div>
 <div class="feature-view" id="dailyShiurView">
-<section aria-label="שיעור יומי אוטומטי" class="grid">
-<div class="card panel daily-shiur">
-<div class="daily-title">📖 שיעור יומי · מתעדכן אוטומטית</div>
-<div class="daily-grid">
-<div class="daily-item"><b>פרשת השבוע</b><span id="dailyParasha">טוען...</span></div>
-<div class="daily-item"><b>דף יומי</b><span id="dailyDaf">טוען...</span></div>
-<div class="daily-item"><b>תהילים יומי</b><span id="dailyTehillim">טוען...</span></div>
-<div class="daily-item"><b>פסוק יומי</b><span id="dailyPasuk">עִבְדוּ אֶת ה׳ בְּשִׂמְחָה</span></div>
-<div class="daily-item"><b>הלכה יומית</b><span id="dailyHalacha">טוב להוסיף בכל יום בלימוד התורה, אפילו מעט, בקביעות ובשמחה.</span></div>
-<div class="daily-item"><b>מוסר וחסידות</b><span id="dailyExtra">כל יום הוא התחלה חדשה לעבודת ה׳, לתפילה ולמעשה חסד.</span></div>
+<section aria-label="שיעור יומי" class="lesson-stage">
+<div aria-hidden="true" class="tribe-rail tribe-left">
+<div class="tribe-medal">ראובן<br/>🌳</div><div class="tribe-medal">שמעון<br/>⚔️</div><div class="tribe-medal">לוי<br/>🕎</div><div class="tribe-medal">יהודה<br/>🦁</div><div class="tribe-medal">דן<br/>⚖️</div><div class="tribe-medal">נפתלי<br/>🦌</div>
 </div>
-<div class="daily-note" id="dailyNote">תורה • תהילים • הלכה • מוסר • חסידות — לעילוי נשמת זהבה חלא בת דינה זצ״ל</div>
+<div class="lesson-parchment">
+<div class="lesson-heading">שיעור יומי</div>
+<div class="lesson-date"><span id="mainHebDate">היום</span> | <span id="mainGregDate">Today</span></div>
+<div class="lesson-block"><b>פרשת השבוע</b><span id="dailyParasha">טוען...</span></div>
+<div class="gold-divider">◆</div>
+<div class="lesson-block verse-block"><b>פסוק יומי</b><span id="dailyPasuk">עִבְדוּ אֶת ה׳ בְּשִׂמְחָה</span></div>
+<div class="lesson-block"><b>הלכה יומית</b><span id="dailyHalacha">טוב להוסיף בכל יום בלימוד התורה, אפילו מעט, בקביעות ובשמחה.</span></div>
+<div class="lesson-block"><b>מוסר וחסידות</b><span id="dailyExtra">כל יום הוא התחלה חדשה לעבודת ה׳, לתפילה ולמעשה חסד.</span></div>
+<div class="lesson-memorial">לעילוי נשמת זהבה חלא בת דינה זצ״ל</div>
+</div>
+<div aria-hidden="true" class="tribe-rail tribe-right">
+<div class="tribe-medal">גד<br/>⛺</div><div class="tribe-medal">אשר<br/>🌴</div><div class="tribe-medal">יוסף<br/>🌾</div><div class="tribe-medal">בנימין<br/>🐺</div><div class="tribe-medal">זבולון<br/>⛵</div><div class="tribe-medal">יששכר<br/>🐴</div>
 </div>
 </section>
 </div>
@@ -1737,7 +1932,6 @@ renderMemorialPlaques();
 
 
 const FEATURE_SEQUENCE = [
-  {mode:"main", duration:10000},
   {mode:"middle", duration:10000},
   {mode:"memorial", duration:10000},
   {mode:"shiur", duration:10000},
@@ -1755,10 +1949,11 @@ function renderFeatureRotation(){
   if(!rotator) return;
 
   const mode=FEATURE_SEQUENCE[featureSequenceIndex].mode;
-  const main=mode==="main";
 
-  rotator.classList.toggle("main-mode",main);
-  rotator.classList.toggle("feature-mode",!main);
+  // The frame, clocks, prayer times and events stay visible at all times.
+  // Only the center feature changes every 10 seconds.
+  rotator.classList.remove("main-mode");
+  rotator.classList.add("feature-mode");
 
   [[middle,"middle"],[daf,"daf"],[shiur,"shiur"],[memorial,"memorial"]].forEach(([el,key])=>{
     if(!el) return;
@@ -1785,7 +1980,14 @@ function featureRotationTick(){
 }
 
 window.addEventListener("load",()=>{
-  featureSequenceIndex=0; // begin on normal main page
+  // Put the rotating feature panel between the fixed prayer and events columns.
+  const grid=document.querySelector(".ornate-grid.readable-layout-v2");
+  const rotator=document.getElementById("featureRotator");
+  const right=document.querySelector(".ornate-grid.readable-layout-v2>.ornate-right");
+  if(grid && rotator && right && rotator.parentElement!==grid){
+    grid.insertBefore(rotator,right);
+  }
+  featureSequenceIndex=0;
   featureDeadline=Date.now()+FEATURE_SEQUENCE[0].duration;
   renderFeatureRotation();
   setInterval(featureRotationTick,500);
@@ -1804,7 +2006,7 @@ setInterval(rotateBiblicalScenes,8000);
 <script id="tv-auto-scroll-script">
 (function(){
   var y=0,last=0,pauseUntil=Date.now()+5000;
-  var speed=12; // pixels per second: deliberately slow for TV reading
+  var speed=0; // disabled: professional layout fits one TV screen
   function maxScroll(){return Math.max(0,document.documentElement.scrollHeight-window.innerHeight);}
   function tick(t){
     if(!last) last=t;
@@ -1831,7 +2033,7 @@ setInterval(rotateBiblicalScenes,8000);
 </script>
 <script id="mirror-main-daily-lesson">
 (function(){
-  const pairs=[['hebrewDate','mainHebDate'],['gregDate','mainGregDate'],['dailyParasha','mainDailyParasha'],['dailyPasuk','mainDailyPasuk'],['dailyHalacha','mainDailyHalacha'],['dailyExtra','mainDailyExtra']];
+  const pairs=[['hebrewDate','mainHebDate'],['gregDate','mainGregDate']];
   function sync(){pairs.forEach(([a,b])=>{const src=document.getElementById(a),dst=document.getElementById(b);if(src&&dst&&src.textContent.trim())dst.textContent=src.textContent.trim();});}
   function watch(){pairs.forEach(([a])=>{const src=document.getElementById(a);if(src)new MutationObserver(sync).observe(src,{childList:true,subtree:true,characterData:true});});sync();}
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',watch);else watch();
