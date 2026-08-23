@@ -398,7 +398,7 @@ body{overscroll-behavior:none;}
     <div class="card panel">
       <h2>זמני תפילות</h2>
       <div class="row"><span>שחרית</span><span id="shacharit" class="value">07:00</span></div>
-      <div class="row"><span>מנחה</span><span id="mincha" class="value">לפני השקיעה</span></div>
+      <div class="row"><span>מנחה</span><span id="mincha" class="value">16:00</span></div>
       <div class="row"><span>ערבית</span><span id="maariv" class="value">20:30</span></div>
       <div class="row"><span>שיעור תורה</span><span id="shiur" class="value">21:15</span></div>
       <div class="row"><span>שחרית לשבת</span><span id="shabbatShacharit" class="value goldText">09:00</span></div>
@@ -534,7 +534,7 @@ body{overscroll-behavior:none;}
       <label>מיקוד ארה״ב לזמנים<input id="sZip" value="11795" inputmode="numeric"></label>
       <label>אזור זמן מקומי<input id="sTimezone" value="America/New_York"></label>
       <label>שחרית<input id="sShacharit" type="time" value="07:00"></label>
-      <label>מנחה<input id="sMincha" value="לפני השקיעה"></label>
+      <label>מנחה<input id="sMincha" type="time" value="16:00"></label>
       <label>ערבית<input id="sMaariv" type="time" value="20:30"></label>
       <label>שיעור תורה<input id="sShiur" type="time" value="21:15"></label>
 
@@ -657,7 +657,7 @@ body{overscroll-behavior:none;}
 <script>
 const DEFAULTS = {
   synagogue:"בית הכנסת בית תורה", rabbi:"הרב", zip:"11795", timezone:"America/New_York",
-  shacharit:"07:00", mincha:"לפני השקיעה", maariv:"20:30", shiur:"21:15",
+  shacharit:"07:00", mincha:"16:00", maariv:"20:30", shiur:"21:15",
   shacharitDuration:60, minchaDuration:30, maarivDuration:45,
   shabbatShacharit:"09:00", shabbatMincha:"18:30", shabbatMaariv:"19:30", shabbatHavdalah:"21:00",
   shabbatShacharitDuration:120, shabbatMinchaDuration:45, shabbatMaarivDuration:60, shabbatHavdalahDuration:20,
@@ -801,6 +801,11 @@ const DEFAULTS = {
   ticker:"לעילויי נשמת זהבה חלא זצ״ל", dafVideoUrl:""
 };
 let settings = {...DEFAULTS, ...(JSON.parse(localStorage.getItem("synagogueBoardSettings")||"{}"))};
+// Migrate the old non-time Mincha setting to the new editable 4:00 PM default.
+if (!settings.mincha || settings.mincha === "לפני השקיעה") {
+  settings.mincha = "16:00";
+  try { localStorage.setItem("synagogueBoardSettings", JSON.stringify(settings)); } catch(e) {}
+}
 const OLD_SHACHARIT_SAMPLE = "תפילת שחרית\n\nברכות השחר\nפסוקי דזמרה\nקריאת שמע וברכותיה\nתפילת העמידה\nתחנון / הלל לפי היום\nאשרי ובא לציון\nעלינו לשבח";
 if(!settings.shacharitText || settings.shacharitText === OLD_SHACHARIT_SAMPLE){
   settings.shacharitText = DEFAULTS.shacharitText;
