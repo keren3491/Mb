@@ -562,6 +562,175 @@ body{box-sizing:border-box!important;padding:var(--safeTop) var(--safeSide) var(
   .main-info-row{grid-template-columns:repeat(5,minmax(0,1fr))!important;gap:4px!important}
 }
 </style>
+
+<style id="screenshot-layout-final">
+/* Final TV layout — large center lesson with a full-width readable information row beneath it. */
+.ornate-board{
+  gap:6px!important;
+}
+.ornate-header{
+  flex:0 0 112px!important;
+  min-height:112px!important;
+  grid-template-columns:1fr 1.25fr 1fr!important;
+}
+.city-name{font-size:clamp(22px,1.7vw,34px)!important}
+.city-time{font-size:clamp(42px,3.7vw,64px)!important;line-height:.95!important}
+.city-date,.city-hebrew{font-size:clamp(16px,1.1vw,22px)!important}
+.board-title-he{font-size:clamp(34px,3vw,52px)!important;line-height:1!important}
+.board-title-en{font-size:clamp(15px,1.1vw,22px)!important}
+
+.ornate-grid.readable-layout-v2{
+  grid-template-columns:minmax(245px,20%) minmax(0,1fr) minmax(245px,20%)!important;
+  gap:7px!important;
+  overflow:hidden!important;
+}
+.center-stack{gap:6px!important}
+.center-stack .lesson-stage{
+  flex:1 1 auto!important;
+  min-height:0!important;
+}
+.lesson-parchment{padding:12px 18px!important}
+.lesson-heading{font-size:clamp(42px,4.1vw,70px)!important;line-height:.98!important}
+.lesson-date{font-size:clamp(17px,1.3vw,24px)!important;margin:3px 0 8px!important}
+.lesson-block{font-size:clamp(18px,1.35vw,26px)!important;line-height:1.08!important;margin:4px 0!important}
+.lesson-block b{font-size:1.02em!important}
+.gold-divider{margin:0!important}
+.lesson-memorial{font-size:clamp(16px,1.12vw,22px)!important;margin-top:5px!important}
+
+.main-info-row.large-info-row{
+  flex:0 0 220px!important;
+  height:220px!important;
+  min-height:220px!important;
+  display:grid!important;
+  grid-template-columns:repeat(5,minmax(0,1fr))!important;
+  gap:7px!important;
+  overflow:visible!important;
+}
+.main-info-row.large-info-row .bottom-info-card{
+  height:220px!important;
+  min-height:220px!important;
+  padding:10px 11px!important;
+  display:flex!important;
+  flex-direction:column!important;
+  justify-content:flex-start!important;
+  align-items:stretch!important;
+  overflow:hidden!important;
+  text-align:center!important;
+}
+.main-info-row.large-info-row .bottom-info-card h2{
+  min-height:48px!important;
+  margin:0 0 5px!important;
+  padding:0 0 6px!important;
+  font-size:clamp(21px,1.55vw,30px)!important;
+  line-height:1.05!important;
+  display:flex!important;
+  justify-content:center!important;
+  align-items:center!important;
+}
+.main-info-row.large-info-row .ornate-big{
+  font-size:clamp(24px,1.8vw,35px)!important;
+  line-height:1.05!important;
+  min-height:42px!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  white-space:normal!important;
+  overflow:visible!important;
+}
+.main-info-row.large-info-row .memory-text{
+  font-size:clamp(20px,1.4vw,28px)!important;
+  line-height:1.05!important;
+  min-height:58px!important;
+}
+.main-info-row.large-info-row .memory-text strong{
+  font-size:clamp(24px,1.72vw,34px)!important;
+}
+.info-detail{
+  flex:1 1 auto!important;
+  min-height:44px!important;
+  margin:4px 0 5px!important;
+  font-size:clamp(15px,1.02vw,20px)!important;
+  line-height:1.13!important;
+  font-weight:800!important;
+  color:#f4f7fb!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  white-space:normal!important;
+  overflow-wrap:anywhere!important;
+}
+.info-action{
+  width:82%!important;
+  min-height:34px!important;
+  margin:0 auto!important;
+  border:2px solid #d69b21!important;
+  border-radius:7px!important;
+  background:linear-gradient(#14263b,#06111d)!important;
+  color:#fff!important;
+  font-size:clamp(15px,1vw,20px)!important;
+  font-weight:900!important;
+  cursor:pointer!important;
+  flex:0 0 34px!important;
+}
+.info-action:active{transform:scale(.98)}
+.main-info-row.large-info-row .announcement-window{
+  height:72px!important;
+  min-height:72px!important;
+  overflow:hidden!important;
+  display:flex!important;
+  align-items:center!important;
+}
+.main-info-row.large-info-row .announcement-window .announcement-scroll{
+  position:static!important;
+  transform:none!important;
+  animation:none!important;
+  width:100%!important;
+  white-space:normal!important;
+  font-size:clamp(16px,1.06vw,21px)!important;
+  line-height:1.16!important;
+  text-align:center!important;
+}
+
+/* Side boxes: large, clear and balanced like the reference image. */
+.ornate-left .zmanim-card,.ornate-right .events-card{
+  padding:12px!important;
+}
+.ornate-left .ornate-card h2,.ornate-right .ornate-card h2{
+  font-size:clamp(23px,1.7vw,32px)!important;
+  margin-bottom:8px!important;
+}
+.ornate-left .ornate-row,.ornate-right .ornate-row{
+  font-size:clamp(19px,1.35vw,27px)!important;
+  padding:11px 3px!important;
+}
+
+/* Keep the entire design inside a 16:9 TV without browser scrolling. */
+html,body{width:100%;height:100%;overflow:hidden!important}
+@media(max-height:760px){
+  .ornate-header{flex-basis:94px!important;min-height:94px!important}
+  .main-info-row.large-info-row{
+    flex-basis:185px!important;
+    height:185px!important;
+    min-height:185px!important;
+  }
+  .main-info-row.large-info-row .bottom-info-card{
+    height:185px!important;
+    min-height:185px!important;
+    padding:7px!important;
+  }
+  .main-info-row.large-info-row .bottom-info-card h2{
+    min-height:38px!important;
+    font-size:clamp(18px,1.3vw,24px)!important;
+  }
+  .main-info-row.large-info-row .ornate-big{font-size:clamp(20px,1.55vw,29px)!important}
+  .info-detail{font-size:clamp(13px,.9vw,17px)!important;min-height:32px!important;margin:2px 0!important}
+  .info-action{min-height:29px!important;flex-basis:29px!important;font-size:14px!important}
+  .main-info-row.large-info-row .announcement-window{height:53px!important;min-height:53px!important}
+  .lesson-heading{font-size:clamp(34px,3.5vw,52px)!important}
+  .lesson-block{font-size:clamp(15px,1.12vw,20px)!important}
+}
+</style>
+
 </head>
 <body>
 
@@ -627,27 +796,42 @@ body{box-sizing:border-box!important;padding:var(--safeTop) var(--safeSide) var(
         </div>
       </section>
 
-      <div class="main-info-row" aria-label="מידע מהיר">
+      <div class="main-info-row large-info-row" aria-label="Quick information">
         <section class="ornate-card bottom-info-card">
-          <h2>📖 הדף היומי</h2>
-          <div id="dafYomi" class="ornate-big">טוען...</div>
+          <h2>📖 Daily Daf Yomi</h2>
+          <div id="dafYomi" class="ornate-big">Loading...</div>
+          <div class="info-detail" id="dafDetail">Today’s Gemara page</div>
+          <button class="info-action" type="button" onclick="showFeature('dafYomiView')">View Daf</button>
         </section>
+
         <section class="ornate-card bottom-info-card">
-          <h2>📜 פרשת השבוע</h2>
-          <div id="parasha" class="ornate-big">טוען...</div>
+          <h2>📜 This week’s Torah portion</h2>
+          <div id="parasha" class="ornate-big">Loading...</div>
+          <div class="info-detail" id="parashaDetail">Weekly Torah reading</div>
+          <button class="info-action" type="button" onclick="showFeature('dailyShiurView')">View Parsha</button>
         </section>
+
         <section class="ornate-card bottom-info-card memory-bottom-card">
-          <h2>🕯 לזכר עולם</h2>
+          <h2>🕯 In memory of</h2>
           <div class="memory-text"><strong>זהבה חלא</strong><br>בת דינה זצ״ל</div>
+          <div class="info-detail">May her neshama have an aliyah</div>
+          <button class="info-action" type="button" onclick="showFeature('memorialView')">Light a candle</button>
         </section>
+
         <section class="ornate-card bottom-info-card announcement-bottom-card">
-          <h2>📣 הודעות</h2>
-          <div class="announcement-window"><div id="topAnnouncement" class="announcement-scroll">This week’s donor is Isik Goldman • This week’s donor is Erick Hala</div></div>
+          <h2>📣 Announcements</h2>
+          <div class="announcement-window">
+            <div id="topAnnouncement" class="announcement-scroll">This week’s donor is Isik Goldman • This week’s donor is Erick Hala</div>
+          </div>
+          <div class="info-detail">Community announcements</div>
+          <button class="info-action" type="button" onclick="openAdmin()">View all</button>
         </section>
+
         <section class="ornate-card bottom-info-card">
-          <h2>📚 השיעור היום</h2>
+          <h2>🎓 Daily shiur</h2>
           <div class="ornate-big">8:00 AM</div>
-          <div class="mini-note">Daily Torah Lesson</div>
+          <div class="info-detail">Join us for a daily Torah shiur with inspiring insights.</div>
+          <button class="info-action" type="button" onclick="showFeature('dailyShiurView')">View shiur</button>
         </section>
       </div>
     </div>
@@ -1662,5 +1846,27 @@ setInterval(rotateBiblicalScenes,8000);
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',watch);else watch();
 })();
 </script>
+
+<script id="quick-card-helpers">
+(function(){
+  window.showFeature = window.showFeature || function(id){
+    var r=document.getElementById('featureRotator');
+    if(!r) return;
+    var views=r.querySelectorAll('.feature-view');
+    views.forEach(function(v){v.classList.remove('active');});
+    var target=document.getElementById(id);
+    if(target){
+      target.classList.add('active');
+      r.classList.remove('main-mode');
+      r.classList.add('feature-mode');
+    }
+  };
+  window.openAdmin = window.openAdmin || function(){
+    var gear=document.querySelector('.admin-gear,.settings-gear,[data-admin],#adminGear');
+    if(gear && typeof gear.click==='function') gear.click();
+  };
+})();
+</script>
+
 </body>
 </html>
