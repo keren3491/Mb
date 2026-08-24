@@ -597,34 +597,126 @@ async function loadExtraDailyLearning(){
 
 async function refreshJewishData(){
   const date=localISO(), end=plusDays(date,35);
-  try{
-    const [convR,zR,calR] = await Promise.all([
-      fetch(`https://www.hebcal.com/converter?cfg=json&g2h=1&date=${date}`),
-      fetch(`https://www.hebcal.com/zmanim?cfg=json&zip=${encodeURIComponent(settings.zip)}&date=${date}`),
-      fetch(`https://www.hebcal.com/hebcal?v=1&cfg=json&start=${date}&end=${end}&zip=${encodeURIComponent(settings.zip)}&maj=on&min=on&mod=on&nx=on&ss=on&mf=on&c=on&s=on&d=on&o=on&lg=he`)
-    ]);
-    const conv=await convR.json(), z=await zR.json(), cal=await calR.json();
+  const safeZip = /^\d{5}$/.test(String(settings.zip||'')) ? String(settings.zip) : DEFAULTS.zip;
 
+  async function fetchJson(url){
+    const r=await fetch(url,{cache:"no-store"});
+    if(!r.ok) throw new Error(`HTTP ${r.status}: ${url}`);
+    return r.json();
+  }
+
+  // Local zmanim fallback for the board's default West Islip location (ZIP 11795).
+  // This runs ONLY if Hebcal zmanim cannot be reached, so the rest of the board is untouched.
+  function fallbackZmanim11795(){
+    if(String(safeZip)!=="11795") return false;
+    const lat=40.7062, lon=-73.3062;
+    const base=new Date(date+"T12:00:00Z");
+    const rad=Math.PI/180;
+    const dayStart=Date.UTC(base.getUTCFullYear(),base.getUTCMonth(),base.getUTCDate());
+    const N=Math.floor((dayStart-Date.UTC(base.getUTCFullYear(),0,0))/86400000);
+    function solarTime(isRise,zenithDeg){
+      const lngHour=lon/15;
+      const t=N+(((isRise?6:18)-lngHour)/24);
+      const M=(0.9856*t)-3.289;
+      let L=M+(1.916*Math.sin(M*rad))+(0.020*Math.sin(2*M*rad))+282.634;
+      L=(L+360)%360;
+      let RA=Math.atan(0.91764*Math.tan(L*rad))/rad;
+      RA=(RA+360)%360;
+      const Lquadrant=Math.floor(L/90)*90, RAquadrant=Math.floor(RA/90)*90;
+      RA=(RA+(Lquadrant-RAquadrant))/15;
+      const sinDec=0.39782*Math.sin(L*rad);
+      const cosDec=Math.cos(Math.asin(sinDec));
+      const cosH=(Math.cos(zenithDeg*rad)-(sinDec*Math.sin(lat*rad)))/(cosDec*Math.cos(lat*rad));
+      if(cosH>1||cosH< -1) return null;
+      let H=isRise?(360-Math.acos(cosH)/rad):(Math.acos(cosH)/rad);
+      H/=15;
+      const T=H+RA-(0.06571*t)-6.622;
+      let UT=T-lngHour; UT=(UT+24)%24;
+      return new Date(dayStart+UT*3600000);
+    }
+    const rise=solarTime(true,90.833), set=solarTime(false,90.833);
+    if(!rise||!set) return false;
+    const dayMs=set-rise, shaah=dayMs/12;
+    const vals={
+      alot:new Date(rise.getTime()-72*60000),
+      sunrise:rise,
+      shema:new Date(rise.getTime()+3*shaah),
+      chatzot:new Date(rise.getTime()+6*shaah),
+      minchaGedola:new Date(rise.getTime()+6.5*shaah),
+      sunset:set,
+      tzeit:new Date(set.getTime()+42*60000)
+    };
+    Object.entries(vals).forEach(([id,d])=>{if($(id)) $(id).textContent=timeOnly(d.toISOString())});
+    return true;
+  }
+
+  // Load the three Hebcal feeds independently. A failure in one feed must never
+  // prevent the zmanim panel (or the rest of the board) from updating.
+  const [convResult,zmanimResult,calResult] = await Promise.allSettled([
+    fetchJson(`https://www.hebcal.com/converter?cfg=json&g2h=1&date=${date}`),
+    fetchJson(`https://www.hebcal.com/zmanim?cfg=json&zip=${encodeURIComponent(safeZip)}&date=${date}&sec=1`),
+    fetchJson(`https://www.hebcal.com/hebcal?v=1&cfg=json&start=${date}&end=${end}&zip=${encodeURIComponent(safeZip)}&maj=on&min=on&mod=on&nx=on&ss=on&mf=on&c=on&s=on&d=on&o=on&lg=he`)
+  ]);
+
+  // ZMANIM — update these first and independently.
+  if(zmanimResult.status === "fulfilled"){
+    const z=zmanimResult.value||{};
+    const t=z.times||{};
+    const setTime=(id,...keys)=>{
+      const v=keys.map(k=>t[k]).find(Boolean);
+      $(id).textContent=v ? timeOnly(v) : "—";
+    };
+    setTime("alot","alotHaShachar","alosBaalHatanya");
+    setTime("sunrise","sunrise");
+    setTime("shema","sofZmanShma","sofZmanShmaBaalHatanya","sofZmanShmaMGA");
+    setTime("chatzot","chatzot");
+    setTime("minchaGedola","minchaGedola","minchaGedolaBaalHatanya");
+    setTime("sunset","sunset");
+    setTime("tzeit","tzeit7083deg","tzaisBaalHatanya","tzeit85deg","tzeit42min","tzeit72min","dusk");
+  }else{
+    console.warn("Hebcal zmanim update failed",zmanimResult.reason);
+    // Immediate local fallback keeps the seven times visible even if the TV cannot reach Hebcal.
+    const usedFallback=fallbackZmanim11795();
+    if(!usedFallback){
+      ["alot","sunrise","shema","chatzot","minchaGedola","sunset","tzeit"].forEach(id=>{
+        if($(id) && ($(id).textContent==="--:--" || $(id).textContent==="—")) $(id).textContent="מנסה שוב…";
+      });
+    }
+    // One retry a few seconds later; exact Hebcal values replace the fallback when available.
+    setTimeout(async()=>{
+      try{
+        const z=await fetchJson(`https://www.hebcal.com/zmanim?cfg=json&zip=${encodeURIComponent(safeZip)}&date=${date}&sec=1&_=${Date.now()}`);
+        const t=z.times||{};
+        const val=(...keys)=>keys.map(k=>t[k]).find(Boolean);
+        [["alot",val("alotHaShachar","alosBaalHatanya")],["sunrise",val("sunrise")],["shema",val("sofZmanShma","sofZmanShmaBaalHatanya","sofZmanShmaMGA")],["chatzot",val("chatzot")],["minchaGedola",val("minchaGedola","minchaGedolaBaalHatanya")],["sunset",val("sunset")],["tzeit",val("tzeit7083deg","tzaisBaalHatanya","tzeit85deg","tzeit42min","tzeit72min","dusk")]].forEach(([id,v])=>{if($(id)&&v) $(id).textContent=timeOnly(v)});
+      }catch(err){
+        console.warn("Hebcal zmanim retry failed",err);
+        if(!usedFallback){
+          ["alot","sunrise","shema","chatzot","minchaGedola","sunset","tzeit"].forEach(id=>{if($(id)) $(id).textContent="לא זמין"});
+        }
+      }
+    },4000);
+  }
+
+  const conv = convResult.status === "fulfilled" ? convResult.value : null;
+  if(conv){
     $("hebrewDate").textContent = conv.hebrew || `${conv.hd||""} ${conv.hm||""} ${conv.hy||""}`.trim();
     $("hebrewMonth").textContent = conv.hm || "—";
+  }else{
+    console.warn("Hebcal Hebrew-date update failed",convResult.reason);
+  }
 
-    const t=z.times||{};
-    $("alot").textContent=timeOnly(t.alotHaShachar);
-    $("sunrise").textContent=timeOnly(t.sunrise);
-    $("shema").textContent=timeOnly(t.sofZmanShma);
-    $("chatzot").textContent=timeOnly(t.chatzot);
-    $("minchaGedola").textContent=timeOnly(t.minchaGedola);
-    $("sunset").textContent=timeOnly(t.sunset);
-    $("tzeit").textContent=timeOnly(t.tzeit7083deg || t.tzeit85deg || t.tzeit);
-
-    const items=cal.items||[];
-    const todayItems=items.filter(x=>x.date===date);
-    const parsha=items.find(x=>/parashat/i.test(x.category||"") || x.category==="parashat");
-    const daf=items.find(x=>/daf/i.test(x.category||""));
+  const cal = calResult.status === "fulfilled" ? calResult.value : null;
+  let items=[], todayItems=[], parsha=null, daf=null, todayHoliday=null;
+  if(cal){
+    items=cal.items||[];
+    todayItems=items.filter(x=>x.date===date);
+    parsha=items.find(x=>/parashat/i.test(x.category||"") || x.category==="parashat");
+    daf=items.find(x=>/daf/i.test(x.category||""));
     const candle=items.find(x=>x.category==="candles");
     const hav=items.find(x=>x.category==="havdalah");
     const futureHoliday=items.find(x=>x.date>=date && ["holiday","fast"].includes(x.category));
-    const todayHoliday=todayItems.find(x=>["holiday","fast","roshchodesh"].includes(x.category));
+    todayHoliday=todayItems.find(x=>["holiday","fast","roshchodesh"].includes(x.category));
 
     $("parasha").textContent=parsha ? eventTitle(parsha) : "—";
     $("dafYomi").textContent=daf ? eventTitle(daf) : "—";
@@ -641,22 +733,22 @@ async function refreshJewishData(){
 
     const omerEv=todayItems.find(x=>/omer/i.test(x.category||"") || /עומר/.test(eventTitle(x)));
     $("omer").textContent=omerEv ? eventTitle(omerEv) : "לא בתקופת העומר";
+  }else{
+    console.warn("Hebcal calendar update failed",calResult.reason);
+  }
 
-    // Seasonal prayer wording, approximate by Jewish month name.
+  if(conv){
     const hm=(conv.hm||"");
     const rainMonths=["Cheshvan","Kislev","Tevet","Sh'vat","Adar","Adar I","Adar II","Nisan"];
     $("gevurot").textContent=["Nisan","Iyyar","Sivan","Tamuz","Av","Elul","Tishrei"].includes(hm) ? "מוריד הטל" : "משיב הרוח ומוריד הגשם";
     $("birkatHashanim").textContent=rainMonths.includes(hm) ? "ותן טל ומטר" : "ברכנו";
-    if($("dailyParasha")) $("dailyParasha").textContent=parsha ? eventTitle(parsha) : "—";
-    if($("dailyDaf")) $("dailyDaf").textContent=daf ? eventTitle(daf) : "—";
-    if($("dailyExtra")) $("dailyExtra").textContent=todayHoliday ? eventTitle(todayHoliday) : "הלכה / מוסר יומי";
     setDailyTehillim(conv.hd);
     updateSelichot(conv,date);
-    loadExtraDailyLearning();
-
-  }catch(e){
-    console.warn("Hebcal update failed",e);
   }
+  if($("dailyParasha") && parsha) $("dailyParasha").textContent=eventTitle(parsha);
+  if($("dailyDaf") && daf) $("dailyDaf").textContent=eventTitle(daf);
+  if($("dailyExtra")) $("dailyExtra").textContent=todayHoliday ? eventTitle(todayHoliday) : "הלכה / מוסר יומי";
+  loadExtraDailyLearning();
 }
 applySettings(); tick(); refreshJewishData();
 setInterval(refreshJewishData, 60*60*1000);
