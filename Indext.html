@@ -219,18 +219,18 @@
 
 <style id="daf-wide-scroll-fix">
 /* Daf Yomi page: boxes span the complete inner frame width; full Hebrew daf scrolls upward. */
-#dafFeature{padding:12px 10px!important}
-#dafFeature .daf-feature-inner{width:100%!important;max-width:none!important;height:100%!important;gap:10px!important;justify-content:flex-start!important;padding:0 8px!important;box-sizing:border-box}
+#dafFeature{padding:10px 0!important}
+#dafFeature .daf-feature-inner{width:100%!important;max-width:none!important;height:100%!important;gap:10px!important;justify-content:flex-start!important;padding:0!important;box-sizing:border-box}
 #dafFeature .feature-title{font-size:clamp(30px,3.6vw,58px)!important;line-height:1!important;margin:0!important}
 #dafFeature .feature-subtitle{font-size:clamp(16px,1.5vw,24px)!important;line-height:1.1!important;margin:0!important}
-#dafFeature .feature-box{width:100%!important;max-width:none!important;box-sizing:border-box!important;margin:0!important}
+#dafFeature .feature-box{width:100%!important;max-width:none!important;box-sizing:border-box!important;margin:0!important;border-left-width:4px!important;border-right-width:4px!important}
 #dafFeature .daf-text-box{height:55vh!important;min-height:360px!important;padding:12px 18px 14px!important;display:flex!important;justify-content:flex-start!important;gap:8px!important;overflow:hidden!important}
 #dafFeature .daf-sticky-heading{flex:0 0 auto;width:100%;text-align:center;border-bottom:1px solid rgba(217,168,44,.45);padding-bottom:8px}
 #dafFeature .daf-sticky-heading h3{font-size:clamp(23px,2vw,34px)!important;margin:0 0 2px!important;color:#ffd75b!important}
 #dafFeature .feature-value{font-size:clamp(29px,3vw,48px)!important;color:#fff!important;line-height:1.05!important}
 #dafFeature .daf-english-title{font-size:clamp(14px,1.2vw,20px);color:#ffd75b;font-weight:800;direction:ltr}
 #dafFeature .daf-scroll-viewport{position:relative;flex:1 1 auto;width:100%;overflow:hidden!important;direction:rtl;border-radius:10px;background:rgba(0,0,0,.2)}
-#dafFeature .daf-full-text{width:100%;box-sizing:border-box;padding:14px 3.5% 28px;color:#fff!important;font-size:clamp(22px,2.05vw,34px)!important;line-height:1.65!important;font-weight:700!important;text-align:right!important;white-space:normal;overflow-wrap:break-word;text-shadow:0 1px 2px #000}
+#dafFeature .daf-full-text{width:100%;box-sizing:border-box;padding:14px 3% 28px;color:#fff!important;font-size:clamp(22px,2.05vw,34px)!important;line-height:1.65!important;font-weight:700!important;text-align:right!important;white-space:normal;overflow-wrap:break-word;text-shadow:0 1px 2px #000}
 #dafFeature .daf-full-text .daf-section{display:block;margin:0 0 1.05em}
 #dafFeature .daf-full-text .daf-amud{display:block;text-align:center;color:#ffd75b;font-size:1.08em;margin:1.1em 0 .7em;font-weight:1000}
 #dafFeature .daf-video-box{height:26vh!important;min-height:210px!important;padding:10px 16px 12px!important;gap:7px!important}
@@ -752,6 +752,7 @@ body{padding:76px 72px 92px!important;margin:0!important}
 @media(max-width:900px){body{padding:62px 48px 76px!important}.tv-feature{inset:62px 48px 76px}.feature-boxes,.feature-lesson-grid,.daily-grid{grid-template-columns:1fr 1fr!important}}
 </style>
 
+<!-- DAF_WIDE_FULL_SCROLL_VERSION: 2026-08-24 -->
 <div id="dafFeature" class="tv-feature daf-full-page" aria-label="הדף היומי">
   <div class="feature-inner daf-feature-inner">
     <div class="feature-title">📚 הדף היומי</div>
