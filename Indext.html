@@ -216,6 +216,36 @@
   }
 
 </style>
+
+<style id="daf-wide-scroll-fix">
+/* Daf Yomi page: boxes span the complete inner frame width; full Hebrew daf scrolls upward. */
+#dafFeature{padding:12px 10px!important}
+#dafFeature .daf-feature-inner{width:100%!important;max-width:none!important;height:100%!important;gap:10px!important;justify-content:flex-start!important;padding:0 8px!important;box-sizing:border-box}
+#dafFeature .feature-title{font-size:clamp(30px,3.6vw,58px)!important;line-height:1!important;margin:0!important}
+#dafFeature .feature-subtitle{font-size:clamp(16px,1.5vw,24px)!important;line-height:1.1!important;margin:0!important}
+#dafFeature .feature-box{width:100%!important;max-width:none!important;box-sizing:border-box!important;margin:0!important}
+#dafFeature .daf-text-box{height:55vh!important;min-height:360px!important;padding:12px 18px 14px!important;display:flex!important;justify-content:flex-start!important;gap:8px!important;overflow:hidden!important}
+#dafFeature .daf-sticky-heading{flex:0 0 auto;width:100%;text-align:center;border-bottom:1px solid rgba(217,168,44,.45);padding-bottom:8px}
+#dafFeature .daf-sticky-heading h3{font-size:clamp(23px,2vw,34px)!important;margin:0 0 2px!important;color:#ffd75b!important}
+#dafFeature .feature-value{font-size:clamp(29px,3vw,48px)!important;color:#fff!important;line-height:1.05!important}
+#dafFeature .daf-english-title{font-size:clamp(14px,1.2vw,20px);color:#ffd75b;font-weight:800;direction:ltr}
+#dafFeature .daf-scroll-viewport{position:relative;flex:1 1 auto;width:100%;overflow:hidden!important;direction:rtl;border-radius:10px;background:rgba(0,0,0,.2)}
+#dafFeature .daf-full-text{width:100%;box-sizing:border-box;padding:14px 3.5% 28px;color:#fff!important;font-size:clamp(22px,2.05vw,34px)!important;line-height:1.65!important;font-weight:700!important;text-align:right!important;white-space:normal;overflow-wrap:break-word;text-shadow:0 1px 2px #000}
+#dafFeature .daf-full-text .daf-section{display:block;margin:0 0 1.05em}
+#dafFeature .daf-full-text .daf-amud{display:block;text-align:center;color:#ffd75b;font-size:1.08em;margin:1.1em 0 .7em;font-weight:1000}
+#dafFeature .daf-video-box{height:26vh!important;min-height:210px!important;padding:10px 16px 12px!important;gap:7px!important}
+#dafFeature .daf-video-box h3{font-size:clamp(22px,2vw,32px)!important;margin:0!important}
+#dafFeature .daf-video-wrap{width:100%;height:100%;min-height:160px;overflow:hidden;border-radius:13px;border:1px solid rgba(255,215,91,.5);background:#000}
+#dafFeature .daf-video-wrap iframe{display:block;width:100%;height:100%;border:0}
+#dafFeature .feature-memorial{font-size:clamp(17px,1.5vw,25px)!important;line-height:1!important;margin:0!important}
+@media(max-width:900px){
+  #dafFeature .daf-feature-inner{padding:0 3px!important}
+  #dafFeature .daf-text-box{height:58vh!important;min-height:390px!important;padding:10px!important}
+  #dafFeature .daf-video-box{height:23vh!important;min-height:180px!important;padding:8px!important}
+  #dafFeature .daf-full-text{font-size:clamp(20px,4.2vw,30px)!important;padding-left:2.5%!important;padding-right:2.5%!important}
+}
+</style>
+
 </head>
 <body>
 
@@ -722,21 +752,29 @@ body{padding:76px 72px 92px!important;margin:0!important}
 @media(max-width:900px){body{padding:62px 48px 76px!important}.tv-feature{inset:62px 48px 76px}.feature-boxes,.feature-lesson-grid,.daily-grid{grid-template-columns:1fr 1fr!important}}
 </style>
 
-<div id="dafFeature" class="tv-feature" aria-label="הדף היומי">
-  <div class="feature-inner">
+<div id="dafFeature" class="tv-feature daf-full-page" aria-label="הדף היומי">
+  <div class="feature-inner daf-feature-inner">
     <div class="feature-title">📚 הדף היומי</div>
     <div id="dafFeatureDate" class="feature-subtitle">טוען תאריך...</div>
-    <div class="feature-boxes">
-      <div class="feature-box">
-        <h3>הדף של היום</h3>
+
+    <div class="feature-box daf-text-box">
+      <div class="daf-sticky-heading">
+        <h3 id="dafScrollTitle">הדף של היום</h3>
         <div id="dafFeatureValue" class="feature-value">טוען...</div>
-        <div id="dafFeatureEnglish" class="feature-copy"></div>
+        <div id="dafFeatureEnglish" class="daf-english-title"></div>
       </div>
-      <div class="feature-box">
-        <h3>לימוד התורה היומי</h3>
-        <div id="dafFeatureStudy" class="feature-copy">לימוד יומי קצר, ברור ומעשי.</div>
+      <div id="dafScrollViewport" class="daf-scroll-viewport" aria-live="polite">
+        <div id="dafFullText" class="daf-full-text">טוען את תוכן הדף המלא...</div>
       </div>
     </div>
+
+    <div class="feature-box daf-video-box">
+      <h3>שיעור הדף היומי</h3>
+      <div class="daf-video-wrap">
+        <iframe id="dafVideoFrame" title="שיעור הדף היומי" src="https://www.youtube.com/embed/V6KSMqPYnfA?autoplay=1&mute=1&rel=0&playsinline=1" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>
+      </div>
+    </div>
+
     <div class="feature-memorial">לעילוי נשמת זהבה חלא בת דינה זצ״ל</div>
   </div>
 </div>
@@ -780,6 +818,80 @@ body{padding:76px 72px 92px!important;margin:0!important}
     if($id('dafFeatureDate')) $id('dafFeatureDate').textContent=localDateString();
     if($id('dafFeatureStudy')) $id('dafFeatureStudy').textContent=x.m+' '+x.t;
   }
+  let dafScrollTimer=null;
+  function stripHtmlToText(html){
+    const box=document.createElement('div');
+    box.innerHTML=html||'';
+    return (box.textContent||box.innerText||'').replace(/\s+/g,' ').trim();
+  }
+  function flattenSefariaHebrew(node,out){
+    if(Array.isArray(node)){node.forEach(x=>flattenSefariaHebrew(x,out));return;}
+    if(typeof node==='string'){
+      const t=stripHtmlToText(node);
+      if(t) out.push(t);
+    }
+  }
+  function startDafAutoScroll(){
+    const vp=$id('dafScrollViewport');
+    if(!vp) return;
+    if(dafScrollTimer) clearInterval(dafScrollTimer);
+    vp.scrollTop=0;
+    let pause=55;
+    dafScrollTimer=setInterval(()=>{
+      if(!$id('dafFeature')?.classList.contains('show')) return;
+      if(pause>0){pause--;return;}
+      const max=Math.max(0,vp.scrollHeight-vp.clientHeight);
+      if(max<8) return;
+      if(vp.scrollTop>=max-2){
+        pause=80;
+        vp.scrollTop=0;
+      }else{
+        vp.scrollTop+=1;
+      }
+    },35);
+  }
+  async function fetchSefariaAmud(ref,label){
+    const urls=[
+      `https://www.sefaria.org/api/texts/${encodeURIComponent(ref)}?lang=he&context=0`,
+      `https://www.sefaria.org/api/v3/texts/${encodeURIComponent(ref)}?language=he`
+    ];
+    for(const url of urls){
+      try{
+        const r=await fetch(url,{cache:'no-store'});
+        if(!r.ok) continue;
+        const j=await r.json();
+        const out=[];
+        if(j.he) flattenSefariaHebrew(j.he,out);
+        if(!out.length && j.versions){
+          const v=j.versions.find(v=>v.language==='he')||j.versions[0];
+          if(v?.text) flattenSefariaHebrew(v.text,out);
+        }
+        if(out.length) return `<span class="daf-amud">${label}</span>`+out.map(x=>`<span class="daf-section">${x}</span>`).join('');
+      }catch(e){}
+    }
+    return '';
+  }
+  async function loadFullDaf(enTitle,heTitle){
+    const target=$id('dafFullText');
+    if(!target) return;
+    target.textContent='טוען את תוכן הדף המלא...';
+    // Hebcal supplies names such as "Chullin 116". Sefaria uses Chullin.116a / Chullin.116b.
+    const m=(enTitle||'').match(/^(.+?)\s+(\d+)(?:[ab])?$/i);
+    if(!m){
+      target.innerHTML='<span class="daf-section">לא ניתן לזהות כרגע את מספר הדף. שם הדף: '+(heTitle||enTitle||'')+'</span>';
+      return;
+    }
+    const tractate=m[1].trim().replace(/\s+/g,'_');
+    const page=m[2];
+    const a=await fetchSefariaAmud(`${tractate}.${page}a`,`${heTitle||enTitle} — עמוד א׳`);
+    const b=await fetchSefariaAmud(`${tractate}.${page}b`,`${heTitle||enTitle} — עמוד ב׳`);
+    if(a||b){
+      target.innerHTML=(a||'')+(b||'');
+    }else{
+      target.innerHTML='<span class="daf-section">תוכן הדף המלא לא נטען כרגע. החיבור יתעדכן אוטומטית כאשר הגישה למקור הטקסט תחזור.</span>';
+    }
+    requestAnimationFrame(()=>setTimeout(startDafAutoScroll,300));
+  }
   async function loadDaf(){
     const now=new Date();
     const ds=[now.getFullYear(),String(now.getMonth()+1).padStart(2,'0'),String(now.getDate()).padStart(2,'0')].join('-');
@@ -795,12 +907,14 @@ body{padding:76px 72px 92px!important;margin:0!important}
       he=(existing&&existing.textContent&&!/טוען|—/.test(existing.textContent))?existing.textContent:'הדף היומי — מתעדכן אוטומטית';
     }
     if($id('dafFeatureValue')) $id('dafFeatureValue').textContent=he;
-    if($id('dafFeatureEnglish')) $id('dafFeatureEnglish').textContent=en&&en!==he?en:'לימוד הדף היומי של היום';
+    if($id('dafFeatureEnglish')) $id('dafFeatureEnglish').textContent=en&&en!==he?en:'';
+    if($id('dafScrollTitle')) $id('dafScrollTitle').textContent='תוכן הדף המלא';
     if($id('dafYomi') && /טוען|—/.test($id('dafYomi').textContent)) $id('dafYomi').textContent=he;
     if($id('dailyDaf') && /טוען|—/.test($id('dailyDaf').textContent)) $id('dailyDaf').textContent=he;
+    await loadFullDaf(en,he);
   }
   function hideFeatures(){document.querySelectorAll('.tv-feature').forEach(x=>x.classList.remove('show'));const m=$id('memorialOverlay');if(m)m.classList.remove('show')}
-  function show(id,ms,next){hideFeatures();const el=$id(id);if(el)el.classList.add('show');setTimeout(()=>{if(el)el.classList.remove('show');if(next)next()},ms)}
+  function show(id,ms,next){hideFeatures();const el=$id(id);if(el)el.classList.add('show');if(id==='dafFeature')setTimeout(startDafAutoScroll,250);setTimeout(()=>{if(el)el.classList.remove('show');if(next)next()},ms)}
   function showMemorialUnified(ms,next){hideFeatures();if(typeof refreshMemorialHeading==='function')refreshMemorialHeading();if(typeof buildMemorialPage==='function')buildMemorialPage();const m=$id('memorialOverlay');if(m)m.classList.add('show');setTimeout(()=>{if(m)m.classList.remove('show');if(next)next()},ms)}
   function cycle(){
     setTimeout(()=>show('dafFeature',20000,()=>{
