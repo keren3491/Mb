@@ -816,6 +816,138 @@ body{
 }
 </style>
 
+
+<style id="center-everything-final-20260823">
+/* CENTER ALL VISIBLE CONTENT */
+.board,
+.board *,
+.card,
+.panel,
+.row,
+.row *,
+.top,
+.top *,
+.grid,
+.grid *,
+#featureRotator,
+#featureRotator *,
+#prayerPanel,
+#prayerPanel *,
+dialog,
+dialog *{
+  text-align:center !important;
+}
+
+/* Keep rows centered and readable without hiding any data. */
+.row{
+  justify-content:center !important;
+  justify-items:center !important;
+  align-items:center !important;
+}
+.row > span,
+.row > .value,
+.row > strong,
+.row > small{
+  text-align:center !important;
+  margin-inline:auto !important;
+  white-space:normal !important;
+  overflow:visible !important;
+  text-overflow:clip !important;
+  overflow-wrap:break-word !important;
+}
+
+/* Prayer display: always frontmost, centered, large and fully readable. */
+#prayerPanel{
+  z-index:2147483600 !important;
+  padding:5vh 5vw !important;
+  border-radius:0 !important;
+  margin:0 !important;
+}
+#prayerPanel .prayer-header{
+  font-size:clamp(34px,4vw,68px) !important;
+  line-height:1.05 !important;
+  text-align:center !important;
+  padding:16px !important;
+}
+#prayerPanel .prayer-stage{
+  height:calc(100vh - 150px) !important;
+  padding:0 5vw !important;
+}
+#prayerPanel .prayer-scroll{
+  left:5vw !important;
+  right:5vw !important;
+  font-size:clamp(32px,4vw,66px) !important;
+  line-height:1.5 !important;
+  text-align:center !important;
+  white-space:pre-line !important;
+}
+@keyframes prayerScrollUp{
+  from{transform:translateY(calc(100vh - 155px))}
+  to{transform:translateY(calc(-100% - 100px))}
+}
+
+/* Center all admin inputs/buttons too. */
+.settings,
+.settings label,
+.prayer-admin-editor,
+.prayer-editor-label,
+.prayer-editor-actions,
+.actions{
+  text-align:center !important;
+  align-items:center !important;
+  justify-content:center !important;
+}
+input,select,textarea,button{
+  text-align:center !important;
+}
+.prayer-textarea{
+  direction:rtl !important;
+  text-align:center !important;
+}
+.prayer-char-count{
+  text-align:center !important;
+}
+
+/* Make every action button clearly clickable above decorative layers. */
+button,
+button.action,
+.memorial-edit-button,
+.gear{
+  position:relative;
+  z-index:2147483646 !important;
+  pointer-events:auto !important;
+  cursor:pointer !important;
+  touch-action:manipulation !important;
+}
+.gear{
+  position:fixed !important;
+}
+
+/* Dialogs must remain above the board and be fully interactive. */
+dialog[open]{
+  z-index:2147483647 !important;
+  pointer-events:auto !important;
+  max-height:90vh !important;
+  overflow:auto !important;
+}
+
+/* Ensure decorative frame pieces never intercept clicks. */
+.frame-piece,
+.board::before,
+.board::after{
+  pointer-events:none !important;
+}
+
+/* Never hide text because a box is too small. */
+.card,.panel,.row,.big,
+.daily-item,.daily-grid,
+.memorial-plaque,.memorial-plaque-cell,
+.lesson-parchment,.lesson-block{
+  overflow:visible !important;
+  max-height:none !important;
+}
+</style>
+
 </head>
 <body>
 
@@ -1574,6 +1706,8 @@ function tick(){
   $("nyClock").textContent=fmtClock(settings.timezone);
   $("israelClock").textContent=fmtClock("Asia/Jerusalem");
   $("gregDate").textContent=new Intl.DateTimeFormat("he-IL",{timeZone:settings.timezone,weekday:"long",year:"numeric",month:"long",day:"numeric"}).format(new Date());
+  // Re-check prayer time every second so ערבית / other prayers appear exactly when due.
+  updatePrayerOverlay();
 }
 setInterval(tick,1000);
 
@@ -1872,7 +2006,7 @@ setInterval(rotateBiblicalScenes,8000);
     if(!last) last=t;
     var dt=Math.min(0.1,(t-last)/1000); last=t;
     var now=Date.now(), max=maxScroll();
-    if(now>=pauseUntil && max>2){
+    if((typeof boardMayAutoScroll!=='function' || boardMayAutoScroll()) && now>=pauseUntil && max>2){
       y += speed*dt;
       if(y>=max){
         y=max; window.scrollTo(0,y);
@@ -1903,7 +2037,7 @@ setInterval(rotateBiblicalScenes,8000);
     const dt = Math.min((now-last)/1000, .06);
     last = now;
 
-    if(Date.now() >= pausedUntil){
+    if((typeof boardMayAutoScroll!=='function' || boardMayAutoScroll()) && Date.now() >= pausedUntil){
       const maxScroll = Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
       if(maxScroll > 8){
         window.scrollBy(0, direction * SPEED * dt);
@@ -1925,6 +2059,37 @@ setInterval(rotateBiblicalScenes,8000);
     requestAnimationFrame(tick);
   });
 })();
+</script>
+
+
+<script id="ui-safety-helper-20260823">
+function boardMayAutoScroll(){
+  const prayer=document.getElementById("prayerPanel");
+  if(prayer && prayer.classList.contains("active")) return false;
+  const openDialog=document.querySelector("dialog[open]");
+  if(openDialog) return false;
+  return true;
+}
+</script>
+
+
+<script id="button-integrity-check-20260823">
+window.addEventListener("load",function(){
+  const buttons=[...document.querySelectorAll("button")];
+  const problems=[];
+  buttons.forEach((btn,i)=>{
+    btn.style.pointerEvents="auto";
+    if(btn.disabled) problems.push("disabled button "+i);
+    const code=btn.getAttribute("onclick")||"";
+    const names=[...code.matchAll(/\b([A-Za-z_$][\w$]*)\s*\(/g)].map(m=>m[1]);
+    names.forEach(name=>{
+      if(["getElementById","showModal","close"].includes(name)) return;
+      if(typeof window[name]!=="function") problems.push(name);
+    });
+  });
+  if(problems.length) console.warn("Button integrity check:",[...new Set(problems)]);
+  else console.info("Button integrity check: all "+buttons.length+" buttons are connected.");
+});
 </script>
 
 </body>
