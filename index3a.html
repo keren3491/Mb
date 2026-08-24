@@ -441,9 +441,9 @@
       <label style="grid-column:1/-1">הקדשה / הודעה בתחתית<textarea id="sTicker" rows="2">לעילויי נשמת זהבה חלא זצ״ל</textarea></label>
     </div>
     <div class="actions">
-      <button class="action" value="cancel">סגור</button>
-      <button type="button" class="action" onclick="saveSettings()">שמור ועדכן</button>
-      <button type="button" class="action" onclick="resetSettings()">איפוס</button>
+      <button type="button" id="adminCloseBtn" class="action">סגור</button>
+      <button type="button" id="adminSaveBtn" class="action">שמור ועדכן</button>
+      <button type="button" id="adminResetBtn" class="action">איפוס</button>
     </div>
     <div class="status">ההגדרות נשמרות אוטומטית במכשיר. נתוני התאריך, פרשה, חגים וזמנים מתעדכנים אוטומטית דרך Hebcal.</div>
   </form>
@@ -982,5 +982,39 @@ body{padding:76px 72px 92px!important;margin:0!important}
 })();
 </script>
 
+
+<style id="admin-button-touch-fix">
+#settingsDialog .actions{position:relative;z-index:9999;pointer-events:auto}
+#settingsDialog .actions button{position:relative;z-index:10000;pointer-events:auto!important;touch-action:manipulation;-webkit-tap-highlight-color:rgba(255,255,255,.15);cursor:pointer}
+</style>
+<script id="admin-button-handler-fix">
+(function(){
+  function bindAdminButtons(){
+    const dialog=document.getElementById('settingsDialog');
+    const form=dialog && dialog.querySelector('form');
+    const closeBtn=document.getElementById('adminCloseBtn');
+    const saveBtn=document.getElementById('adminSaveBtn');
+    const resetBtn=document.getElementById('adminResetBtn');
+    if(form) form.addEventListener('submit',function(e){e.preventDefault();});
+    if(closeBtn) closeBtn.addEventListener('click',function(e){e.preventDefault();e.stopPropagation();if(dialog && dialog.open) dialog.close();});
+    if(saveBtn) saveBtn.addEventListener('click',function(e){
+      e.preventDefault();e.stopPropagation();
+      try{
+        if(typeof window.saveSettings==='function') window.saveSettings();
+        else throw new Error('saveSettings is not available');
+      }catch(err){console.error(err);alert('לא ניתן לשמור את ההגדרות. נא לרענן את הדף ולנסות שוב.');}
+    });
+    if(resetBtn) resetBtn.addEventListener('click',function(e){
+      e.preventDefault();e.stopPropagation();
+      try{
+        if(typeof window.resetSettings==='function') window.resetSettings();
+        else throw new Error('resetSettings is not available');
+      }catch(err){console.error(err);alert('לא ניתן לאפס את ההגדרות. נא לרענן את הדף ולנסות שוב.');}
+    });
+  }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',bindAdminButtons,{once:true});
+  else bindAdminButtons();
+})();
+</script>
 </body>
 </html>
