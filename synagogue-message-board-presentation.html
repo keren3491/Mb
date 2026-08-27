@@ -90,6 +90,13 @@
     .cta-box{margin:28px auto 0;width:min(720px,100%);padding:clamp(22px,3.4vw,38px);border:2px solid var(--gold);border-radius:24px;background:rgba(7,31,67,.7);box-shadow:0 0 0 8px rgba(244,201,103,.08),var(--shadow)}
     .phone{display:block;margin-top:16px;color:var(--gold);text-decoration:none;font-size:clamp(1.55rem,3.7vw,3rem);font-weight:900;letter-spacing:.02em}
 
+    .video-content{width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:12px}
+    .video-content .eyebrow{margin-bottom:0}
+    .video-content h2{margin-bottom:2px;font-size:clamp(1.65rem,3.4vw,3.3rem)}
+    .video-shell{height:min(68vh,720px);aspect-ratio:9/16;border:clamp(5px,.65vw,9px) ridge #c49642;border-radius:20px;overflow:hidden;background:#000;box-shadow:0 24px 70px rgba(0,0,0,.55),0 0 35px rgba(71,182,255,.18)}
+    .video-shell iframe,.video-shell > div{display:block;width:100%;height:100%;border:0}
+    .video-note{margin:0;color:#c8d6ea;font-size:clamp(.78rem,1.15vw,.98rem)}
+
     .topbar{position:fixed;z-index:20;top:max(15px,env(safe-area-inset-top));left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:9px;padding:7px 12px;border:1px solid rgba(255,255,255,.16);border-radius:999px;background:rgba(3,13,29,.72);backdrop-filter:blur(10px);box-shadow:0 8px 25px rgba(0,0,0,.18)}
     .mark{font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:#d5e1ef;white-space:nowrap}
     .mark b{color:var(--gold)}
@@ -114,6 +121,7 @@
       .board{padding:10px;border-width:5px}.board-head{grid-template-columns:1fr 1.4fr 1fr;gap:5px}.panel{padding:8px;min-height:auto}
       .brandline{gap:7px;padding:9px 12px}.mark span{display:none}
       .ribbon{gap:10px;padding:11px 13px}.ribbon .num{flex-basis:38px;width:38px;height:38px}
+      .video-shell{height:min(64vh,600px)}
     }
     @media(prefers-reduced-motion:reduce){.track,.progress{transition:none}}
   </style>
@@ -121,6 +129,17 @@
 <body>
   <main class="presentation" id="presentation" aria-label="Synagogue Message Board presentation">
     <div class="track" id="track">
+
+      <section class="slide video-slide" aria-label="Synagogue Message Board presenter video" data-video-slide="true" data-narration="">
+        <div class="video-content">
+          <p class="eyebrow">Human Presenter Introduction</p>
+          <h2>Synagogue <span class="gold">Message Board</span></h2>
+          <div class="video-shell" aria-label="Synagogue Message Board video">
+            <div id="presenterVideo"></div>
+          </div>
+          <p class="video-note">Press Play below to start the video and presentation.</p>
+        </div>
+      </section>
 
       <section class="slide" aria-label="Title slide" data-narration="Welcome to the Synagogue Message Board by C E E Limited.">
         <div class="content center">
@@ -249,7 +268,7 @@
     <div class="topbar" aria-hidden="true"><span class="mark"><b>✡</b> <span>Synagogue</span> Message Board</span></div>
     <nav class="controls" aria-label="Presentation controls">
       <button type="button" id="prev" aria-label="Previous slide">◀</button>
-      <span class="counter" id="counter">1 / 9</span>
+      <span class="counter" id="counter">1 / 10</span>
       <button type="button" id="next" aria-label="Next slide">▶</button>
       <button type="button" id="play" aria-label="Start automatic presentation" title="Auto play">▶︎</button>
       <button type="button" id="voice" class="playing" aria-label="Turn voice-over off" title="Voice-over on">🔊</button>
@@ -269,7 +288,50 @@
       var playButton=document.getElementById('play');
       var voiceButton=document.getElementById('voice');
       var index=0, timer=null, touchStartX=0, touchStartY=0;
+      var autoPlaying=false, videoPlayer=null, videoReady=false;
       var voiceEnabled=true, userActivated=false, selectedVoice=null, currentUtterance=null;
+      var videoSlideIndex=slides.findIndex(function(slide){return slide.hasAttribute('data-video-slide');});
+
+      function initVideoPlayer(){
+        if(videoPlayer||!window.YT||!window.YT.Player){return;}
+        videoPlayer=new window.YT.Player('presenterVideo',{
+          videoId:'DBaYq1yFSl4',
+          playerVars:{playsinline:1,rel:0,modestbranding:1,controls:1},
+          events:{
+            onReady:function(event){
+              videoReady=true;
+              if(!voiceEnabled){event.target.mute();}
+              if(autoPlaying&&index===videoSlideIndex){event.target.playVideo();}
+            },
+            onStateChange:function(event){
+              if(window.YT&&event.data===window.YT.PlayerState.ENDED&&autoPlaying&&index===videoSlideIndex){next();}
+            }
+          }
+        });
+      }
+
+      function loadVideoPlayer(){
+        if(window.YT&&window.YT.Player){initVideoPlayer();return;}
+        window.onYouTubeIframeAPIReady=initVideoPlayer;
+        if(document.querySelector('script[data-youtube-api]')){return;}
+        var api=document.createElement('script');
+        api.src='https://www.youtube.com/iframe_api';
+        api.setAttribute('data-youtube-api','true');
+        document.head.appendChild(api);
+      }
+
+      function controlVideo(action){
+        if(!videoReady||!videoPlayer){return;}
+        try{
+          if(action==='play'){
+            if(voiceEnabled){videoPlayer.unMute();}else{videoPlayer.mute();}
+            videoPlayer.playVideo();
+          }
+          if(action==='pause'){videoPlayer.pauseVideo();}
+          if(action==='mute'){videoPlayer.mute();}
+          if(action==='unmute'){videoPlayer.unMute();}
+        }catch(error){}
+      }
 
       function pickVoice(){
         if(!('speechSynthesis' in window)){return null;}
@@ -286,6 +348,7 @@
         return voices[0]||null;
       }
       function speakCurrent(){
+        if(index===videoSlideIndex){return;}
         if(!voiceEnabled||!userActivated||!('speechSynthesis' in window)){return;}
         window.speechSynthesis.cancel();
         var text=slides[index].getAttribute('data-narration')||'';
@@ -302,17 +365,35 @@
       }
 
       function show(nextIndex){
+        var previousIndex=index;
         index=(nextIndex+slides.length)%slides.length;
+        if(previousIndex===videoSlideIndex&&index!==videoSlideIndex){controlVideo('pause');}
         track.style.transform='translate3d(-'+(index*100)+'vw,0,0)';
         counter.textContent=(index+1)+' / '+slides.length;
         progress.style.width=(((index+1)/slides.length)*100)+'%';
         slides.forEach(function(slide,i){slide.setAttribute('aria-hidden',i===index?'false':'true');});
         speakCurrent();
+        if(autoPlaying){scheduleAdvance();}
       }
       function next(){show(index+1)}
       function prev(){show(index-1)}
+      function clearTimer(){
+        if(timer){clearTimeout(timer);timer=null;}
+      }
+      function scheduleAdvance(){
+        clearTimer();
+        if(!autoPlaying){return;}
+        if(index===videoSlideIndex){
+          controlVideo('play');
+          timer=setTimeout(function(){if(autoPlaying&&index===videoSlideIndex){next();}},90000);
+        }else{
+          timer=setTimeout(function(){if(autoPlaying){next();}},5000);
+        }
+      }
       function stop(){
-        if(timer){clearInterval(timer);timer=null;}
+        autoPlaying=false;
+        clearTimer();
+        controlVideo('pause');
         if('speechSynthesis' in window){window.speechSynthesis.cancel();}
         playButton.textContent='▶';
         playButton.classList.remove('playing');
@@ -320,10 +401,11 @@
         playButton.title='Play every 5 seconds';
       }
       function togglePlay(){
-        if(timer){stop();return;}
+        if(autoPlaying){stop();return;}
         userActivated=true;
+        autoPlaying=true;
         speakCurrent();
-        timer=setInterval(next,5000);
+        scheduleAdvance();
         playButton.textContent='Ⅱ';
         playButton.classList.add('playing');
         playButton.setAttribute('aria-label','Pause automatic presentation');
@@ -351,9 +433,10 @@
           voiceButton.classList.add('playing');
           voiceButton.setAttribute('aria-label','Turn voice-over off');
           voiceButton.title='Voice-over on';
-          speakCurrent();
+          if(index===videoSlideIndex){controlVideo('unmute');}else{speakCurrent();}
         }else{
           if('speechSynthesis' in window){window.speechSynthesis.cancel();}
+          controlVideo('mute');
           voiceButton.textContent='🔇';
           voiceButton.classList.remove('playing');
           voiceButton.setAttribute('aria-label','Turn voice-over on');
@@ -390,6 +473,7 @@
         voiceButton.classList.remove('playing');
         voiceButton.title='Voice-over is not supported by this browser';
       }
+      loadVideoPlayer();
       stop();
       show(0);
     }());
