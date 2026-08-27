@@ -122,7 +122,7 @@
   <main class="presentation" id="presentation" aria-label="Synagogue Message Board presentation">
     <div class="track" id="track">
 
-      <section class="slide" aria-label="Title slide">
+      <section class="slide" aria-label="Title slide" data-narration="Welcome to the Synagogue Message Board by C E E Limited.">
         <div class="content center">
           <div class="crest" aria-hidden="true">✡</div>
           <p class="eyebrow hebrew" lang="he">לוח מודעות דיגיטלי</p>
@@ -132,7 +132,7 @@
         </div>
       </section>
 
-      <section class="slide light" aria-label="Purpose">
+      <section class="slide light" aria-label="Purpose" data-narration="Turn any television into the heart of your synagogue.">
         <div class="content">
           <p class="eyebrow">One screen. One community.</p>
           <h2>Turn Any TV Into the Heart of Your Synagogue</h2>
@@ -145,7 +145,7 @@
         </div>
       </section>
 
-      <section class="slide" aria-label="Message board example">
+      <section class="slide" aria-label="Message board example" data-narration="Prayer times, announcements and Jewish information stay clear and readable.">
         <div class="content">
           <p class="eyebrow">Designed to be seen from across the room</p>
           <h2>A Clear, Elegant Daily Display</h2>
@@ -164,7 +164,7 @@
         </div>
       </section>
 
-      <section class="slide light" aria-label="Content features">
+      <section class="slide light" aria-label="Content features" data-narration="Display prayers, Shabbat, Torah, events, memorials and donor recognition.">
         <div class="content">
           <p class="eyebrow">Everything your congregation needs</p>
           <h2>Meaningful Information, All Day Long</h2>
@@ -181,7 +181,7 @@
         </div>
       </section>
 
-      <section class="slide" aria-label="Rotating pages">
+      <section class="slide" aria-label="Rotating pages" data-narration="Daily Torah, Daf Yomi and memorial pages rotate automatically.">
         <div class="content center">
           <p class="eyebrow">A living presentation—not a static sign</p>
           <h2>Special Pages Rotate Automatically</h2>
@@ -195,7 +195,7 @@
         </div>
       </section>
 
-      <section class="slide light" aria-label="Administration">
+      <section class="slide light" aria-label="Administration" data-narration="Administrators can quickly update times, announcements, memorials and display settings.">
         <div class="content">
           <p class="eyebrow">Easy to manage</p>
           <h2>Update the Board Without Redesigning It</h2>
@@ -211,7 +211,7 @@
         </div>
       </section>
 
-      <section class="slide" aria-label="Benefits">
+      <section class="slide" aria-label="Benefits" data-narration="Inform the congregation, strengthen the community and honor every memory.">
         <div class="content">
           <p class="eyebrow center">More than a message board</p>
           <p class="statement">Inform the congregation.<br><span>Strengthen the community.</span><br>Honor every memory.</p>
@@ -219,7 +219,7 @@
         </div>
       </section>
 
-      <section class="slide light" aria-label="Customization">
+      <section class="slide light" aria-label="Customization" data-narration="Every board is customized for your synagogue's identity and schedule.">
         <div class="content center">
           <p class="eyebrow">Created for each synagogue</p>
           <h2>Your Synagogue. Your Identity.<br>Your Information.</h2>
@@ -232,7 +232,7 @@
         </div>
       </section>
 
-      <section class="slide" aria-label="Contact">
+      <section class="slide" aria-label="Contact" data-narration="Contact Emmanuel Hileah Innovations to request your demonstration today.">
         <div class="content center">
           <div class="crest" aria-hidden="true">✡</div>
           <p class="eyebrow">Bring your synagogue message board to life</p>
@@ -252,6 +252,7 @@
       <span class="counter" id="counter">1 / 9</span>
       <button type="button" id="next" aria-label="Next slide">▶</button>
       <button type="button" id="play" aria-label="Start automatic presentation" title="Auto play">▶︎</button>
+      <button type="button" id="voice" class="playing" aria-label="Turn voice-over off" title="Voice-over on">🔊</button>
       <button type="button" id="full" aria-label="Enter full screen" title="Full screen">⛶</button>
     </nav>
     <div class="progress" id="progress"></div>
@@ -266,7 +267,39 @@
       var counter=document.getElementById('counter');
       var progress=document.getElementById('progress');
       var playButton=document.getElementById('play');
+      var voiceButton=document.getElementById('voice');
       var index=0, timer=null, touchStartX=0, touchStartY=0;
+      var voiceEnabled=true, userActivated=false, selectedVoice=null, currentUtterance=null;
+
+      function pickVoice(){
+        if(!('speechSynthesis' in window)){return null;}
+        var voices=window.speechSynthesis.getVoices();
+        var preferred=['Samantha','Ava','Allison','Susan','Karen','Victoria','Microsoft Zira','Google US English'];
+        for(var p=0;p<preferred.length;p++){
+          for(var v=0;v<voices.length;v++){
+            if(voices[v].name.indexOf(preferred[p])>-1){return voices[v];}
+          }
+        }
+        for(var i=0;i<voices.length;i++){
+          if(/^en[-_]/i.test(voices[i].lang)){return voices[i];}
+        }
+        return voices[0]||null;
+      }
+      function speakCurrent(){
+        if(!voiceEnabled||!userActivated||!('speechSynthesis' in window)){return;}
+        window.speechSynthesis.cancel();
+        var text=slides[index].getAttribute('data-narration')||'';
+        if(!text){return;}
+        var message=new SpeechSynthesisUtterance(text);
+        selectedVoice=selectedVoice||pickVoice();
+        if(selectedVoice){message.voice=selectedVoice;message.lang=selectedVoice.lang||'en-US';}
+        else{message.lang='en-US';}
+        message.rate=1.08;
+        message.pitch=1;
+        message.volume=1;
+        currentUtterance=message;
+        window.speechSynthesis.speak(message);
+      }
 
       function show(nextIndex){
         index=(nextIndex+slides.length)%slides.length;
@@ -274,20 +307,23 @@
         counter.textContent=(index+1)+' / '+slides.length;
         progress.style.width=(((index+1)/slides.length)*100)+'%';
         slides.forEach(function(slide,i){slide.setAttribute('aria-hidden',i===index?'false':'true');});
+        speakCurrent();
       }
       function next(){show(index+1)}
       function prev(){show(index-1)}
       function stop(){
         if(timer){clearInterval(timer);timer=null;}
+        if('speechSynthesis' in window){window.speechSynthesis.cancel();}
         playButton.textContent='▶';
         playButton.classList.remove('playing');
         playButton.setAttribute('aria-label','Start automatic presentation');
-        playButton.title='Play every 3 seconds';
+        playButton.title='Play every 5 seconds';
       }
       function togglePlay(){
         if(timer){stop();return;}
-        next();
-        timer=setInterval(next,3000);
+        userActivated=true;
+        speakCurrent();
+        timer=setInterval(next,5000);
         playButton.textContent='Ⅱ';
         playButton.classList.add('playing');
         playButton.setAttribute('aria-label','Pause automatic presentation');
@@ -304,11 +340,29 @@
         }
       }
 
-      document.getElementById('next').addEventListener('click',function(){stop();next();});
-      document.getElementById('prev').addEventListener('click',function(){stop();prev();});
+      document.getElementById('next').addEventListener('click',function(){userActivated=true;stop();next();});
+      document.getElementById('prev').addEventListener('click',function(){userActivated=true;stop();prev();});
       playButton.addEventListener('click',togglePlay);
+      voiceButton.addEventListener('click',function(){
+        userActivated=true;
+        voiceEnabled=!voiceEnabled;
+        if(voiceEnabled){
+          voiceButton.textContent='🔊';
+          voiceButton.classList.add('playing');
+          voiceButton.setAttribute('aria-label','Turn voice-over off');
+          voiceButton.title='Voice-over on';
+          speakCurrent();
+        }else{
+          if('speechSynthesis' in window){window.speechSynthesis.cancel();}
+          voiceButton.textContent='🔇';
+          voiceButton.classList.remove('playing');
+          voiceButton.setAttribute('aria-label','Turn voice-over on');
+          voiceButton.title='Voice-over off';
+        }
+      });
       document.getElementById('full').addEventListener('click',toggleFullScreen);
       document.addEventListener('keydown',function(event){
+        userActivated=true;
         if(['ArrowRight','ArrowDown','PageDown',' '].indexOf(event.key)>-1){event.preventDefault();stop();next();}
         if(['ArrowLeft','ArrowUp','PageUp'].indexOf(event.key)>-1){event.preventDefault();stop();prev();}
         if(event.key==='Home'){stop();show(0);}
@@ -324,8 +378,18 @@
         if(!event.changedTouches[0])return;
         var dx=event.changedTouches[0].clientX-touchStartX;
         var dy=event.changedTouches[0].clientY-touchStartY;
-        if(Math.abs(dx)>55&&Math.abs(dx)>Math.abs(dy)){stop();dx<0?next():prev();}
+        if(Math.abs(dx)>55&&Math.abs(dx)>Math.abs(dy)){userActivated=true;stop();dx<0?next():prev();}
       },{passive:true});
+      if('speechSynthesis' in window){
+        selectedVoice=pickVoice();
+        window.speechSynthesis.onvoiceschanged=function(){selectedVoice=pickVoice();};
+      }else{
+        voiceEnabled=false;
+        voiceButton.disabled=true;
+        voiceButton.textContent='🔇';
+        voiceButton.classList.remove('playing');
+        voiceButton.title='Voice-over is not supported by this browser';
+      }
       stop();
       show(0);
     }());
