@@ -96,6 +96,7 @@
     .controls{position:fixed;z-index:30;left:50%;bottom:max(16px,env(safe-area-inset-bottom));transform:translateX(-50%);display:flex;align-items:center;gap:8px;padding:8px;border:1px solid rgba(255,255,255,.16);border-radius:18px;background:rgba(3,13,29,.78);backdrop-filter:blur(12px);box-shadow:0 12px 35px rgba(0,0,0,.3)}
     .controls button{width:42px;height:40px;border:1px solid rgba(255,255,255,.17);border-radius:12px;background:rgba(255,255,255,.08);color:#fff;cursor:pointer;display:grid;place-items:center;font-size:1rem;transition:.18s ease}
     .controls button:hover,.controls button:focus-visible{background:var(--gold);color:#14233a;outline:none;transform:translateY(-1px)}
+    .controls button.playing{background:var(--gold);color:#14233a;box-shadow:0 0 18px rgba(244,201,103,.55)}
     .counter{min-width:58px;text-align:center;color:#dde8f5;font-size:.82rem;font-variant-numeric:tabular-nums}
     .progress{position:fixed;z-index:25;left:0;bottom:0;height:4px;background:linear-gradient(90deg,var(--gold2),var(--gold),var(--blue));transition:width .55s ease}
 
@@ -276,12 +277,21 @@
       }
       function next(){show(index+1)}
       function prev(){show(index-1)}
-      function stop(){if(timer){clearInterval(timer);timer=null;}playButton.textContent='▶︎';playButton.setAttribute('aria-label','Start automatic presentation');}
+      function stop(){
+        if(timer){clearInterval(timer);timer=null;}
+        playButton.textContent='▶';
+        playButton.classList.remove('playing');
+        playButton.setAttribute('aria-label','Start automatic presentation');
+        playButton.title='Play every 3 seconds';
+      }
       function togglePlay(){
         if(timer){stop();return;}
-        timer=setInterval(next,10000);
+        next();
+        timer=setInterval(next,3000);
         playButton.textContent='Ⅱ';
+        playButton.classList.add('playing');
         playButton.setAttribute('aria-label','Pause automatic presentation');
+        playButton.title='Pause presentation';
       }
       function toggleFullScreen(){
         var doc=document;
@@ -316,6 +326,7 @@
         var dy=event.changedTouches[0].clientY-touchStartY;
         if(Math.abs(dx)>55&&Math.abs(dx)>Math.abs(dy)){stop();dx<0?next():prev();}
       },{passive:true});
+      stop();
       show(0);
     }());
   </script>
