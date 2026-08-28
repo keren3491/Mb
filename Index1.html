@@ -336,53 +336,43 @@
   }
 
 .style1 {
-	display: grid;
-	grid-template-columns: 1fr;
-	gap: 12px;
+	font-size: large;
+	font-weight: 900;
 	text-align: center;
+	line-height: 1.55;
 }
 .style2 {
-	position: absolute;
-	top: 50%;
-	left: 0;
-	transform: translate(-110%, -50%);
-	white-space: nowrap;
-	font-size: clamp(28px, 4.2vw, 66px);
+	color: var(--gold);
 	font-weight: 900;
-	animation: moveLTR 18s linear infinite;
-	text-shadow: 0 0 12px currentColor;
-	will-change: transform;
+	font-size: large;
 	text-align: center;
 }
 .style3 {
-	position: relative;
-	min-height: 320px;
-	overflow: hidden;
-	border-radius: 24px;
-	box-shadow: inset 0 0 0 5px #4b2d05, 0 0 28px rgba(245, 200, 66, .34);
-	text-align: center;
-	border: 4px solid #b57a13;
-	background: #000;
-}
-.style4 {
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	gap: 10px;
-	font-size: clamp(14px, 1.35vw, 21px);
+	font-size: large;
 	font-weight: 900;
 	text-align: center;
-	border-bottom: 1px dotted #4c4c4c;
-	padding: 7px 2px;
+	letter-spacing: 4px;
+	text-shadow: 0 0 15px #fff;
+}
+.style4 {
+	font-size: large;
+}
+.style5 {
+	font-size: large;
+	font-weight: 900;
+	text-align: center;
+}
+.style7 {
+	font-weight: 900;
+	color: var(--white);
+	font-size: large;
 }
 
 </style>
 </head>
 <body>
 
-<div class="center">
-
-<div class="center"></div>
+<div class="frame-piece frame-top"></div>
 <div class="frame-piece frame-bottom"></div>
 <div class="frame-piece frame-left"></div>
 <div class="frame-piece frame-right"></div>
@@ -394,19 +384,20 @@
 
   <section class="top">
     <div class="card">
-      <div class="label">שעון ישראל</div>
-      <div id="israelClock" class="clock cyan">--:--:--</div>
+      <div class="style2">שעון ישראל</div>
+      <div id="israelClock" class="clock cyan" style="font-size: large">--:--:--</div>
     </div>
 
     <div class="card">
-      <div id="synagogueName" class="synagogue">בית הכנסת בית תורה</div>
-      <div class="rabbi">שם הרב: <span id="rabbiName">הרב</span></div>
-      <div id="nyClock" class="clock">--:--:--</div>
+      <div id="synagogueName" class="style5">בית הכנסת בית תורה</div>
+      <div class="rabbi"><span class="style4">שם הרב: </span> 
+		  <span id="rabbiName" class="style4">הרב</span></div>
+      <div id="nyClock" class="style3">--:--:--</div>
     </div>
 
     <div class="card">
-      <div id="hebrewDate" class="label">טוען תאריך עברי...</div>
-      <div id="gregDate" class="dateText">--</div>
+      <div id="hebrewDate" class="style2">טוען תאריך עברי...</div>
+      <div id="gregDate" class="style1">--</div>
     </div>
   </section>
 
@@ -414,58 +405,58 @@
     <div class="card panel">
       <h2>פרשת השבוע</h2>
       <div id="parasha" class="center big">טוען...</div>
-      <div class="style4"><span>הדף היומי</span><span id="dafYomi" class="value greenText">טוען...</span></div>
-      <div class="style4"><span>האירוע הקרוב</span><span id="nextHoliday" class="value goldText">טוען...</span></div>
-      <div class="style4"><span>סליחות</span><span class="value greenText selichot-lines"><small id="selichotSef">ספרד: מחשב...</small><small id="selichotAsh">אשכנז: מחשב...</small></span></div>
+      <div class="row"><span class="style4">הדף היומי</span><span id="dafYomi" class="style4">טוען...</span></div>
+      <div class="row"><span class="style4">האירוע הקרוב</span><span id="nextHoliday" class="style4">טוען...</span></div>
+      <div class="row"><span class="style4">סליחות</span><span class="value greenText selichot-lines"><small id="selichotSef" class="style4">ספרד: מחשב...</small><small id="selichotAsh" class="style4">אשכנז: מחשב...</small></span></div>
     </div>
 
     <div class="card panel">
-      <h2>זמני היום והשבת</h2>
-      <div class="style4"><span>עלות השחר</span><span id="alot" class="value">--:--</span></div>
-      <div class="style4"><span>זריחה</span><span id="sunrise" class="value">--:--</span></div>
-      <div class="style4"><span>סוף זמן קריאת שמע</span><span id="shema" class="value">--:--</span></div>
-      <div class="style4"><span>חצות</span><span id="chatzot" class="value">--:--</span></div>
-      <div class="style4"><span>מנחה גדולה</span><span id="minchaGedola" class="value">--:--</span></div>
-      <div class="style4"><span>שקיעה</span><span id="sunset" class="value">--:--</span></div>
-      <div class="style4"><span>צאת הכוכבים</span><span id="tzeit" class="value">--:--</span></div>
-      <div class="style4"><span>הדלקת נרות</span><span id="candles" class="value">--:--</span></div>
-      <div class="style4"><span>צאת שבת</span><span id="havdalah" class="value">--:--</span></div>
+      <h2 class="style4">זמני היום והשבת</h2>
+      <div class="row"><span class="style4">עלות השחר</span><span id="alot" class="style7">--:--</span></div>
+      <div class="row"><span class="style4">זריחה</span><span id="sunrise" class="style7">--:--</span></div>
+      <div class="row"><span class="style4">סוף זמן קריאת שמע</span><span id="shema" class="style7">--:--</span></div>
+      <div class="row"><span class="style4">חצות</span><span id="chatzot" class="style7">--:--</span></div>
+      <div class="row"><span class="style4">מנחה גדולה</span><span id="minchaGedola" class="style7">--:--</span></div>
+      <div class="row"><span class="style4">שקיעה</span><span id="sunset" class="style7">--:--</span></div>
+      <div class="row"><span class="style4">צאת הכוכבים</span><span id="tzeit" class="style7">--:--</span></div>
+      <div class="row"><span class="style4">הדלקת נרות</span><span id="candles" class="style7">--:--</span></div>
+      <div class="row"><span class="style4">צאת שבת</span><span id="havdalah" class="style7">--:--</span></div>
     </div>
 
     <div class="card panel">
-      <h2>זמני תפילות</h2>
-      <div class="style4"><span>שחרית</span><span id="shacharit" class="value">07:00</span></div>
-      <div class="style4"><span>מנחה</span><span id="mincha" class="value">לפני השקיעה</span></div>
-      <div class="style4"><span>ערבית</span><span id="maariv" class="value">20:30</span></div>
-      <div class="style4"><span>שיעור תורה</span><span id="shiur" class="value">21:15</span></div>
-      <div class="style4"><span>שחרית לשבת</span><span id="shabbatShacharit" class="value goldText">09:00</span></div>
-      <div class="style4"><span>מנחה לשבת</span><span id="shabbatMincha" class="value goldText">18:30</span></div>
-      <div class="style4"><span>ערבית לשבת</span><span id="shabbatMaariv" class="value goldText">19:30</span></div>
-      <div class="style4"><span>הבדלה</span><span id="shabbatHavdalah" class="value goldText">21:00</span></div>
+      <h2 class="style4">זמני תפילות</h2>
+      <div class="row"><span class="style4">שחרית</span><span id="shacharit" class="style7">07:00</span></div>
+      <div class="row"><span class="style4">מנחה</span><span id="mincha" class="style7">לפני השקיעה</span></div>
+      <div class="row"><span class="style4">ערבית</span><span id="maariv" class="style7">20:30</span></div>
+      <div class="row"><span class="style4">שיעור תורה</span><span id="shiur" class="style7">21:15</span></div>
+      <div class="row"><span class="style4">שחרית לשבת</span><span id="shabbatShacharit" class="style4">09:00</span></div>
+      <div class="row"><span class="style4">מנחה לשבת</span><span id="shabbatMincha" class="style4">18:30</span></div>
+      <div class="row"><span class="style4">ערבית לשבת</span><span id="shabbatMaariv" class="style4">19:30</span></div>
+      <div class="row"><span class="style4">הבדלה</span><span id="shabbatHavdalah" class="style4">21:00</span></div>
     </div>
   </section>
 
   <section class="grid">
     <div class="card panel">
-      <h2>שבת, צום ואירועים</h2>
-      <div class="style4"><span>אירוע היום</span><span id="todayEvent" class="value cyanText">אין אירוע מיוחד</span></div>
-      <div class="style4"><span>צום</span><span id="fastToday" class="value cyanText">אין צום היום</span></div>
-      <div class="style4"><span>החודש העברי</span><span id="hebrewMonth" class="value greenText">--</span></div>
+      <h2 class="style4">שבת, צום ואירועים</h2>
+      <div class="row"><span class="style4">אירוע היום</span><span id="todayEvent" class="style4">אין אירוע מיוחד</span></div>
+      <div class="row"><span class="style4">צום</span><span id="fastToday" class="style4">אין צום היום</span></div>
+      <div class="row"><span class="style4">החודש העברי</span><span id="hebrewMonth" class="style4">--</span></div>
     </div>
 
     <div class="card panel">
       <h2>מנהגי היום</h2>
-      <div class="style4"><span>תחנון</span><span id="tachanun" class="value cyanText">אומרים</span></div>
-      <div class="style4"><span>הלל</span><span id="hallel" class="value cyanText">אין הלל</span></div>
-      <div class="style4"><span>ספירת העומר</span><span id="omer" class="value cyanText">לא בתקופת העומר</span></div>
+      <div class="row"><span class="style4">תחנון</span><span id="tachanun" class="style4">אומרים</span></div>
+      <div class="row"><span class="style4">הלל</span><span id="hallel" class="style4">אין הלל</span></div>
+      <div class="row"><span class="style4">ספירת העומר</span><span id="omer" class="style4">לא בתקופת העומר</span></div>
     </div>
 
     <div class="card panel">
       <h2>תוספות בתפילה</h2>
-      <div class="style4"><span>גבורות</span><span id="gevurot" class="value cyanText">מוריד הטל</span></div>
-      <div class="style4"><span>ברכת השנים</span><span id="birkatHashanim" class="value cyanText">ברכנו</span></div>
-      <div class="style4"><span>יעלה ויבוא</span><span id="yaaleVeyavo" class="value cyanText">אין אומרים</span></div>
-      <div class="style4"><span>מנהג</span><span id="minhag" class="value goldText">אשכנז / ספרד</span></div>
+      <div class="row"><span class="style4">גבורות</span><span id="gevurot" class="style4">מוריד הטל</span></div>
+      <div class="row"><span class="style4">ברכת השנים</span><span id="birkatHashanim" class="style4">ברכנו</span></div>
+      <div class="row"><span class="style4">יעלה ויבוא</span><span id="yaaleVeyavo" class="style4">אין אומרים</span></div>
+      <div class="row"><span class="style4">מנהג</span><span id="minhag" class="style4">אשכנז / ספרד</span></div>
     </div>
   </section>
 
@@ -479,7 +470,7 @@
             <div class="center big" id="permanentDafYomi" style="font-size:clamp(42px,6vw,88px);color:#fff">טוען...</div>
             <div class="center goldText" style="font-size:clamp(22px,2.2vw,34px);margin-top:20px;font-weight:900">לימוד התורה היומי</div>
           </div>
-          <div class="style3">
+          <div class="daf-video-shell">
             <iframe id="dafVideo" title="שיעור וידאו בדף היומי" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
             <div id="dafVideoEmpty" class="daf-video-empty">🎥 ניתן להוסיף באדמין סרטון YouTube של הדף היומי</div>
           </div>
@@ -510,13 +501,9 @@
           <div class="daily-note" id="dailyNote">תורה • תהילים • הלכה • מוסר • חסידות — לעילוי נשמת זהבה חלא בת דינה זצ״ל</div>
         </div>
       </section>
-    </div>
-    <div class="rotation-status"></div>
-  </section>
-
+    
 <dialog id="memorialAdminDialog">
-  <div style="padding:18px;background:#351708;border-bottom:2px solid #d8a233">
-	  <h2 style="margin:0;color:#ffd768" class="center">שמות ליד 20 נרות הנשמה</h2></div>
+  <div style="padding:18px;background:#351708;border-bottom:2px solid #d8a233"><h2 style="margin:0;color:#ffd768">שמות ליד 20 נרות הנשמה</h2></div>
   <div style="padding:18px">
     <div id="memorialNamesEditor"></div>
     <div class="actions">
@@ -529,7 +516,7 @@
 </dialog>
 
 <section id="prayerPanel" aria-live="polite" aria-hidden="true" aria-label="תפילה בזמן אמת">
-  <div id="prayerPanelTitle" class="prayer-header" style="text-align: center">תפילה עכשיו</div>
+  <div id="prayerPanelTitle" class="prayer-header">תפילה עכשיו</div>
   <div class="prayer-stage">
     <div id="prayerScroll" class="prayer-scroll"></div>
   </div>
@@ -550,7 +537,7 @@
 </section>
 
   <div class="ticker-wrap" aria-label="הודעה מתחלפת">
-    <div id="ticker" class="style2"><span class="g">לעילויי נשמת </span><span class="y">זהבה חלא זצ״ל</span></div>
+    <div id="ticker" class="ticker"><span class="g">לעילויי נשמת </span><span class="y">זהבה חלא זצ״ל</span></div>
   </div>
   <div class="footer"></div>
 </main>
@@ -566,8 +553,7 @@
       <button type="button" class="action" onclick="saveSettings();return false">💾 שמור את כל הזמנים</button>
       <div id="saveStatus" style="color:#71ff24;font-weight:900;margin-top:5px"></div>
     </div>
-    <div class="style1">
-        <div class="center">
+    <div class="settings">
       <label>שם בית הכנסת<input id="sSynagogue" value="בית הכנסת בית תורה"></label>
       <label>שם הרב<input id="sRabbi" value="הרב"></label>
       <label>מיקוד ארה״ב לזמנים<input id="sZip" value="11795" inputmode="numeric"></label>
@@ -589,102 +575,77 @@
       <label>משך ערבית לשבת (דקות)<input id="sShabbatMaarivDuration" type="number" min="5" max="180" value="60"></label>
       <label>משך הבדלה (דקות)<input id="sShabbatHavdalahDuration" type="number" min="5" max="90" value="20"></label>
       <section class="prayer-admin-editor" style="grid-column:1/-1">
-        </div>
-        <h3 class="center">🕍 תפילות מלאות למסך הגלילה</h3>
+        <h3>🕍 תפילות מלאות למסך הגלילה</h3>
         <p class="prayer-admin-help">הדבק כאן את כל נוסח התפילה. הטקסט נשמר בדפדפן ומופיע במלואו בתוך תיבת התפילה הראשית.</p>
 
-        <label class="prayer-editor-label">
-		<div class="center">
-			שחרית — נוסח מלא
+        <label class="prayer-editor-label">שחרית — נוסח מלא
           <textarea id="sShacharitText" class="prayer-textarea" rows="18" dir="rtl" spellcheck="false"></textarea>
           <span class="prayer-char-count" id="shacharitCount">0 תווים</span>
-        </div>
         </label>
         <div class="prayer-editor-actions">
           <button type="button" class="action" onclick="saveSinglePrayer('shacharit')">💾 שמור שחרית</button>
           <button type="button" class="action" onclick="previewPrayer('shacharit')">▶ הצג שחרית עכשיו</button>
         </div>
 
-        <label class="prayer-editor-label">
-		<div class="center">
-			מנחה — נוסח מלא
+        <label class="prayer-editor-label">מנחה — נוסח מלא
           <textarea id="sMinchaText" class="prayer-textarea" rows="14" dir="rtl" spellcheck="false"></textarea>
           <span class="prayer-char-count" id="minchaCount">0 תווים</span>
-        </div>
         </label>
         <div class="prayer-editor-actions">
           <button type="button" class="action" onclick="saveSinglePrayer('mincha')">💾 שמור מנחה</button>
           <button type="button" class="action" onclick="previewPrayer('mincha')">▶ הצג מנחה עכשיו</button>
         </div>
 
-        <label class="prayer-editor-label">
-		<div class="center">
-			ערבית — נוסח מלא
+        <label class="prayer-editor-label">ערבית — נוסח מלא
           <textarea id="sMaarivText" class="prayer-textarea" rows="14" dir="rtl" spellcheck="false"></textarea>
           <span class="prayer-char-count" id="maarivCount">0 תווים</span>
-        </div>
         </label>
         <div class="prayer-editor-actions">
           <button type="button" class="action" onclick="saveSinglePrayer('maariv')">💾 שמור ערבית</button>
           <button type="button" class="action" onclick="previewPrayer('maariv')">▶ הצג ערבית עכשיו</button>
         </div>
 
-        <h3 style="margin-top:24px" class="center">🕯️ תפילות שבת והבדלה</h3>
-        <label class="prayer-editor-label">
-		<div class="center">
-			שחרית לשבת — נוסח מלא
+        <h3 style="margin-top:24px">🕯️ תפילות שבת והבדלה</h3>
+        <label class="prayer-editor-label">שחרית לשבת — נוסח מלא
           <textarea id="sShabbatShacharitText" class="prayer-textarea" rows="16" dir="rtl" spellcheck="false"></textarea>
           <span class="prayer-char-count" id="shabbatShacharitCount">0 תווים</span>
-        </div>
         </label>
         <div class="prayer-editor-actions">
           <button type="button" class="action" onclick="saveSinglePrayer('shabbatShacharit')">💾 שמור שחרית לשבת</button>
           <button type="button" class="action" onclick="previewPrayer('shabbatShacharit')">▶ הצג עכשיו</button>
         </div>
 
-        <label class="prayer-editor-label">
-		<div class="center">
-			מנחה לשבת — נוסח מלא
+        <label class="prayer-editor-label">מנחה לשבת — נוסח מלא
           <textarea id="sShabbatMinchaText" class="prayer-textarea" rows="14" dir="rtl" spellcheck="false"></textarea>
           <span class="prayer-char-count" id="shabbatMinchaCount">0 תווים</span>
-        </div>
         </label>
         <div class="prayer-editor-actions">
           <button type="button" class="action" onclick="saveSinglePrayer('shabbatMincha')">💾 שמור מנחה לשבת</button>
           <button type="button" class="action" onclick="previewPrayer('shabbatMincha')">▶ הצג עכשיו</button>
         </div>
 
-        <label class="prayer-editor-label">
-		<div class="center">
-			ערבית לשבת — נוסח מלא
+        <label class="prayer-editor-label">ערבית לשבת — נוסח מלא
           <textarea id="sShabbatMaarivText" class="prayer-textarea" rows="14" dir="rtl" spellcheck="false"></textarea>
           <span class="prayer-char-count" id="shabbatMaarivCount">0 תווים</span>
-        </div>
         </label>
         <div class="prayer-editor-actions">
           <button type="button" class="action" onclick="saveSinglePrayer('shabbatMaariv')">💾 שמור ערבית לשבת</button>
           <button type="button" class="action" onclick="previewPrayer('shabbatMaariv')">▶ הצג עכשיו</button>
         </div>
 
-        <label class="prayer-editor-label">
-		<div class="center">
-			טקס ההבדלה — נוסח מלא
+        <label class="prayer-editor-label">טקס ההבדלה — נוסח מלא
           <textarea id="sShabbatHavdalahText" class="prayer-textarea" rows="12" dir="rtl" spellcheck="false"></textarea>
           <span class="prayer-char-count" id="shabbatHavdalahCount">0 תווים</span>
-        </div>
         </label>
         <div class="prayer-editor-actions">
           <button type="button" class="action" onclick="saveSinglePrayer('shabbatHavdalah')">💾 שמור הבדלה</button>
           <button type="button" class="action" onclick="previewPrayer('shabbatHavdalah')">▶ הצג הבדלה עכשיו</button>
           <button type="button" class="action" onclick="stopPrayerPreview()">■ הפסק תצוגה</button>
         </div>
-        <div class="center">
       </section>
       <label style="grid-column:1/-1">מהירות גלילת תפילה — שינוי מיידי
   <input id="sPrayerSpeed" type="range" min="10" max="120" step="5" value="40" oninput="setPrayerSpeedLive(this.value)">
-  	  </div>
-  <div style="display:flex;justify-content:space-between;color:#fff;font-size:13px" class="center"><span>איטי מאוד</span><strong id="prayerSpeedValue">40</strong><span>מהיר מאוד</span></div>
-		<div class="center">
+  <div style="display:flex;justify-content:space-between;color:#fff;font-size:13px"><span>איטי מאוד</span><strong id="prayerSpeedValue">40</strong><span>מהיר מאוד</span></div>
 </label>
 
       <label>מנהג<select id="sMinhag"><option>אשכנז / ספרד</option><option>אשכנז</option><option>ספרד</option><option>עדות המזרח</option></select></label>
@@ -692,7 +653,6 @@
       <label style="grid-column:1/-1">הודעה עליונה / תורם השבוע<textarea id="sAnnouncement" rows="2">This week’s donor is Isik Goldman • This week’s donor is Erick Hala</textarea></label>
       <label style="grid-column:1/-1">הקדשה / הודעה בתחתית<textarea id="sTicker" rows="2">לעילויי נשמת זהבה חלא זצ״ל</textarea></label>
       <label style="grid-column:1/-1">סרטון YouTube לדף היומי<input id="sDafVideoUrl" type="url" inputmode="url" dir="ltr" placeholder="https://www.youtube.com/watch?v=..."></label>
-    	</div>
     </div>
     <div class="actions" style="margin-top:12px">
   <button type="button" class="action" onclick="setFeatureSequenceMode('main')">🏠 עמוד ראשי</button>
@@ -1448,6 +1408,6 @@ function rotateBiblicalScenes(){
 setInterval(rotateBiblicalScenes,8000);
 
 </script>
-</div>
 </body>
 </html>
+
