@@ -84,7 +84,6 @@ dialog::backdrop{background:rgba(0,0,0,.78)}
  background:#070504;color:white;font-size:16px
 }
 .actions{display:flex;justify-content:flex-start;gap:10px;margin-top:18px;flex-wrap:wrap}
-.countdown{color:#7ecaff;font-weight:800}
 @media(max-width:900px){
  .grid{grid-template-columns:repeat(4,minmax(0,1fr))}
  .cell{min-height:125px}.inner{padding:22px 18px 30px}
@@ -110,8 +109,6 @@ dialog::backdrop{background:rgba(0,0,0,.78)}
 
     <div class="footer">
       <button id="adminBtn" type="button">⚙️ Admin • עריכת שמות</button>
-      <button id="boardBtn" type="button">חזרה ללוח המודעות</button>
-      <div class="status">מעבר אוטומטי ללוח בעוד <span id="countdown" class="countdown">60</span> שניות</div>
     </div>
   </div>
 </div>
@@ -131,8 +128,6 @@ dialog::backdrop{background:rgba(0,0,0,.78)}
 
 <script>
 const STORE = "synagogueBoardSettings";
-const BOARD_PAGE = "html4_admin_updated.html";
-const LIGHT_SHOW_SECONDS = 60;
 const defaultNames = [
   "זהבה חלא זצ״ל","","","","","","","","","","","","","","","","","","",""
 ];
@@ -186,12 +181,9 @@ function buildEditor(){
     box.appendChild(label);
   });
 }
-function goBoard(){ window.location.href=BOARD_PAGE; }
-
 document.getElementById("adminBtn").addEventListener("click",()=>{
   buildEditor(); document.getElementById("adminDialog").showModal();
 });
-document.getElementById("boardBtn").addEventListener("click",goBoard);
 document.getElementById("closeBtn").addEventListener("click",()=>document.getElementById("adminDialog").close());
 document.getElementById("saveBtn").addEventListener("click",()=>{
   const list=Array.from({length:20},(_,i)=>document.getElementById("name_"+i).value);
@@ -200,16 +192,6 @@ document.getElementById("saveBtn").addEventListener("click",()=>{
 document.getElementById("resetBtn").addEventListener("click",()=>{
   saveNames(defaultNames); buildEditor(); renderCandles();
 });
-
-let remaining=LIGHT_SHOW_SECONDS;
-const cd=document.getElementById("countdown");
-cd.textContent=remaining;
-setInterval(()=>{
-  if(document.getElementById("adminDialog").open) return;
-  remaining--;
-  cd.textContent=Math.max(remaining,0);
-  if(remaining<=0) goBoard();
-},1000);
 
 renderCandles();
 </script>
