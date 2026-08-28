@@ -619,11 +619,6 @@ body{overscroll-behavior:none;}
   <div class="footer"></div>
 </main>
 
-
-
-<button id="masterStopButton" type="button" class="master-stop" onclick="toggleAllBoardFunctions()" aria-label="עצור או הפעל את כל פעולות הלוח">■ STOP ALL / עצור הכל</button>
-<button class="gear" onclick="document.getElementById('settingsDialog').showModal()" aria-label="הגדרות">⚙</button>
-
 <dialog id="settingsDialog">
   <form method="dialog">
     <h2 class="center goldText">ניהול לוח בית הכנסת</h2>
@@ -643,6 +638,10 @@ body{overscroll-behavior:none;}
           <button id="controlMarquees" type="button" class="control-action" onclick="toggleBoardControl('marquees')">■ עצור הודעות נעות</button>
           <button id="controlDecorative" type="button" class="control-action" onclick="toggleBoardControl('decorative')">■ עצור נרות ותמונות נעות</button>
           <button id="controlLiveUpdates" type="button" class="control-action" onclick="toggleBoardControl('liveUpdates')">■ עצור שעונים ועדכונים</button>
+          <button id="masterStopButton" type="button" class="master-stop" onclick="toggleAllBoardFunctions()" aria-label="עצור או הפעל את כל פעולות הלוח">■ STOP ALL / עצור הכל</button>
+<button class="gear" onclick="document.getElementById('settingsDialog').showModal()" aria-label="הגדרות">⚙</button>
+
+
         </div>
         <div class="control-master-row">
           <button type="button" class="control-action" onclick="setAllBoardFunctions(false)">■ עצור הכל</button>
