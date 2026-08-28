@@ -74,12 +74,25 @@ button{border:2px solid #e5b340;border-radius:999px;background:linear-gradient(#
   </div>
 
   <div class="memorial">לעילוי נשמת זהבה חלא בת דינה זצ״ל</div>
-  <div class="controls"><button onclick="location.href='html4_admin_updated_20sec.html'">ללוח המודעות</button><span>מעבר אוטומטי בעוד <span id="countdown">20</span> שניות</span></div>
+  <div class="controls"><button onclick="location.href='index4.html'">ללוח המודעות</button><span>מעבר אוטומטי בעוד <span id="countdown">20</span> שניות</span></div>
 </div></div>
 
 <script>
-const NEXT_PAGE="html4_admin_updated_20sec.html";
+const NEXT_PAGE="index4.html";
 const SHOW_SECONDS=20;
+
+function newYorkISODate(date=new Date()){
+ const parts=new Intl.DateTimeFormat("en-US",{
+  timeZone:"America/New_York",year:"numeric",month:"2-digit",day:"2-digit"
+ }).formatToParts(date).reduce((out,part)=>(out[part.type]=part.value,out),{});
+ return `${parts.year}-${parts.month}-${parts.day}`;
+}
+
+function addDaysISO(iso,days){
+ const d=new Date(`${iso}T12:00:00Z`);
+ d.setUTCDate(d.getUTCDate()+days);
+ return d.toISOString().slice(0,10);
+}
 
 const daily=[
 {p:"טוֹב ה׳ לַכֹּל וְרַחֲמָיו עַל כָּל מַעֲשָׂיו.",pe:"The Lord is good to all, and His mercy is upon all His works.",h:"לפני אכילה מברכים את הברכה הראויה בכוונה.",he:"Before eating, say the appropriate blessing with intention.",m:"מעט אור דוחה הרבה מן החושך.",me:"A little light can push away much darkness.",c:"עבודת היום היא להוסיף אור במקום שבו אנחנו נמצאים.",ce:"Today's service is to add light wherever we are."},
@@ -99,12 +112,7 @@ function setDaily(){
  mussar.textContent=item.m;mussarEn.textContent=item.me;chassidut.textContent=item.c;chassidutEn.textContent=item.ce;
 }
 
-async function updateDafYomi(now){
-  const ds = [
-    now.getFullYear(),
-    String(now.getMonth()+1).padStart(2,"0"),
-    String(now.getDate()).padStart(2,"0")
-  ].join("-");
+async function updateDafYomi(ds){
   try{
     const url = `https://www.hebcal.com/hebcal?cfg=json&v=1&F=on&start=${ds}&end=${ds}`;
     const r = await fetch(url,{cache:"no-store"});
@@ -125,17 +133,19 @@ async function updateDafYomi(now){
 
 async function updateJewishData(){
  const now=new Date();
+ const ds=newYorkISODate(now);
  todayDate.textContent=new Intl.DateTimeFormat("he-IL",{weekday:"long",year:"numeric",month:"long",day:"numeric"}).format(now);
- await updateDafYomi(now);
+ await updateDafYomi(ds);
  try{
-   const ds=now.toISOString().slice(0,10);
    const r=await fetch(`https://www.hebcal.com/converter?cfg=json&date=${ds}&g2h=1&strict=1`,{cache:"no-store"});
    const j=await r.json();
    if(j.hebrew){todayDate.textContent+=" • "+j.hebrew;const hd=Math.min(30,Math.max(1,Number(j.hd)||1));tehillim.textContent="פרקים "+(tehillimSchedule[hd]||"א–ט");}
  }catch(e){const hd=((now.getDate()-1)%30)+1;tehillim.textContent="פרקים "+(tehillimSchedule[hd]||"א–ט");}
  try{
-   const r=await fetch("https://www.hebcal.com/hebcal?v=1&cfg=json&year=now&month=x&s=on",{cache:"no-store"});
-   const j=await r.json();const p=(j.items||[]).find(x=>x.category==="parashat");
+   const end=addDaysISO(ds,8);
+   const r=await fetch(`https://www.hebcal.com/hebcal?v=1&cfg=json&start=${ds}&end=${end}&s=on&lg=he`,{cache:"no-store"});
+   const j=await r.json();
+   const p=(j.items||[]).find(x=>x.category==="parashat"&&String(x.date||"").slice(0,10)>=ds);
    if(p){parashaHe.textContent=p.hebrew||p.title;parashaEn.textContent=p.title||"Weekly Torah portion";}
    else{parashaHe.textContent="פרשת השבוע מתעדכנת אוטומטית";}
  }catch(e){parashaHe.textContent="פרשת השבוע מתעדכנת אוטומטית כאשר יש חיבור לאינטרנט";parashaEn.textContent="Automatic update available when online.";}
