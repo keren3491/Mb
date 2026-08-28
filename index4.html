@@ -409,8 +409,8 @@ body{overscroll-behavior:none;}
 
 <div class="frame-piece frame-top"></div>
 <div class="frame-piece frame-bottom"></div>
-<div class="frame-piece frame-left"></div>
-<div class="frame-piece frame-right"></div>
+<div class="frame-piece frame-left" style="left: 0; top: 2px; bottom: 374px; width: 275px; height: 106px"></div>
+<div class="frame-piece frame-right" style="right: 0; top: 0px; bottom: 374px; width: 207px; height: 108px"></div>
 
 <main class="board ornate-board">
   <header class="ornate-header">
@@ -638,13 +638,7 @@ body{overscroll-behavior:none;}
           <button id="controlMarquees" type="button" class="control-action" onclick="toggleBoardControl('marquees')">■ עצור הודעות נעות</button>
           <button id="controlDecorative" type="button" class="control-action" onclick="toggleBoardControl('decorative')">■ עצור נרות ותמונות נעות</button>
           <button id="controlLiveUpdates" type="button" class="control-action" onclick="toggleBoardControl('liveUpdates')">■ עצור שעונים ועדכונים</button>
-          <button id="masterStopButton" type="button" class="master-stop" onclick="toggleAllBoardFunctions()" aria-label="עצור או הפעל את כל פעולות הלוח">■ STOP ALL / עצור הכל</button>
-<button class="gear" onclick="document.getElementById('settingsDialog').showModal()" aria-label="הגדרות">⚙</button>
-
-
-        </div>
-        <div class="control-master-row">
-          <button type="button" class="control-action" onclick="setAllBoardFunctions(false)">■ עצור הכל</button>
+         <button type="button" class="control-action" onclick="setAllBoardFunctions(false)">■ עצור הכל</button>
           <button type="button" class="control-action is-stopped" onclick="setAllBoardFunctions(true)">▶ הפעל הכל</button>
         </div>
       </section>
